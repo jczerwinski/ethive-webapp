@@ -49,9 +49,46 @@ body {
     border-bottom: 1px solid #e5e5e5;
 }
 
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+.option {
+    text-align: center;
+    margin: 80px 0;
+}
+
+.option h1 {
+    margin: 30px;
+}
+
+.search {
+    text-align: center;
+}
+
+.search h1 {
+    margin: 30px;
+}
+
+.search .form-group {
+    margin: 30px;
+}
+
+.search li {
+    display: inline-block;
+}
+
+.browse {
+    padding-top: 30px;
+    padding-bottom: 60px;
+    background-color: #EEEEEE;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+}
+
+.browse ul {
+    padding: 0;
+}
+
+.browse li {
+    display: inline-block;
+    margin: 0 10px;
 }
 
 /* Supporting marketing content */
