@@ -1,0 +1,13 @@
+<table class="table">
+	<tr>
+		<th>Location(s)</th>
+		<th>Valid Until</th>
+		<th>Price</th>
+	</tr>
+	<tr ng-repeat="offer in offers">
+		<td>{{offer.location}}</td>
+		<td>{{offer.expires}}</td>
+		<td class="price">{{offer.price.amount | currency}}</td>
+		<td class="details"><a ui-sref="offer({providerID: offer.provider.id, offerID: offer.id})">details</a></td>
+	</tr>
+</table>
