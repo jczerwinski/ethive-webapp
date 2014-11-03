@@ -1,0 +1,13 @@
+<ul class="nav nav-pills pull-right">
+	<li class="active"><a ng-href="#">Home</a></li>
+	<li ng-if="!user"><a ui-sref="login">Login/Sign Up</a></li>
+	<li ng-if="user" class="dropdown">
+      <a href class="dropdown-toggle">
+        {{user.email}} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu pull-right">
+      	<li><a href ng-click="logout()">Logout</a></li>
+      </ul>
+  </li>
+</ul>
+<h3 class="text-muted">Ethive</h3>

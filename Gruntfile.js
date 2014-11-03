@@ -30,26 +30,32 @@ module.exports = function (grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: ['<%= yeoman.app %>/{,*/}*.js', '!<%= yeoman.app %>/bower_components/{,*/}*.js'],
         tasks: ['newer:jshint:all'],
         options: {
-          livereload: true
+          livereload: '<%= connect.options.livereload %>'
         }
       },
-      jsTest: {
-        files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
-      },
-      compass: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
+      //jsTest: {
+      //  files: ['test/spec/{,*/}*.js'],
+      //  tasks: ['karma']
+      //},
+      stylus: {
+        files: [
+          '<%= yeoman.app %>/**/*.styl',
+          '!<%= yeoman.app %>/bower_components/{,*/}*.{styl}'
+        ],
+        tasks: [
+          'stylus',
+          'autoprefixer'
+        ]
       },
       gruntfile: {
         files: ['Gruntfile.js']
       },
       livereload: {
         options: {
-          livereload: '<%= connect.options.livereload %>'
+          livereload: true,
         },
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
@@ -64,6 +70,7 @@ module.exports = function (grunt) {
     connect: {
       options: {
         port: 9000,
+        protocol: 'https',
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35729,
@@ -105,7 +112,8 @@ module.exports = function (grunt) {
           {
             context: '/api',
             host: 'localhost',
-            port: 3000,
+            https: true,
+            port: 3001,
             changeOrigin: false
           }
         ]
@@ -135,14 +143,9 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
-      ],
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/spec/{,*/}*.js']
-      }
+        '<%= yeoman.app %>/{,*/}*.js',
+        '!<%= yeoman.app %>/bower_components/{,*/}*.js'
+      ]
     },
 
     // Empties folders to start fresh
@@ -179,38 +182,48 @@ module.exports = function (grunt) {
     'bower-install': {
       app: {
         html: '<%= yeoman.app %>/index.html',
-        ignorePath: '<%= yeoman.app %>/'
+        ignorePath: '<%= yeoman.app %>/',
+        exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
       }
     },
 
-
-
-
     // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>/styles',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/styles/fonts',
-        importPath: '<%= yeoman.app %>/bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
-      dist: {
-        options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-        }
-      },
-      server: {
-        options: {
-          debugInfo: true
+    // compass: {
+    //   options: {
+    //     sassDir: '<%= yeoman.app %>/',
+    //     specify: [
+    //       '**/*.scss',
+    //       '!bower_components/**/*.scss'
+    //     ],
+    //     cssDir: '.tmp/styles',
+    //     generatedImagesDir: '.tmp/images/generated',
+    //     imagesDir: '<%= yeoman.app %>/images',
+    //     javascriptsDir: '<%= yeoman.app %>/scripts',
+    //     fontsDir: '<%= yeoman.app %>/styles/fonts',
+    //     importPath: '<%= yeoman.app %>/bower_components',
+    //     httpImagesPath: '/images',
+    //     httpGeneratedImagesPath: '/images/generated',
+    //     httpFontsPath: '/styles/fonts',
+    //     relativeAssets: false,
+    //     assetCacheBuster: false,
+    //     raw: 'Sass::Script::Number.precision = 10\n'
+    //   },
+    //   dist: {
+    //     options: {
+    //       generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+    //     }
+    //   },
+    //   server: {
+    //     options: {
+    //       debugInfo: true
+    //     }
+    //   }
+    // },
+
+    stylus: {
+      compile: {
+        files: {
+          '.tmp/styles/main.css': ['<%= yeoman.app %>/**/*.styl', '!<%= yeoman.app %>/bower_components/**/*.styl']
         }
       }
     },
@@ -299,13 +312,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
-
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -341,13 +347,13 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'compass:server'
+        'stylus'
       ],
       test: [
-        'compass'
+        'stylus'
       ],
       dist: [
-        'compass:dist',
+        'stylus',
         'imagemin',
         'svgmin'
       ]
@@ -377,15 +383,7 @@ module.exports = function (grunt) {
     // },
     // concat: {
     //   dist: {}
-    // },
-
-    // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    }
+    // }
   });
 
 

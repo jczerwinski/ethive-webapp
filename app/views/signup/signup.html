@@ -1,0 +1,61 @@
+<h1>Sign Up for Ethive</h1>
+<div ui-view>
+<div ng-if="user">
+  <div class="alert alert-danger">Oops! Looks like you're already logged in. If you would like to sign up as another user, you will have to logout first.</div>
+  <button class="btn btn-primary pull-right" ng-click="logout()">Logout</button>
+</div>
+<div ng-if="!user">
+  <form name="signupForm" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
+    <div class="form-group has-feedback" ng-class="{'has-error': signupForm.username.$invalid && signupForm.username.$dirty, 'has-success': signupForm.username.$valid}">
+      <label for="username" class="col-sm-2 control-label">Username</label>
+      <div class="col-sm-10">
+        <input ng-model="newUser.username" unavailable-username username name="username" type="username" class="form-control" id="username" placeholder="Username" required autofocus />
+        <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': signupForm.username.$invalid && signupForm.username.$dirty, 'glyphicon-ok': signupForm.username.$valid}"></span>
+        <div class="help-block" ng-show="signupForm.username.$error.username && signupForm.username.$dirty">Usernames can only include letters, numbers, periods, and underscores, and must be between 3 and 20 characters long.</div>
+        <div class="help-block" ng-show="signupForm.username.$error.required && signupForm.username.$dirty">A username is required.</div>
+        <div class="help-block" ng-show="signupForm.username.$error.unavailableUsername">Sorry, someone is already using that username. </div>
+        <div class="help-block" ng-show="signupForm.username.$valid">Username available!</div>
+      </div>
+    </div>
+
+    <div class="form-group has-feedback" ng-class="{'has-error': signupForm.email.$invalid && signupForm.email.$dirty, 'has-success': signupForm.email.$valid}">
+      <label for="email" class="col-sm-2 control-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" ng-model="newUser.email" name="email" class="form-control" id="email" placeholder="Email" unavailable-email required>
+        <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove':  signupForm.email.$invalid && signupForm.email.$dirty, 'glyphicon-ok': signupForm.email.$valid}"></span>
+        <div class="help-block" ng-show="signupForm.email.$error.required && signupForm.email.$dirty">An email address is required.</div>
+        <div class="help-block" ng-show="signupForm.email.$error.email && signupForm.email.$dirty">Must be of the form "some@email.com"</div>
+        <div class="help-block" ng-show="signupForm.email.$error.unavailableEmail">Sorry, someone is already using that email address.</div>
+        <div class="help-block" ng-show="signupForm.email.$valid">Looks good!</div>
+      </div>
+    </div>
+
+    <div class="form-group has-feedback" ng-class="{'has-error': signupForm.password.$invalid && signupForm.password.$dirty, 'has-success': signupForm.password.$valid}">
+      <label for="password" class="col-sm-2 control-label">Password</label>
+      <div class="col-sm-10">
+        <input ng-model="newUser.password" password name="password" type="password" class="form-control" id="password" placeholder="Password" required>
+        <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove':  signupForm.password.$invalid && signupForm.password.$dirty, 'glyphicon-ok': signupForm.password.$valid}"></span>
+        <div class="help-block" ng-show="signupForm.password.$error.required && signupForm.password.$dirty">A password is required.</div>
+        <div class="help-block" ng-show="signupForm.password.$error.password && signupForm.password.$dirty">Passwords can only include letters, numbers, periods, and underscores, and must be between 8 and 100 characters long.</div>
+        <div class="help-block" ng-show="signupForm.password.$valid">Looks good!</div>
+      </div>
+    </div>
+
+    <div class="form-group has-feedback" ng-class="{'has-error': signupForm.repeatPassword.$invalid && signupForm.repeatPassword.$dirty, 'has-success': signupForm.repeatPassword.$valid}">
+      <label for="repeatPassword" class="col-sm-2 control-label">Repeat Password</label>
+      <div class="col-sm-10">
+        <input ng-model="newUser.repeatPassword" name="repeatPassword" type="password" class="form-control" id="repeatPassword" placeholder="Password" ui-validate="'newUser.password === $value'" ui-validate-watch="'newUser.password'" required>
+        <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove':  signupForm.repeatPassword.$invalid && signupForm.repeatPassword.$dirty, 'glyphicon-ok': signupForm.repeatPassword.$valid}"></span>
+        <div class="help-block" ng-show="signupForm.repeatPassword.$error.validator && signupForm.repeatPassword.$dirty">Passwords do not match or password is invalid.</div>
+        <div class="help-block" ng-show="signupForm.repeatPassword.$valid">Looks good!</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" id="submit" class="btn btn-success" ng-disabled="signupForm.$invalid">Sign Up!</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
