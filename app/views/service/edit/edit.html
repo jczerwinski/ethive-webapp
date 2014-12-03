@@ -1,0 +1,74 @@
+<h2>Edit Service</h2>
+<form name="editServiceForm" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
+<div class="form-group has-feedback" ng-class="{'has-error': editServiceForm.name.$invalid && editServiceForm.name.$dirty, 'has-success': editServiceForm.name.$valid}">
+  <label for="name" class="col-sm-2 control-label">Name</label>
+  <div class="col-sm-10">
+    <input ng-model="service.name" name="name" type="text" class="form-control" id="name" placeholder="Service Name. eg. Ankle Surgery" required autofocus />
+    <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editServiceForm.name.$invalid && editServiceForm.name.$dirty, 'glyphicon-ok': editServiceForm.name.$valid}"></span>
+    <div class="help-block text-muted">Should be able to stand alone without any context from ancestor services. Should also be capitalized as a proper noun. For example, use "Orthopedic Ankle Surgery", not "Ankle".</div>
+    <div class="help-block" ng-show="editServiceForm.name.$error.required && editServiceForm.name.$dirty">A name is required.</div>
+  </div>
+</div>
+<div class="form-group has-feedback" ng-class="{'has-error': editServiceForm.id.$invalid && editServiceForm.id.$dirty, 'has-success': editServiceForm.id.$valid}">
+  <label for="name" class="col-sm-2 control-label">ID</label>
+  <div class="col-sm-10">
+    <p class="form-control-static">{{service._id}}</p>
+    <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editServiceForm.id.$invalid && editServiceForm.id.$dirty, 'glyphicon-ok': editServiceForm.id.$valid}"></span>
+    <div class="help-block">The service ID can not be changed.</div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="name" class="col-sm-2 control-label">Type</label>
+  <div class="col-sm-10">
+    <label class="radio-inline">
+      <input type="radio" ng-model="service.type" name="type" id="category" value="category" required> Category
+    </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="service.type" name="type" id="service" value="service" required> Service
+    </label>
+    <div class="help-block">Categories may contain sub-services, but cannot be the subject of an offer. Services can be the subject of an offer, but cannot contain sub-services.</div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="name" class="col-sm-2 control-label">Status</label>
+  <div class="col-sm-10">
+    <label class="radio-inline">
+      <input type="radio" ng-model="service.status" name="status" id="draft" value="draft" required> Draft
+    </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="service.status" name="status" id="published" value="published" required> Published
+    </label>
+    <div class="help-block">Draft services are only visible to admins. Published services are visible to everyone.</div>
+  </div>
+</div>
+<div class="form-group has-feedback" ng-class="{'has-error': editServiceForm.parent.$invalid && editServiceForm.parent.$dirty, 'has-success': editServiceForm.parent.$valid}">
+  <label for="name" class="col-sm-2 control-label">Parent ID</label>
+  <div class="col-sm-10">
+    <input ng-model="service.parent" name="parent" type="text" class="form-control" id="id" placeholder="Parent ID required" service-id existing-service-id required />
+    <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editServiceForm.parent.$invalid && editServiceForm.parent.$dirty, 'glyphicon-ok': editServiceForm.parent.$valid}"></span>
+    <div class="help-block" ng-show="editServiceForm.parent.$error.required && editServiceForm.parent.$dirty">A Parent ID is required.</div>
+    <div class="help-block" ng-show="editServiceForm.parent.$error.existingServiceId && editServiceForm.parent.$dirty">Must be the ID of an existing service. This Service ID does not exist.</div>
+    <div class="help-block" ng-show="editServiceForm.parent.$error.cycle && editServiceForm.parent.$dirty">Must not be the ID of a descendent of this service.</div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="name" class="col-sm-2 control-label">Description</label>
+  <div class="col-sm-10 has-feedback" ng-class="{'has-error': editServiceForm.description.$error.required && editServiceForm.description.$dirty, 'has-success': editServiceForm.description.$valid}">
+    <textarea ng-model="service.description" name="description" class="form-control" id="description" placeholder="Add a description of this service here." required autofocus />
+    <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editServiceForm.description.$invalid && editServiceForm.description.$dirty, 'glyphicon-ok': editServiceForm.description.$valid}"></span>
+    <div class="help-block" ng-show="editServiceForm.description.$error.required && editServiceForm.description.$dirty">A description is required.</div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="name" class="col-sm-2 control-label">Terms of Service</label>
+  <div class="col-sm-10">
+    <textarea ng-model="service.terms" name="terms" class="form-control" id="terms" placeholder="Here you can add terms and conditions of service that providers who wish to offer this service must agree to." autofocus />
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <button type="submit" id="submit" class="btn btn-success" ng-disabled="editServiceForm.$invalid">Save Service</button>
+    <button type="button" id="cancel" ng-click="cancel()" class="btn btn-cancel">Cancel Changes</button>
+  </div>
+</div>
+</form>

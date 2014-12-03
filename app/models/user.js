@@ -87,14 +87,19 @@ angular.module('ethiveApp')
 			}
 		};
 	})
-	.factory('User', function($resource) {
-		return $resource('/api/user', {}, {
+	.factory('User', function(restmod) {
+/*		return $resource('/api/user', {}, {
 			get: {
 				method: 'GET',
 				isArray: false
 			},
 			save: {
 				method: 'POST'
+			}
+		});*/
+		return restmod.model('/api/users').mix({
+			remember: {
+				
 			}
 		});
 	})

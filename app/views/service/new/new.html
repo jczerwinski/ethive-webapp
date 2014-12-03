@@ -5,45 +5,51 @@
   <div class="col-sm-10">
     <input ng-model="newService.name" name="name" type="text" class="form-control" id="name" placeholder="Service Name. eg. Ankle Surgery" required autofocus />
     <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': createServiceForm.name.$invalid && createServiceForm.name.$dirty, 'glyphicon-ok': createServiceForm.name.$valid}"></span>
+    <div class="help-block">Should be able to stand alone without any context from ancestor services. Should also be capitalized as a proper noun. For example, use "Orthopedic Ankle Surgery", not "Ankle".</div>
     <div class="help-block" ng-show="createServiceForm.name.$error.required && createServiceForm.name.$dirty">A name is required.</div>
   </div>
 </div>
 <div class="form-group has-feedback" ng-class="{'has-error': createServiceForm.id.$invalid && createServiceForm.id.$dirty, 'has-success': createServiceForm.id.$valid}">
   <label for="name" class="col-sm-2 control-label">ID</label>
   <div class="col-sm-10">
-    <input ng-model="newService.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Service ID. Lowercase letters and dashes only. eg. ankle-surgery" required uniqueServiceID autofocus />
+    <input ng-model="newService._id" name="id" type="text" class="form-control" id="id" placeholder="Unique Service ID. Lowercase letters and dashes only. eg. ankle-surgery" unique-service-id service-id required autofocus />
     <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': createServiceForm.id.$invalid && createServiceForm.id.$dirty, 'glyphicon-ok': createServiceForm.id.$valid}"></span>
+    <div class="help-block">Should be able to stand alone without any context from ancestor services. For example, use "orthopedic-ankle-surgery", not "ankle".</div>
+    <div class="help-block">Be aware that, once created, the service ID can not be changed.</div>
     <div class="help-block" ng-show="createServiceForm.id.$error.required && createServiceForm.id.$dirty">An ID is required.</div>
     <div class="help-block" ng-show="createServiceForm.id.$error.id && createServiceForm.id.$dirty">An ID must consist only of lowercase letters, numbers, and dashes.</div>
-    <div class="help-block" ng-show="createServiceForm.id.$error.uniqueServiceID && createServiceForm.id.$dirty">That ID is already in use.</div>
+    <div class="help-block" ng-show="createServiceForm.id.$error.uniqueServiceId && createServiceForm.id.$dirty">That ID is already in use.</div>
   </div>
 </div>
 <div class="form-group">
   <label for="name" class="col-sm-2 control-label">Type</label>
   <div class="col-sm-10">
-  <label class="radio-inline">
-    <input type="radio" ng-model="newService.type" name="type" id="category" value="category" required> Category
-  </label>
-  <label class="radio-inline">
-    <input type="radio" ng-model="newService.type" name="type" id="service" value="service" required> Service
-  </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="newService.type" name="type" id="category" value="category" required> Category
+    </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="newService.type" name="type" id="service" value="service" required> Service
+    </label>
+    <div class="help-block">Categories may contain sub-services, but cannot be the subject of an offer. Services can be the subject of an offer, but cannot contain sub-services.</div>
   </div>
 </div>
 <div class="form-group">
   <label for="name" class="col-sm-2 control-label">Status</label>
   <div class="col-sm-10">
-  <label class="radio-inline">
-    <input type="radio" ng-model="newService.status" name="status" id="draft" value="draft" required> Draft
-  </label>
-  <label class="radio-inline">
-    <input type="radio" ng-model="newService.status" name="status" id="published" value="published" required> Published
-  </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="newService.status" name="status" id="draft" value="draft" required> Draft
+    </label>
+    <label class="radio-inline">
+      <input type="radio" ng-model="newService.status" name="status" id="published" value="published" required> Published
+    </label>
+    <div class="help-block">Draft services are only visible to admins. Published services are visible to everyone.</div>
   </div>
 </div>
 <div class="form-group">
   <label for="name" class="col-sm-2 control-label">Parent ID</label>
   <div class="col-sm-10">
-    <p class="form-control-static">{{newService.parent}}</p>
+    <p class="form-control-static">{{newService.parent._id}}</p>
+    <div class="help-block">If you wish to select a different parent service, you must create a new sub-service from that services' page.</div>
   </div>
 </div>
 <div class="form-group">

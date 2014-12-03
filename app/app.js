@@ -8,7 +8,9 @@ angular.module('ethiveApp', [
 	'LocalStorageModule',
 	'focusOn',
 	'ui.bootstrap',
-	'ui.validate'
+	'ui.validate',
+	'restangular',
+	'restmod'
 ])
 	.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
 
@@ -29,6 +31,14 @@ angular.module('ethiveApp', [
 				url: '/new',
 				templateUrl: 'views/service/new/new.html',
 				controller: 'CreateServiceCtrl',
+			})
+			.state('service.editService', {
+				url: '/edit',
+				templateUrl: 'views/service/edit/edit.html',
+				controller: 'EditServiceCtrl',
+			})
+			.state('provider.newProvider', {
+				url: '/new'
 			})
 			.state('provider', {
 				url: '/providers/:providerID',
@@ -66,13 +76,21 @@ angular.module('ethiveApp', [
 			.state('verifyEmailFailure', {
 				url: '/verifyEmailFailure',
 				templateUrl: 'views/verifyEmail/verifyEmailFailure.html'
+			})
+			.state('user', {
+				url: '/users/:userID',
+				templateUrl: 'views/user/user.html',
+				controller: 'UserCtrl'
 			});
 
 		$locationProvider.html5Mode(true); // Enables client-side routing without hashbangs (#)
 	})
 	.controller('RootCtrl', function($scope, $state, $rootScope) {
-	// Used by login link in header to pass current state as param for redirect after login.
-	$scope.$state = $state;
+		// Used by login link in header to pass current state as param for redirect after login.
+		$scope.$state = $state;
 
-	$rootScope.title = 'Ethive';
-});
+		$rootScope.title = 'Ethive';
+	})
+	.config(function(restmodProvider) {
+		restmodProvider.rebase('DirtyModel');
+	});

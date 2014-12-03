@@ -29,6 +29,9 @@
 
     <!-- Add your site or application content here -->
     <div class="header" ng-include="'views/header/header.html'"></div>
+    <div class="alerts container">
+      <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.message}}</alert>
+    </div>
     <div class="container" ui-view>
     </div>
 
@@ -61,7 +64,13 @@
     <script src="bower_components/ng-focus-on/ng-focus-on.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/restangular/dist/restangular.js"></script>
+    <script src="bower_components/angular-inflector/dist/angular-inflector.min.js"></script>
+    <script src="bower_components/angular-restmod/dist/angular-restmod-bundle.min.js"></script>
     <!-- endbower -->
+    <script src="bower_components/angular-restmod/dist/plugins/dirty.js"></script>
+    <script src="nodemongo.js"></script>
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -70,11 +79,15 @@
         <script src="views/provider/provider.js"></script>
         <script src="views/service/service.js"></script>
         <script src="views/service/new/new.js"></script>
+        <script src="views/service/edit/edit.js"></script>
         <script src="models/user.js"></script>
         <script src="views/login/login.js"></script>
         <script src="views/offer/offer.js"></script>
         <script src="views/signup/signup.js"></script>
         <script src="views/signup/signup.failure.js"></script>
+        <script src="views/http500errorHandler/http500errorHandler.js"></script>
+        <script src="views/user/user.js"></script>
+        <script src="views/provider/new/new.js"></script>
         <!-- endbuild -->
 </body>
 </html>
