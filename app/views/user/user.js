@@ -11,4 +11,5 @@ angular.module('ethiveApp').controller('UserCtrl', function($rootScope, $scope, 
                 }*/
         });
     };
+    $rootScope.user.$refresh();
 });

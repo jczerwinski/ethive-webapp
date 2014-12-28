@@ -75,6 +75,27 @@ angular.module('ethiveApp')
             }
         };
     })
+    .directive('offerEligibleServiceId', function(Service) {
+        return {
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ctrl) {
+                function existingIDValidator(id) {
+                    if (id) {
+                        Service.$find(id)
+                            .$then(function(service) {
+                                ctrl.$setValidity('offerEligibleServiceId', service.type === 'service');
+                            }, function(error) {
+                                ctrl.$setValidity('offerEligibleServiceId', true);
+                            });
+                    } else {
+                        ctrl.$setValidity('offerEligibleServiceId', true);
+                    }
+                    return id;
+                }
+                ctrl.$parsers.push(existingIDValidator);
+            }
+        };
+    })
     .directive('serviceId', function() {
         return {
             require: 'ngModel',

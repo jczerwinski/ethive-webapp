@@ -88,38 +88,28 @@ angular.module('ethiveApp')
 		};
 	})
 	.factory('User', function(restmod) {
-/*		return $resource('/api/user', {}, {
-			get: {
-				method: 'GET',
-				isArray: false
-			},
-			save: {
-				method: 'POST'
-			}
-		});*/
-		return restmod.model('/api/users').mix({
-			remember: {
-				
-			}
-		});
+		return restmod.model('/api/users');
 	})
-	.run(function(localStorageService, $rootScope, $cookieStore) {
-		$rootScope.user = (function() {
-			return localStorageService.get('user') || $cookieStore.get('user');
+	.run(function(localStorageService, $rootScope, $cookieStore, User) {
+		$rootScope.auth = (function() {
+			return localStorageService.get('auth') || $cookieStore.get('auth');
 		})();
+		if ($rootScope.auth) $rootScope.user = User.$find($rootScope.auth._id);
 
-		$rootScope.setUser = function(user) {
-			if (user.remember) {
-				localStorageService.set('user', user);
+		$rootScope.setAuth = function(auth) {
+			if (auth.remember) {
+				localStorageService.set('auth', auth);
 			} else {
-				$cookieStore.put('user', user);
+				$cookieStore.put('auth', auth);
 			}
-			$rootScope.user = user;
+			$rootScope.auth = auth;
+			$rootScope.user = User.$find(auth._id);
 		};
 
 		$rootScope.logout = function() {
-			localStorageService.remove('user');
-			$cookieStore.remove('user');
+			localStorageService.remove('auth');
+			$cookieStore.remove('auth');
+			delete $rootScope.auth;
 			delete $rootScope.user;
 		};
 	})
@@ -127,8 +117,8 @@ angular.module('ethiveApp')
 		return {
 			request: function(config) {
 				// Set the auth token.
-				if ($rootScope.user) {
-					config.headers.Authorization = 'Bearer ' + $rootScope.user.token;
+				if ($rootScope.auth) {
+					config.headers.Authorization = 'Bearer ' + $rootScope.auth.token;
 				}
 				return config;
 			}

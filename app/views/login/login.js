@@ -12,10 +12,10 @@ angular.module('ethiveApp')
                 password: $scope.password
             }).then(function(response) {
                 // Tronsitioning first prevents 'already logged in' message from displaying
+                response.data.remember = $scope.remember;
                 return $state.go($stateParams.next || 'root')
                     .then(function() {
-                        response.data.remember = $scope.remember;
-                        $rootScope.setUser(response.data);
+                        $rootScope.setAuth(response.data);
                     }); //TODO better. Either go to the most recent page, or go to a redirect. see https://github.com/angular-ui/ui-router/issues/92
             })
                 .catch(function(error) {

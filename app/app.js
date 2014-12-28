@@ -10,7 +10,8 @@ angular.module('ethiveApp', [
 	'ui.bootstrap',
 	'ui.validate',
 	'restangular',
-	'restmod'
+	'restmod',
+	'ngAutocomplete'
 ])
 	.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
 

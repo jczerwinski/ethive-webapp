@@ -15,9 +15,9 @@ angular.module('ethiveApp')
             
             $scope.newProvider.$save().$then(function (response) {
                 // provider creation success!
-                // close modal and navigate to the new provider page
+                // close modal and navigate back to the last page, refreshed:
                 $scope.cancel();
-                return $state.go('provider', {
+                $state.go('provider', {}, {
                     providerID: $scope.newProvider._id
                 });
             }, function (response) {
