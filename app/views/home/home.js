@@ -33,7 +33,7 @@ angular.module('ethiveApp')
 		scope: {
 			member: '='
 		},
-		template: '<li><a href="/#/services/{{member.id}}">{{member.name}}</a></li>',
+		template: '<li><a ui-sref="service({serviceID: member._id})">{{member.name}}</a></li>',
 		link: function (scope, element) {
 			var collectionSt = '<collection collection="member.children"></collection>';
 			if (angular.isArray(scope.member.children)) {

@@ -3,6 +3,9 @@ var SERVICEID_REGEXP = /^[a-z0-9-]{1,}$/;
 angular.module('ethiveApp')
     .factory('Service', function(restmod) {
         return restmod.model('/api/services').mix({
+            parent: {
+                belongsTo: 'Service'
+            },
             hasAncestor: function(ancestor) {
                 if (this.parent) {
                     if (this.parent._id === (ancestor._id || ancestor)) {
@@ -13,8 +16,8 @@ angular.module('ethiveApp')
                     return false;
                 }
             },
-            userIsAdmin: function() {
-                return !!this.admins;
+            isAdministeredBy: function(user) {
+                return _.contains(this.admins, user._id) || (this.parent && this.parent.isAdministeredBy(user));
             }
         });
     })

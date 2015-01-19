@@ -1,12 +1,12 @@
 <ul class="nav nav-pills pull-right">
-	<li class="active"><a ng-href="#">Home</a></li>
+	<li class="active"><a ui-sref="root">Home</a></li>
 	<li ng-if="!user"><a ui-sref="login">Login/Sign Up</a></li>
-	<li ng-if="user" class="dropdown">
-      <a href class="dropdown-toggle">
+	<li ng-if="user" class="dropdown" dropdown>
+      <a href class="dropdown-toggle" dropdown-toggle>
         {{user.email}} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu pull-right">
-        <li><a ui-sref="user({userID: user._id})">Profile</a></li>
+        <li><a ui-sref="account">Account</a></li>
         <li><a href ng-click="logout()">Logout</a></li>
       </ul>
   </li>

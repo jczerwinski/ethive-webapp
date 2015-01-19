@@ -5,7 +5,6 @@ var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 angular.module('ethiveApp')
 	.controller('ProviderCtrl', function($scope, $stateParams, Provider, $modal) {
 		$scope.provider = Provider.$find($stateParams.providerID);
-
 		$scope.newOffer = function(size) {
 			var modalInstance = $modal.open({
 				templateUrl: '/views/offer/new/new.html',

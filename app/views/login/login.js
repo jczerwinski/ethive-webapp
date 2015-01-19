@@ -1,7 +1,6 @@
 'use strict';
 angular.module('ethiveApp')
     .controller('LoginCtrl', function($scope, $http, $rootScope, focus, $state, $stateParams) {
-
         $rootScope.title = 'Login to Ethive';
 
         $scope.submit = function() {
@@ -13,7 +12,7 @@ angular.module('ethiveApp')
             }).then(function(response) {
                 // Tronsitioning first prevents 'already logged in' message from displaying
                 response.data.remember = $scope.remember;
-                return $state.go($stateParams.next || 'root')
+                return $state.go($stateParams.next.state || 'root')
                     .then(function() {
                         $rootScope.setAuth(response.data);
                     }); //TODO better. Either go to the most recent page, or go to a redirect. see https://github.com/angular-ui/ui-router/issues/92

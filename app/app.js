@@ -11,11 +11,10 @@ angular.module('ethiveApp', [
 	'ui.validate',
 	'restangular',
 	'restmod',
-	'ngAutocomplete'
+	'ngAutocomplete',
+	'ui.select'
 ])
 	.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
-
-		$urlRouterProvider.otherwise('/');
 
 		$stateProvider
 			.state('root', {
@@ -54,7 +53,13 @@ angular.module('ethiveApp', [
 			.state('login', {
 				url: '/login',
 				templateUrl: 'views/login/login.html',
-				controller: 'LoginCtrl'
+				controller: 'LoginCtrl',
+				params: {
+					next: {
+						// state: state to transition to after login
+						// params: state params for the next state
+					}
+				}
 			})
 			.state('signup', {
 				url: '/signup',
@@ -78,10 +83,14 @@ angular.module('ethiveApp', [
 				url: '/verifyEmailFailure',
 				templateUrl: 'views/verifyEmail/verifyEmailFailure.html'
 			})
-			.state('user', {
-				url: '/users/:userID',
-				templateUrl: 'views/user/user.html',
-				controller: 'UserCtrl'
+			.state('account', {
+				url: '/account',
+				templateUrl: 'views/account/account.html',
+				controller: 'AccountCtrl'
+			})
+			.state('otherwise', {
+				url: '*path',
+				templateUrl: 'views/otherwise/otherwise.html'
 			});
 
 		$locationProvider.html5Mode(true); // Enables client-side routing without hashbangs (#)
@@ -92,6 +101,7 @@ angular.module('ethiveApp', [
 
 		$rootScope.title = 'Ethive';
 	})
-	.config(function(restmodProvider) {
-		restmodProvider.rebase('DirtyModel');
+	.config(function(restmodProvider, uiSelectConfig) {
+		uiSelectConfig.theme = 'bootstrap'; // https://github.com/angular-ui/ui-select/wiki/ui-select
+		restmodProvider.rebase('DirtyModel'); // Why?
 	});

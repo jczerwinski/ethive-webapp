@@ -1,5 +1,5 @@
 <!-- Title/Header? -->
-<h1>{{service.name}} <a ng-if="service.userIsAdmin" ui-sref="service.editService"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Service</button></a></h1>
+<h1>{{service.name}} <a ng-if="service.isAdministeredBy(user)" ui-sref="service.editService"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Service</button></a></h1>
 <!-- Description. Markdown? -->
 <div ui-view>
 	<p>{{service.description}}</p>
@@ -7,7 +7,7 @@
 	<!-- Children --><!-- Have a place to set currency -->
 	<div ng-switch="service.type">
 		<div ng-switch-when="category">
-			<h2>Sub-services <span class="badge">{{service.children.length}}</span> <a ng-if="service.userIsAdmin" ui-sref="service.newService"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add new service</button></a></h2>
+			<h2>Sub-services <span class="badge">{{service.children.length}}</span> <a ng-if="service.isAdministeredBy(user)" ui-sref="service.newService"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add new service</button></a></h2>
 			<ul ng-if="service.children.length" class="list-inline">
 				<li class="service" ng-repeat="child in service.children"><a ui-sref="service({serviceID: child._id})"><button type="button" class="btn btn-default">{{child.name}}</button></a></li>
 			</ul>

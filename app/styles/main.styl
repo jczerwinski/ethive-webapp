@@ -2,24 +2,34 @@
 standard-container-width = 730px
 
 .btn
-    border-width 2px
+    //border-width 2px
 
 .btn.btn-cancel
     background-color #FFEEEE
     border-color #dc9d9b
     
 .form-control
-    border-width 2px
+    border-width 1px
     
 /* Bootstrap fixes/overrides */
 h1,h2,h3 {
-    vertical-align:middle;
+    vertical-align:middle; // Align with badge.
 }
 
-h1>.badge, h2>.badge, h3>.badge {
+h1>.badge, h2>.badge, h3>.badge { // Align with headers
     vertical-align:middle;
     margin-top: -0.5em;
 }
+
+.form-control-inline, .form-control-inline * {
+    display: inline-block !important;
+    width: initial !important; // Smaller width on form elements
+}
+
+.form-control-feedback-inline {
+    position: static;
+    display: inline;
+};
 
 .browsehappy {
     margin: 0.2em 0;
@@ -28,7 +38,12 @@ h1>.badge, h2>.badge, h3>.badge {
     padding: 0.2em 0;
 }
 
-/* ngAutocomplete fix */
+/* ui-select fix -- inline form controls on new offer */
+.ui-select-container {
+    width: initial;
+}
+
+/* ngAutocomplete fix -- not visible with angular-bootstrap modals without this */
 .pac-container {
     z-index: 1100 !important;
 }
