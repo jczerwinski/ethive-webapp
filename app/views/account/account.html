@@ -1,0 +1,13 @@
+<div ng-if="user">
+    <h1>{{user._id}}'s Account</h1>
+    <h2>Providers <a ng-if="true" ng-click="open()"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Provider</button></a></h2>
+    <ul ng-if="user.providers.length" class="list-inline">
+        <li ng-repeat="provider in user.providers"><a ui-sref="provider({providerID: provider._id})"><button type="button" class="btn btn-default">{{provider.name}}</button></a></li>
+    </ul>
+    <p ng-if="!user.providers.length">You currently administer no providers.</p>
+</div>
+<div ng-if="!user">
+    <h1>Your Account</h1>
+    <div class="alert alert-danger">Oops! You are not logged in. You must login to see your account.</div>
+    <a class="btn btn-primary pull-right" ui-sref="login({next: {state: 'account'}})">Login</a>
+</div>
