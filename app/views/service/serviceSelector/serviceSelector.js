@@ -3,8 +3,12 @@ angular.module('ethiveApp')
         return {
             restrict: 'E',
             templateUrl: 'views/service/serviceSelector/serviceSelectorButton.html',
-            require: '?ngModel',
+            scope: {
+                service: '=',
+                display: '&'
+            },
             controller: function($scope, $modal, $attrs) {
+                var buttonScope = $scope;
                 $scope.openServiceSelector = function() {
                     var modalInstance = $modal.open({
                         templateUrl: 'views/service/serviceSelector/serviceSelectorModal.html',
@@ -15,27 +19,20 @@ angular.module('ethiveApp')
                             $scope.cancel = function() {
                                 $modalInstance.dismiss();
                             };
-                            $scope.restrict = $attrs.restrict;
+                            $scope.display = buttonScope.display();
                         }
                     });
                     modalInstance.result.then(function(selectedService) {
                         $scope.service = selectedService;
                     });
                 };
-            },
-            link: function (scope, elem, attrs, ngModelCtrl) {
-                // Inspired by http://www.benlesh.com/2012/10/validating-custom-control-in-angular-js.html
-                scope.$watch('service', function (value) {
-                    ngModelCtrl.$setViewValue(value);
-                });
-                ngModelCtrl.$name = attrs.name;
             }
         };
     })
     .directive('serviceselector', function() {
         return {
             restrict: 'E',
-            controller: function($scope, Service, $attrs) {
+            controller: function($scope, Service) {
                 $scope.services = Service.$search();
                 var selectedElement = undefined;
                 this.select = function(service, element) {
@@ -44,11 +41,12 @@ angular.module('ethiveApp')
                     selectedElement = element;
                     selectedElement.addClass('selected');
                 };
+                this.display = $scope.display();
             },
-            template: '<serviceselectorlist services="services" restrict="{{restrict}}"></serviceselectorlist>',
+            template: '<serviceselectorlist services="services"></serviceselectorlist>',
             scope: {
                 selectedService: '=service',
-                restrict: '@'
+                display: '&'
             }
         };
     })
@@ -56,11 +54,10 @@ angular.module('ethiveApp')
         return {
             restrict: 'E',
             scope: {
-                services: '=',
-                restrict: '@'
+                services: '='
             },
             template: function (elem, attrs) {
-                return '<ul><serviceselectornode ng-repeat="service in services" service="service" restrict="{{restrict}}"></serviceselectornode></ul>'
+                return '<ul><serviceselectornode ng-repeat="service in services" service="service"></serviceselectornode></ul>'
             }
         };
     })
@@ -69,17 +66,17 @@ angular.module('ethiveApp')
             restrict: 'E',
             require: '^serviceselector', // Inject serviceselector controller into link.
             scope: {
-                service: '=',
-                restrict: '@'
+                service: '='
             },
-            template: function (elem, attrs) {
-                return '<li ng-if="service.type !== restrict" class="serviceSelectorNodeHeader">{{service.name}}</li><li ng-if="service.type === restrict" class="serviceSelectorNodeHeader"><a href ng-click="select(service);">{{service.name}}</a></li>';
-            },
+            templateUrl: 'views/service/serviceSelector/serviceSelectorNode.html',
             link: function(scope, element, attrs, serviceSelectorCtrl) {
                 scope.select = function(service) {
                     return serviceSelectorCtrl.select(service, element);
                 };
-                var collectionSt = '<serviceselectorlist services="service.children" restrict="{{restrict}}"></serviceselectorlist>';
+
+                scope.display = serviceSelectorCtrl.display(scope.service) || 'hide';
+                
+                var collectionSt = '<serviceselectorlist services="service.children"></serviceselectorlist>';
                 if (angular.isArray(scope.service.children)) {
                     $compile(collectionSt)(scope, function(cloned) {
                         element.append(cloned);

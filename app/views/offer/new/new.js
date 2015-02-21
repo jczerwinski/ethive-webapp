@@ -9,8 +9,22 @@ angular.module('ethiveApp')
             $scope.newOffer = Offer.$build();
         }
 
-        $scope.locationOptions = {
-            types: '(cities)'
+        $scope.options = {
+            location: {
+                types: '(cities)'
+            },
+            display: function (service) {
+                // published services are selectable
+                if (service.status === 'published' && service.type === 'service') {
+                    return 'select';
+                }
+                // published categories are displayed
+                if (service.status === 'published' && service.type === 'category') {
+                    return 'display';
+                }
+                // Hide anything else.
+                return 'hide';
+            }
         };
 
         // TODO Proxy this call, set up as a service.
@@ -30,16 +44,15 @@ angular.module('ethiveApp')
                 });
             };
             $scope.newOffer.$save().$then(function(resp) {
-                console.log(resp);
                 // offer creation success!
                 // close modal and navigate back to the last page, refreshed:
                 $scope.cancel();
 
                 // Where we go should be provided by the caller. If not provided, default to the offer we've just created. Normally, we're only likely to come from a Provider, so doing back to the provider likely makes the most sense.
                 if (provider) { 
-                    $state.go('provider', { // Go back to the provider
+                    $state.go('provider', { // Go back to the provider. Reload.
                         providerID: provider._id
-                    });
+                    }, {}, {reload: true});
                 } else {
                     $state.go('offer', { // Go to the offer
                         offerID: resp[0]._id

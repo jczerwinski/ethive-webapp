@@ -3,8 +3,11 @@
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 
 angular.module('ethiveApp')
-	.controller('ProviderCtrl', function($scope, $stateParams, Provider, $modal) {
+	.controller('ProviderCtrl', function($scope, $stateParams, Provider, $modal, $rootScope) {
 		$scope.provider = Provider.$find($stateParams.providerID);
+		$scope.provider.$then(function (provider) {
+			$rootScope.setTitle(provider.name + $rootScope.titleEnd);
+		});
 		$scope.newOffer = function(size) {
 			var modalInstance = $modal.open({
 				templateUrl: '/views/offer/new/new.html',
@@ -40,7 +43,10 @@ angular.module('ethiveApp')
 	})
 	.factory('Provider', function(restmod) {
 		return restmod.model('/api/providers').mix({
-			offers: {hasMany: 'Offer'}
+			offers: {hasMany: 'Offer'},
+			isAdministeredBy: function isAdministeredBy (user) {
+				return user && user._id && _.contains(this.admins, user._id);
+			}
 		});
 	})
 	.directive('providerId', function(Provider, $q) {
@@ -60,8 +66,13 @@ angular.module('ethiveApp')
 				ctrl.$asyncValidators.uniqueProviderId = function(modelVal, viewVal) {
 					return Provider.$find(modelVal || viewVal).$asPromise().then(function() {
 						return $q.reject('exists');
-					}, function() {
-						return true;
+					}, function(resp) {
+						// Only return true/valid on 404 -- any other error means we can't say for certain.
+						if (resp.$response.status === 404) {
+							return true;
+						} else {
+							return $q.reject('error');
+						}
 					});
 				};
 			}

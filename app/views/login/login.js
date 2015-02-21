@@ -1,8 +1,7 @@
 'use strict';
 angular.module('ethiveApp')
     .controller('LoginCtrl', function($scope, $http, $rootScope, focus, $state, $stateParams) {
-        $rootScope.title = 'Login to Ethive';
-
+        $rootScope.setTitle('Log in to Ethive');
         $scope.submit = function() {
             // Try to authenticate
             // TODO HTTPS only.

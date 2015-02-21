@@ -1,12 +1,19 @@
 <div class="provider">
 	<h1>{{provider.name}}</h1>
-	<h2>Offers <a ng-if="provider.userIsAdmin" ng-click="newOffer()"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Offer</button></a></h2>
+	<h2>Offers <a ng-if="provider.isAdministeredBy(user)" ng-click="newOffer()"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Offer</button></a></h2>
   <table class="table table-striped table-condensed">
-    <thead></thead>
+    <thead>
+      <tr>
+        <td>Service</td>
+        <td>Location</td>
+        <td>Price</td>
+      </tr>
+    </thead>
     <tbody>
       <tr ng-repeat="offer in provider.offers">
-        <td>{{ row.name }}</td>
-        <td>{{ row.location }}</td>
+        <td><a ui-sref="offer({providerID: provider._id, offerID: offer._id})">{{offer.service.name}}</a></td>
+        <td>{{offer.location}}</td>
+        <td>{{offer.price.amount}} {{offer.price.currency}}</td>
       </tr>
     </tbody>
   </table>

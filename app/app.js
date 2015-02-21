@@ -1,21 +1,20 @@
 'use strict';
 
 angular.module('ethiveApp', [
-	'ngCookies',
-	'ngResource',
-	'ngSanitize',
-	'ui.router',
-	'LocalStorageModule',
-	'focusOn',
-	'ui.bootstrap',
-	'ui.validate',
-	'restangular',
-	'restmod',
-	'ngAutocomplete',
-	'ui.select'
-])
-	.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
-
+		'ngCookies',
+		'ngResource',
+		'ngSanitize',
+		'ui.router',
+		'LocalStorageModule',
+		'focusOn',
+		'ui.bootstrap',
+		'ui.validate',
+		'restangular',
+		'restmod',
+		'ngAutocomplete',
+		'ui.select'
+	])
+	.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
 		$stateProvider
 			.state('root', {
 				url: '/',
@@ -25,17 +24,17 @@ angular.module('ethiveApp', [
 			.state('service', {
 				url: '/services/:serviceID',
 				templateUrl: 'views/service/service.html',
-				controller: 'ServiceCtrl',
+				controller: 'ServiceCtrl'
 			})
 			.state('service.newService', {
 				url: '/new',
 				templateUrl: 'views/service/new/new.html',
-				controller: 'CreateServiceCtrl',
+				controller: 'CreateServiceCtrl'
 			})
 			.state('service.editService', {
 				url: '/edit',
 				templateUrl: 'views/service/edit/edit.html',
-				controller: 'EditServiceCtrl',
+				controller: 'EditServiceCtrl'
 			})
 			.state('provider.newProvider', {
 				url: '/new'
@@ -64,7 +63,7 @@ angular.module('ethiveApp', [
 			.state('signup', {
 				url: '/signup',
 				templateUrl: 'views/signup/signup.html',
-				controller: 'SignupCtrl',
+				controller: 'SignupCtrl'
 			})
 			.state('signup.success', {
 				url: '/success',
@@ -73,7 +72,7 @@ angular.module('ethiveApp', [
 			.state('signup.failure', {
 				url: '/failure',
 				templateUrl: 'views/signup/signup.failure.html',
-				controller: 'SignupFailureCtrl',
+				controller: 'SignupFailureCtrl'
 			})
 			.state('verifyEmailSuccess', {
 				url: '/verifyEmailSuccess',
@@ -90,18 +89,31 @@ angular.module('ethiveApp', [
 			})
 			.state('otherwise', {
 				url: '*path',
-				templateUrl: 'views/otherwise/otherwise.html'
+				templateUrl: 'views/not-found/not-found.html',
+				controller: function ($rootScope) {
+					$rootScope.setTitle('Not found' + $rootScope.titleEnd);
+				}
 			});
 
 		$locationProvider.html5Mode(true); // Enables client-side routing without hashbangs (#)
 	})
-	.controller('RootCtrl', function($scope, $state, $rootScope) {
+	.controller('RootCtrl', function ($scope, $state, $rootScope) {
 		// Used by login link in header to pass current state as param for redirect after login.
-		$scope.$state = $state;
+		$rootScope.$state = $state;
 
-		$rootScope.title = 'Ethive';
+		$rootScope.title = $rootScope.defaultTitle = 'Ethive';
+		$rootScope.titleEnd = ' - ' + $rootScope.defaultTitle;
 	})
-	.config(function(restmodProvider, uiSelectConfig) {
+	.run(function ($rootScope, $timeout) {
+		// Using setTitle() preserves history when changing title from controllers in ui-router states.
+		$rootScope.setTitle = function (newTitle) {
+			$timeout(setTitle);
+			function setTitle () {
+				$rootScope.title = newTitle;
+			}
+		};
+	})
+	.config(function (restmodProvider, uiSelectConfig) {
 		uiSelectConfig.theme = 'bootstrap'; // https://github.com/angular-ui/ui-select/wiki/ui-select
 		restmodProvider.rebase('DirtyModel'); // Why?
 	});

@@ -1,41 +1,68 @@
 'use strict';
 var SERVICEID_REGEXP = /^[a-z0-9-]{1,}$/;
 angular.module('ethiveApp')
-    .factory('Service', function(restmod) {
+    .factory('Service', function (restmod) {
         return restmod.model('/api/services').mix({
+            $config: {
+                primaryKey: '_id'
+            },
             parent: {
-                belongsTo: 'Service'
+                belongsTo: 'Service',
+                key: 'parentId'
             },
-            hasAncestor: function(ancestor) {
-                if (this.parent) {
-                    if (this.parent._id === (ancestor._id || ancestor)) {
-                        return true
+            children: {
+                belongsToMany: 'Service',
+                key: 'childrenId'
+            },
+            $extend: {
+                Record: {
+                    hasAncestor: function (ancestor) {
+                        if (this.parent) {
+                            if (this.parent._id === (ancestor._id || ancestor)) {
+                                return true
+                            }
+                            return this.parent.hasAncestor(ancestor);
+                        } else {
+                            return false;
+                        }
+                    },
+                    isAdministeredBy: function (user) {
+                        // Recursively check ancestors admins for user.
+                        return (user &&
+                                user._id &&
+                                this.admins &&
+                                _.contains(this.admins, user._id)) ||
+                            (!!this.parent &&
+                                this.parent.isAdministeredBy(user));
                     }
-                    return this.parent.hasAncestor(ancestor);
-                } else {
-                    return false;
                 }
-            },
-            isAdministeredBy: function(user) {
-                return _.contains(this.admins, user._id) || (this.parent && this.parent.isAdministeredBy(user));
             }
         });
     })
-    .controller('ServiceCtrl', function($scope, $stateParams, Service) {
-        $scope.service = Service.$find($stateParams.serviceID);
+    .controller('ServiceCtrl', function ($scope, Service, $stateParams) {
+        Service.$find($stateParams.serviceID).$then(function (service) {
+            $scope.service = service;
+        }, function (err) {
+            if (err.$response.status === 404) {
+                $scope.error = 404;
+            }
+        });
     })
-    .directive('uniqueServiceId', function(Service) {
+    .directive('uniqueServiceId', function (Service) {
         return {
             require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
+            link: function (scope, elm, attrs, ctrl) {
                 function uniqueIDValidator(id) {
                     if (id) {
                         Service.$find(id)
-                            .$then(function(service) {
+                            .$then(function (service) {
                                 ctrl.$setValidity('uniqueServiceId', false);
-                            }, function(error) {
+                            }, function (error) {
                                 if (error.$response.status === 404) {
                                     ctrl.$setValidity('uniqueServiceId', true);
+                                } else {
+                                    // Anything else, including server error, is false.
+                                    ctrl.$setValidity('uniqueServiceId', false);
                                 }
                             });
                     } else {
@@ -47,62 +74,10 @@ angular.module('ethiveApp')
             }
         };
     })
-    .directive('existingServiceId', function(Service) {
+    .directive('serviceId', function () {
         return {
             require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
-                function existingIDValidator(id) {
-                    if (id) {
-                        Service.$find(id)
-                            .$then(function(service) {
-                                // Test for cycle.
-                                if (service.hasAncestor(scope.service)) {
-                                    ctrl.$setValidity('cycle', false);
-                                } else {
-                                    ctrl.$setValidity('cycle', true);
-                                }
-                                ctrl.$setValidity('existingServiceId', true);
-                            }, function(error) {
-                                if (error.$response.status === 404) {
-                                    ctrl.$setValidity('existingServiceId', false);
-                                    ctrl.$setValidity('cycle', true);
-                                }
-                            });
-                    } else {
-                        ctrl.$setValidity('existingServiceId', true);
-                        ctrl.$setValidity('cycle', true);
-                    }
-                    return id;
-                }
-                ctrl.$parsers.push(existingIDValidator);
-            }
-        };
-    })
-    .directive('offerEligibleServiceId', function(Service) {
-        return {
-            require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
-                function existingIDValidator(id) {
-                    if (id) {
-                        Service.$find(id)
-                            .$then(function(service) {
-                                ctrl.$setValidity('offerEligibleServiceId', service.type === 'service');
-                            }, function(error) {
-                                ctrl.$setValidity('offerEligibleServiceId', true);
-                            });
-                    } else {
-                        ctrl.$setValidity('offerEligibleServiceId', true);
-                    }
-                    return id;
-                }
-                ctrl.$parsers.push(existingIDValidator);
-            }
-        };
-    })
-    .directive('serviceId', function() {
-        return {
-            require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
+            link: function (scope, elm, attrs, ctrl) {
                 function serviceIDValidator(id) {
                     if (SERVICEID_REGEXP.test(id)) {
                         // it is valid

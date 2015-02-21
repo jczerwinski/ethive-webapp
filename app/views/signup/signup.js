@@ -1,19 +1,16 @@
 'use strict';
 angular.module('ethiveApp')
-	.controller('SignupCtrl', function ($scope, $rootScope, User, $state) {
-		$rootScope.title = 'Sign Up for Ethive';
+	.controller('SignupCtrl', function ($scope, User, $state, $rootScope) {
+		$rootScope.setTitle('Sign up for Ethive');
 		$scope.newUser = {};
 		$scope.submit = function () {
-			var user = new User({
+			var user = User.$create({
 				username: $scope.newUser.username,
 				email: $scope.newUser.email,
 				password: $scope.newUser.password
-			});
-			user.$save()
-				.then(function(response) {
+			}).$then(function(response) {
 					$state.go('.success');
-				})
-				.catch(function(error) {
+				}, function(error) {
 					$state.go('.failure');
 				});
 		};

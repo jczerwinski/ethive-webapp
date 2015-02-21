@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ethiveApp')
-.controller('HomeCtrl', function($resource, $scope) {
+.controller('HomeCtrl', function($resource, $scope, $rootScope) {
+	$rootScope.setTitle($rootScope.defaultTitle);
 
 	var ServiceIndex = $resource('/api/services', {}, {
 		get: {

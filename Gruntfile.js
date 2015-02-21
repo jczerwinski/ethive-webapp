@@ -47,7 +47,16 @@ module.exports = function (grunt) {
         ],
         tasks: [
           'stylus',
-          'autoprefixer'
+          'autoprefixer' 
+        ]
+      },
+      less : {
+        files: [
+          '<%= yeoman.app %>/**/*.less',
+          '!<%= yeoman.app %>/bower_components/{,*/}*.{less}'
+        ],
+        tasks: [
+          'less'
         ]
       },
       gruntfile: {
@@ -74,7 +83,7 @@ module.exports = function (grunt) {
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35729,
-        middleware: function(connect, options) {
+        middleware: function (connect, options) {
 
           var middleware = [];
 
@@ -92,7 +101,7 @@ module.exports = function (grunt) {
           if (!Array.isArray(base)) {
             base = [base];
           }
-          base.forEach(function(path) {
+          base.forEach(function (path) {
             middleware.push(connect.static(path));
           });
 
@@ -108,14 +117,12 @@ module.exports = function (grunt) {
             '<%= yeoman.app %>'
           ]
         },
-        proxies: [
-          {
-            context: '/api',
-            host: 'localhost',
-            port: 3000,
-            changeOrigin: false
-          }
-        ]
+        proxies: [{
+          context: '/api',
+          host: 'localhost',
+          port: 3000,
+          changeOrigin: false
+        }]
       },
       test: {
         options: {
@@ -186,7 +193,10 @@ module.exports = function (grunt) {
         exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
       }
     },
-
+    //-------------------------------------
+    // ------------- STYLES ---------------
+    // ------------------------------------
+    // 
     // Compiles Sass to CSS and generates necessary files if requested
     // compass: {
     //   options: {
@@ -223,9 +233,38 @@ module.exports = function (grunt) {
     stylus: {
       compile: {
         files: {
-          '.tmp/styles/main.css': ['<%= yeoman.app %>/**/*.styl', '!<%= yeoman.app %>/bower_components/**/*.styl']
+          '.tmp/styles/stylus_main.css': ['<%= yeoman.app %>/**/*.styl', '!<%= yeoman.app %>/bower_components/**/*.styl']
         }
       }
+    },
+
+    less: {
+      development: {
+        options: {
+          paths: ['app', 'bower_components']
+        },
+        files: {
+          '.tmp/styles/less_main.css': ['<%= yeoman.app %>/styles/main.less', '!<%= yeoman.app %>/bower_components/**/*.less']
+        }
+      }/*,
+      production: {
+        options: {
+          paths: ["assets/css"],
+          plugins: [
+            new(require('less-plugin-autoprefix'))({
+              browsers: ["last 2 versions"]
+            }),
+            new(require('less-plugin-clean-css'))(cleanCssOptions)
+          ],
+          modifyVars: {
+            imgPath: '"http://mycdn.com/path/to/images"',
+            bgColor: 'red'
+          }
+        },
+        files: {
+          "path/to/result.css": "path/to/source.less"
+        }
+      }*/
     },
 
     // Renames files for browser caching purposes
@@ -347,13 +386,16 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'stylus'
+        'stylus',
+        'less'
       ],
       test: [
-        'stylus'
+        'stylus',
+        'less'
       ],
       dist: [
         'stylus',
+        'less',
         'imagemin',
         'svgmin'
       ]

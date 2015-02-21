@@ -25,14 +25,16 @@ angular.module('ethiveApp')
 			require: 'ngModel',
 			link: function(scope, elm, attrs, ctrl) {
 				function unavailableUsernameValidator (username) {
-					User.get({
-						username: username
-					}).$promise
-						.then(function (user) {
-							ctrl.$setValidity('unavailableUsername', false);
-						})
-						.catch(function (error) {
-							ctrl.$setValidity('unavailableUsername', true);
+					User.$find(username).$then(function () {
+							// This condition should never be reached. If it is, it means the user is logged in and is attempting to sign up for a new account. Account signup should be disabled while logged in.
+						}, function (error) {
+							if (error.$response.status === 404) {
+								// Does not exist
+								ctrl.$setValidity('unavailableUsername', true);
+							} else {
+								// May include 403 -- Not Authorized (username exists), or any server error.
+								ctrl.$setValidity('unavailableUsername', false);
+							}
 						});
 					return username;
 				}
@@ -45,14 +47,19 @@ angular.module('ethiveApp')
 			require: 'ngModel',
 			link: function(scope, elm, attrs, ctrl) {
 				function unavailableEmailValidator (email) {
-					User.get({
+					User.$search({
 						email: email
-					}).$promise
-						.then(function (user) {
-							ctrl.$setValidity('unavailableEmail', false);
-						})
-						.catch(function (error) {
-							ctrl.$setValidity('unavailableEmail', true);
+					}).$then(function (user) {
+						// This condition should never be reached. If it is, it means the user is logged in and is attempting to sign up for a new account. Account signup should be disabled while logged in.
+						// TODO should throw error?
+						}, function (error) {
+							if (error.$response.status === 404) {
+								// Does not exist
+								ctrl.$setValidity('unavailableEmail', true);
+							} else {
+								// May include 403 -- Not Authorized (email exists), or any server error.
+								ctrl.$setValidity('unavailableEmail', false);
+							}
 						});
 					return email;
 				}

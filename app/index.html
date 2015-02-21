@@ -7,10 +7,11 @@
     <meta charset="utf-8">
     <base href="/">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title ng-bind="title"></title>
+    <title ng-bind="subtitle ? subtitle : title"></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link href='http://fonts.googleapis.com/css?family=Nunito:300' rel='stylesheet' type='text/css'>
 
     <!-- build:css({.tmp,app}) styles/vendor.css -->
     <!-- bower:css -->
@@ -20,7 +21,8 @@
     <!-- endbuild -->
 
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/stylus_main.css">
+    <link rel="stylesheet" href="styles/less_main.css">
     <!-- endbuild -->
   </head>
   <body>
@@ -92,6 +94,7 @@
         <script src="views/signup/signup.js"></script>
         <script src="views/signup/signup.failure.js"></script>
         <script src="views/http500errorHandler/http500errorHandler.js"></script>
+        <script src="views/not-found/not-found.js"></script
         <script src="views/account/account.js"></script>
         <script src="views/provider/new/new.js"></script>
         <script src="views/offer/new/new.js"></script>
