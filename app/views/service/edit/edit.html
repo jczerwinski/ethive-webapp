@@ -45,7 +45,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': editServiceForm.parent.$invalid && editServiceForm.parent.$dirty, 'has-success': editServiceForm.parent.$valid}">
   <label for="name" class="col-sm-2 control-label">Parent</label>
    <div class="col-sm-10 form-control-static">
-      {{service.parent.name}} <serviceselectorbutton display="options.display" required name="parent" service="service.parent"></serviceselectorbutton>
+      {{service.parent.name}} <serviceselectorbutton ng-model="service.parent" ethive-service-ancestors-exclude="service" display="options.display" name="parent" service="service.parent"></serviceselectorbutton>
       <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editServiceForm.parent.$invalid && editServiceForm.parent.$dirty, 'glyphicon-ok': editServiceForm.parent.$valid}"></span>
   </div>
 </div>

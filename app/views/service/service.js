@@ -27,13 +27,19 @@ angular.module('ethiveApp')
                         }
                     },
                     isAdministeredBy: function (user) {
-                        // Recursively check ancestors admins for user.
-                        return (user &&
-                                user._id &&
-                                this.admins &&
-                                _.contains(this.admins, user._id)) ||
-                            (!!this.parent &&
-                                this.parent.isAdministeredBy(user));
+                        // admins array is only attached to server response if user is an admin
+                        return !!this.admins;
+                    },
+                    /**
+                     * Returns the root service of this service, with this service's ancestor tree on the `parent` attribute inverted onto the `children` attribute. Only this service's ancestors and children will be present in the tree.
+                     */
+                    invert: function () {
+                        if (this.parent) {
+                            this.parent.children = [this];
+                            return this.parent.invert();
+                        }
+                        // We're at the root.
+                        return this;
                     }
                 }
             }
@@ -47,6 +53,14 @@ angular.module('ethiveApp')
                 $scope.error = 404;
             }
         });
+    })
+    .directive('ethiveServiceAncestorsExclude', function (Service) {
+        return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ngModelCtrl) {
+                // TODO -- Validator that supports prevents the selection of cycles in service selector for edit service.
+            }
+        };
     })
     .directive('uniqueServiceId', function (Service) {
         return {

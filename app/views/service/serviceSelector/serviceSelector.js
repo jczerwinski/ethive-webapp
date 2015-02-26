@@ -19,6 +19,11 @@ angular.module('ethiveApp')
                             $scope.cancel = function() {
                                 $modalInstance.dismiss();
                             };
+                            $scope.$watch('service', function (service) {
+                                if (service !== undefined) {
+                                    $scope.select(service);
+                                }
+                            });
                             $scope.display = buttonScope.display();
                         }
                     });
@@ -40,6 +45,16 @@ angular.module('ethiveApp')
                     $scope.selectedService = service;
                     selectedElement = element;
                     selectedElement.addClass('selected');
+                };
+                this.navigate = function navigate (service) {
+                    service.$fetch().$then(function (service){
+                        $scope.navigated = service;
+                        $scope.services = [service.invert()];
+                    });
+
+                };
+                this.isNavigated = function isNavigated (service) {
+                    return $scope.navigated && $scope.navigated._id == service._id;
                 };
                 this.display = $scope.display();
             },
@@ -70,13 +85,38 @@ angular.module('ethiveApp')
             },
             templateUrl: 'views/service/serviceSelector/serviceSelectorNode.html',
             link: function(scope, element, attrs, serviceSelectorCtrl) {
-                scope.select = function(service) {
+                scope.select = function select (service) {
                     return serviceSelectorCtrl.select(service, element);
                 };
 
-                scope.display = serviceSelectorCtrl.display(scope.service) || 'hide';
+                scope.navigate = function navigate (service) {
+                    serviceSelectorCtrl.navigate(service);
+                };
+
+                scope.isNavigated = function isNavigated (service) {
+                    return serviceSelectorCtrl.isNavigated(service);
+                };
+
+                scope.display = serviceSelectorCtrl.display(scope.service);
+
+                function displayChildren (service) {
+                    var children = _.filter(service.children, function (service) {
+                        return serviceSelectorCtrl.display(service) !== '';
+                    });
+                    return children.length === 0 ? false : children;
+                }
+
+                // Cases:
+                //      We're on the navigated service. If it has displayable children, show them. If not, show a message stating such
+                //      We're on any other service. Just show displayable children, if any.
+                //      
                 
                 var collectionSt = '<serviceselectorlist services="service.children"></serviceselectorlist>';
+
+                if (!displayChildren(scope.service) && scope.isNavigated(scope.service)) {
+                    collectionSt = '<ul><li class="serviceSelectorNodeHeader" style="font-style: italic;">Sorry, this service has no selectable sub-services.</li></ul>';
+                }
+
                 if (angular.isArray(scope.service.children)) {
                     $compile(collectionSt)(scope, function(cloned) {
                         element.append(cloned);

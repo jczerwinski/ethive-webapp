@@ -1,6 +1,7 @@
-<!-- use display function provided by client to decide what to show -->
-<div ng-switch="display">
-    <li ng-switch-when="selectable" class="serviceSelectorNodeHeader"><a href ng-click="select(service);">{{service.name}}</a></li>
-    <li ng-switch-when="display" class="serviceSelectorNodeHeader">{{service.name}}</li>
-    <!-- hide if not display or selectable. ie. if hidden -->
-</div>
+<!-- use display function provided by client to decide whether and how to display service -->
+<li ng-if="display.length" class="serviceSelectorNodeHeader">
+    <span class="selectedIcon" aria-hidden="true"></span>
+    <a ng-if="display.indexOf('navigable') !== -1 && !isNavigated(service)" href ng-click="navigate(service);">{{service.name}}</a>
+    <span ng-if="display.indexOf('navigable') === -1 || isNavigated(service)">{{service.name}}</span>
+    <button ng-click="select(service)" ng-if="display.indexOf('selectable') !== -1" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Select</button>
+</li>
