@@ -1,0 +1,31 @@
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+
+## ethive commit template
+##
+## Inspired by https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
+## 
+## Should support (conventional-changelog)[https://github.com/ajoslin/conventional-changelog/blob/master/CONVENTIONS.md]
+## 
+##
+## type can be:
+##   - feat (feature)
+##   - fix (bug fix)
+##   - docs (documentation)
+##   - style (formatting, missing semi colons, …)
+##   - refactor
+##   - test (when adding missing tests)
+##   - chore (maintain)
+## 
+## scope can be *any* code reference that helps narrow down what the scope of this change is. optional.
+##
+## subject is a short, present tense description of the change.
+##
+## body is a longer, more exhaustive description of the change and its motivation. include examples and comparisons to previous behaviour. optional.
+##
+## footer should include 'Closes issue #42' if you want this commit to automatically close issue 42. optional.
+##
+##
