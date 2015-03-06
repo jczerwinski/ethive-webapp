@@ -1,7 +1,10 @@
-'use strict';
+import angular from 'angular';
+import router from 'angular-ui-router';
 
-angular.module('ethiveApp')
-    .controller('CreateServiceCtrl', function($scope, $stateParams, Service, $state) {
+export default angular.module('ethiveNewServiceRoute', [
+        router.name
+    ])
+    .controller('CreateServiceCtrl', ['$scope', '$stateParams', 'Service', '$state', function($scope, $stateParams, Service, $state) {
         var newService = {};
         newService.parent = $scope.service;
         $scope.newService = newService;
@@ -12,4 +15,4 @@ angular.module('ethiveApp')
                 });
             });
         };
-    });
+    }]);

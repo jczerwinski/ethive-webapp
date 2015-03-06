@@ -1,6 +1,14 @@
+import angular from 'angular';
+import 'angular-cookies';
+import 'grevory/angular-local-storage';
+
+// localstore cookiestore restmod
 var USERNAME_REGEXP = /^[a-zA-Z0-9_.]{3,20}$/;
 var PASSWORD_REGEXP = /^[a-zA-Z0-9_.]{8,100}$/;
-angular.module('ethiveApp')
+export default angular.module('ethiveUserModel', [
+		'LocalStorageModule',
+		'ngCookies'
+	])
 	.directive('username', function() {
 		return {
 			require: 'ngModel',
@@ -20,7 +28,7 @@ angular.module('ethiveApp')
 			}
 		};
 	})
-	.directive('unavailableUsername', function(User) {
+	.directive('unavailableUsername', ['User', function(User) {
 		return {
 			require: 'ngModel',
 			link: function(scope, elm, attrs, ctrl) {
@@ -41,8 +49,8 @@ angular.module('ethiveApp')
 				ctrl.$parsers.push(unavailableUsernameValidator);
 			}
 		};
-	})
-	.directive('unavailableEmail', function(User) {
+	}])
+	.directive('unavailableEmail', ['User', function(User) {
 		return {
 			require: 'ngModel',
 			link: function(scope, elm, attrs, ctrl) {
@@ -66,7 +74,7 @@ angular.module('ethiveApp')
 				ctrl.$parsers.push(unavailableEmailValidator);
 			}
 		};
-	})
+	}])
 	.directive('password', function() {
 		return {
 			require: 'ngModel',
@@ -94,10 +102,24 @@ angular.module('ethiveApp')
 			}
 		};
 	})
-	.factory('User', function(restmod) {
+	.factory('User', ['restmod', function(restmod) {
 		return restmod.model('/api/users');
-	})
-	.run(function(localStorageService, $rootScope, $cookieStore, User) {
+	}])
+	.factory('auth', ['$rootScope', function($rootScope) {
+		return {
+			request: function(config) {
+				// Set the auth token.
+				if ($rootScope.auth) {
+					config.headers.Authorization = 'Bearer ' + $rootScope.auth.token;
+				}
+				return config;
+			}
+		};
+	}])
+	.config(['$httpProvider', function($httpProvider) {
+		$httpProvider.interceptors.push('auth');
+	}])
+	.run(['localStorageService', '$rootScope', '$cookieStore', 'User', function(localStorageService, $rootScope, $cookieStore, User) {
 		$rootScope.auth = (function() {
 			return localStorageService.get('auth') || $cookieStore.get('auth');
 		})();
@@ -119,18 +141,4 @@ angular.module('ethiveApp')
 			delete $rootScope.auth;
 			delete $rootScope.user;
 		};
-	})
-	.factory('auth', function($rootScope) {
-		return {
-			request: function(config) {
-				// Set the auth token.
-				if ($rootScope.auth) {
-					config.headers.Authorization = 'Bearer ' + $rootScope.auth.token;
-				}
-				return config;
-			}
-		};
-	})
-	.config(function($httpProvider) {
-		$httpProvider.interceptors.push('auth');
-	});
+	}]);

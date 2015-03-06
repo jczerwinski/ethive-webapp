@@ -1,6 +1,13 @@
-'use strict';
-angular.module('ethiveApp')
-	.controller('SignupCtrl', function ($scope, User, $state, $rootScope) {
+import angular from 'angular';
+import router from 'angular-ui-router';
+
+import User from 'models/user';
+
+export default angular.module('ethiveSignupRoute', [
+		router.name,
+		User.name
+	])
+	.controller('SignupCtrl', ['$scope', 'User', '$state', '$rootScope', function ($scope, User, $state, $rootScope) {
 		$rootScope.setTitle('Sign up for Ethive');
 		$scope.newUser = {};
 		$scope.submit = function () {
@@ -14,4 +21,4 @@ angular.module('ethiveApp')
 					$state.go('.failure');
 				});
 		};
-	});
+	}]);

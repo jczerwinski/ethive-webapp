@@ -1,7 +1,15 @@
-'use strict';
+import angular from 'angular';
+import router from 'angular-ui-router';
+import bootstrap from 'angular-bootstrap';
 
-angular.module('ethiveApp')
-    .controller('NewProviderCtrl', function($scope, $modalInstance, Provider, $state) {
+import Provider from 'routes/provider/provider';
+
+export default angular.module('ethiveNewProviderRoute', [
+        router.name,
+        bootstrap.name,
+        Provider.name
+    ])
+    .controller('NewProviderCtrl', ['$scope', '$modalInstance', 'Provider', '$state', function($scope, $modalInstance, Provider, $state) {
         $scope.newProvider = Provider.$build({
             admins: [$scope.user]
         });
@@ -29,5 +37,4 @@ angular.module('ethiveApp')
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-
-    });
+    }]);
