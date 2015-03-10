@@ -1,17 +1,27 @@
 import angular from 'angular';
-import router from 'angular-ui-router';
-import bootstrap from 'angular-bootstrap';
+import 'angular-ui-router';
+import 'angular-bootstrap';
+
+import Provider from 'models/provider';
 
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 
 export default angular.module('ethiveProviderRoute', [
-		router.name,
-		bootstrap.name
+		'ui.router',
+		'ui.bootstrap',
+		Provider.name
 	])
+    .config(['$stateProvider', function ($stateProvider) {
+	    $stateProvider.state('provider', {
+            url: '/providers/:providerID',
+            templateUrl: 'routes/provider/provider.html',
+            controller: 'ProviderCtrl'
+        });
+	}])
 	.controller('ProviderCtrl', ['$scope', '$stateParams', 'Provider', '$modal', '$rootScope', function($scope, $stateParams, Provider, $modal, $rootScope) {
 		$scope.provider = Provider.$find($stateParams.providerID);
 		$scope.provider.$then(function (provider) {
-			$rootScope.setTitle(provider.name + $rootScope.titleEnd);
+			$rootScope.setTitle(provider.name);
 		});
 		$scope.newOffer = function(size) {
 			var modalInstance = $modal.open({
@@ -46,14 +56,6 @@ export default angular.module('ethiveProviderRoute', [
 			templateUrl: 'views/publicProviderOfferTable.html'
 		};
 	})
-	.factory('Provider', ['restmod', function(restmod) {
-		return restmod.model('/api/providers').mix({
-			offers: {hasMany: 'Offer'},
-			isAdministeredBy: function isAdministeredBy (user) {
-				return user && user._id && _.contains(this.admins, user._id);
-			}
-		});
-	}])
 	.directive('providerId', ['Provider', '$q', function(Provider, $q) {
 		return {
 			require: 'ngModel',

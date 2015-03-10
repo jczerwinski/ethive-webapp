@@ -1,12 +1,25 @@
 import angular from 'angular';
-import router from 'angular-ui-router';
+import 'angular-ui-router';
 
 // Already removed ng-focus-on. Must be replaced
 export default angular.module('ethiveLoginRoute', [
-        router.name
+        'ui.router'
     ])
+    .config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('login', {
+            url: '/login',
+            templateUrl: 'routes/login/login.html',
+            controller: 'LoginCtrl',
+            params: {
+                next: {
+                    // state: state to transition to after login
+                    // params: state params for the next state
+                }
+            }
+        });
+    }])
     .controller('LoginCtrl', ['$scope', '$http', '$rootScope', '$state', '$stateParams', function($scope, $http, $rootScope, $state, $stateParams) {
-        $rootScope.setTitle('Log in to Ethive');
+        $rootScope.setTitle('Log in to Ethive', true);
         $scope.submit = function() {
             // Try to authenticate
             // TODO HTTPS only.

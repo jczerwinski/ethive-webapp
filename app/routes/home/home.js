@@ -12,7 +12,7 @@ export default angular.module('ethiveHome', [
 			url: '/',
 			templateUrl: 'routes/home/home.html',
 			controller: ['$scope', '$rootScope', 'services', function ($scope, $rootScope, services) {
-				$rootScope.setTitle($rootScope.defaultTitle);
+				$rootScope.setTitle(false);
 				$scope.services = services;
 			}],
 			resolve: {

@@ -1,14 +1,19 @@
 import angular from 'angular';
-import router from 'angular-ui-router';
-import bootstrap from 'angular-bootstrap';
+import 'angular-ui-router';
+import 'angular-bootstrap';
 
-import Provider from 'routes/provider/provider';
+import Provider from 'models/provider';
 
 export default angular.module('ethiveNewProviderRoute', [
-        router.name,
-        bootstrap.name,
+        'ui.router',
+        'ui.bootstrap',
         Provider.name
     ])
+    .config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('provider.newProvider', {
+            url: '/new'
+        });
+    }])
     .controller('NewProviderCtrl', ['$scope', '$modalInstance', 'Provider', '$state', function($scope, $modalInstance, Provider, $state) {
         $scope.newProvider = Provider.$build({
             admins: [$scope.user]

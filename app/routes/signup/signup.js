@@ -1,14 +1,21 @@
 import angular from 'angular';
-import router from 'angular-ui-router';
+import 'angular-ui-router';
 
 import User from 'models/user';
 
 export default angular.module('ethiveSignupRoute', [
-		router.name,
+		'ui.router',
 		User.name
 	])
+	.config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('signup', {
+            url: '/signup',
+            templateUrl: 'routes/signup/signup.html',
+            controller: 'SignupCtrl'
+        });
+    }])
 	.controller('SignupCtrl', ['$scope', 'User', '$state', '$rootScope', function ($scope, User, $state, $rootScope) {
-		$rootScope.setTitle('Sign up for Ethive');
+		$rootScope.setTitle('Sign up for Ethive', true);
 		$scope.newUser = {};
 		$scope.submit = function () {
 			var user = User.$create({

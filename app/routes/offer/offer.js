@@ -1,18 +1,24 @@
 import angular from 'angular';
-import router from 'angular-ui-router';
+import 'angular-ui-router';
+
+import OfferModel from 'models/offer';
 
 export default angular.module('ethiveOfferRoute', [
-        router.name
+        'ui.router',
+        OfferModel.name
     ])
-    .controller('OfferCtrl', ['$scope', '$stateParams', '$resource', '$rootScope', function($scope, $stateParams, $resource, $rootScope) {
-        // TODO set title
-        var Offer = $resource('/api/providers/:providerID/offers/:offerID');
-        $scope.offer = Offer.get({
-            providerID: $stateParams.providerID,
-            offerID: $stateParams.offerID
+    .config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('offer', {
+            url: '/providers/:providerID/offers/:offerID',
+            templateUrl: 'routes/offer/offer.html',
+            resolve: {
+                offer: ['Offer', '$stateParams', function (Offer, params) {
+                    return Offer.$find(params.offerID);
+                }]
+            },
+            controller: ['$scope', '$rootScope', 'offer', function ($scope, $rootScope, offer) {
+                $rootScope.setTitle(offer.service.name + ' - ' + offer.location + ' - ' + offer.provider.name);
+                $scope.offer = offer;
+            }]
         });
-        //$rootScope.setTitle(Service Location - Provider - Ethive );
-    }])
-    .factory('Offer', ['restmod', function (restmod) {
-        return restmod.model()
     }]);

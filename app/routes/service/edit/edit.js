@@ -1,9 +1,16 @@
 import angular from 'angular';
-import router from 'angular-ui-router';
+import 'angular-ui-router';
 
 export default angular.module('ethiveEditServiceRoute', [
-        router.name
+        'ui.router'
     ])
+    .config(['$stateProvider', function ($stateProvider) {
+        $stateProvider.state('service.editService', {
+            url: '/edit',
+            templateUrl: 'routes/service/edit/edit.html',
+            controller: 'EditServiceCtrl'
+        });
+    }])
     .controller('EditServiceCtrl', ['$scope', '$state', '$rootScope', function ($scope, $state, $rootScope) {
         $scope.options = {
             // display is used to determine whether and how to display services in the serviceSelector when selecting a new parent for this service.

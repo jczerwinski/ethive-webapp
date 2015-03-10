@@ -29,15 +29,29 @@ export default angular.module('ethiveApp', [
 		// Used by login link in header to pass current state as param for redirect after login.
 		$rootScope.$state = $state;
 
-		$rootScope.title = $rootScope.defaultTitle = 'Ethive';
-		$rootScope.titleEnd = ' - ' + $rootScope.defaultTitle;
+		/*$rootScope.title = $rootScope.defaultTitle = 'Ethive';
+		$rootScope.titleEnd = ' - ' + $rootScope.defaultTitle;*/
 	}])
 	.run(['$rootScope', '$timeout', function ($rootScope, $timeout) {
-		// Using setTitle() preserves history when changing title from controllers in ui-router states.
-		$rootScope.setTitle = function (newTitle) {
+		// Using setTitle() preserves history when changing title from controllers in ui-router states. By default, prepends a sitewide ending to the title. Can be disabled by setting omitEnd to true.
+		var defaultTitle = 'Ethive';
+		var title = defaultTitle;
+		var titleEnd = ' - Ethive';
+
+		$rootScope.setTitle = function (newTitle, omitEnd) {
 			$timeout(setTitle);
 			function setTitle () {
-				$rootScope.title = newTitle;
+				if (newTitle === false) {
+					return title = defaultTitle;
+				}
+				if (omitEnd) {
+					return title = newTitle;
+				}
+				title = newTitle + titleEnd;
 			}
+		};
+
+		$rootScope.getTitle = function () {
+			return title || defaultTitle;
 		};
 	}]);
