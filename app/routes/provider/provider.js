@@ -2,6 +2,7 @@ import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-bootstrap';
 
+import NewOfferRoute from 'routes/provider/newOffer/newOffer';
 import Provider from 'models/provider';
 
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
@@ -9,23 +10,28 @@ var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 export default angular.module('ethiveProviderRoute', [
 		'ui.router',
 		'ui.bootstrap',
-		Provider.name
+		Provider.name,
+		NewOfferRoute.name
 	])
     .config(['$stateProvider', function ($stateProvider) {
 	    $stateProvider.state('provider', {
             url: '/providers/:providerID',
             templateUrl: 'routes/provider/provider.html',
+            resolve: {
+            	provider: ['Provider', '$stateParams', function (Provider, $stateParams) {
+            		return Provider.$find($stateParams.providerID);
+            	}]
+            },
             controller: 'ProviderCtrl'
         });
 	}])
-	.controller('ProviderCtrl', ['$scope', '$stateParams', 'Provider', '$modal', '$rootScope', function($scope, $stateParams, Provider, $modal, $rootScope) {
-		$scope.provider = Provider.$find($stateParams.providerID);
-		$scope.provider.$then(function (provider) {
-			$rootScope.setTitle(provider.name);
-		});
+	.controller('ProviderCtrl', ['$scope', '$stateParams', 'provider', '$rootScope', function($scope, $stateParams, provider, $rootScope) {
+		$scope.provider = provider;
+		$rootScope.setTitle(provider.name);
+		
 		$scope.newOffer = function(size) {
 			var modalInstance = $modal.open({
-				templateUrl: '/views/offer/new/new.html',
+				templateUrl: '/routes/offer/new/new.html',
 				controller: 'NewOfferCtrl',
 				//size: size,
 				resolve: {

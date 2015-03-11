@@ -14,10 +14,16 @@ export default angular.module('ethiveServiceRoute', [
         $stateProvider.state('service', {
             url: '/services/:serviceID',
             templateUrl: 'routes/service/service.html',
-            controller: 'ServiceCtrl'
+            controller: 'ServiceCtrl',
+            resolve: {
+                service: ['Service', '$stateParams', function (Service, $stateParams) {
+                    return Service.$find($stateParams.serviceID);
+                }]
+            }
         })
     }])
-    .controller('ServiceCtrl', ['$scope', 'Service', '$stateParams', function ($scope, Service, $stateParams) {
+    .controller('ServiceCtrl', ['$scope', 'service', function ($scope, Service) {
+        $scope.service = service;
         Service.$find($stateParams.serviceID).$then(function (service) {
             $scope.service = service;
         }, function (err) {
