@@ -1,18 +1,31 @@
-angular.module('ethiveApp')
-    .directive('serviceselectorbutton', function($rootScope) {
+import angular from 'angular';
+import 'angular-bootstrap';
+import _ from 'lodash';
+
+import ServiceModel from 'models/service';
+
+import Button from './serviceSelectorButton.html!text';
+import Modal from './serviceSelectorModal.html!text';
+import Node from './serviceSelectorNode.html!text';
+
+export default angular.module('ethiveServiceSelector', [
+    'ui.bootstrap.modal',
+    ServiceModel.name
+    ])
+    .directive('serviceselectorbutton', ['$rootScope', function($rootScope) {
         return {
             restrict: 'E',
-            templateUrl: 'views/service/serviceSelector/serviceSelectorButton.html',
+            template: Button,
             scope: {
                 service: '=',
-                display: '&'
+                options: '&'
             },
-            controller: function($scope, $modal, $attrs) {
+            controller: ['$scope', '$modal', '$attrs', function($scope, $modal, $attrs) {
                 var buttonScope = $scope;
                 $scope.openServiceSelector = function() {
                     var modalInstance = $modal.open({
-                        templateUrl: 'views/service/serviceSelector/serviceSelectorModal.html',
-                        controller: function($scope, $modalInstance) {
+                        template: Modal,
+                        controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
                             $scope.select = function(service) {
                                 $modalInstance.close(service);
                             };
@@ -24,44 +37,60 @@ angular.module('ethiveApp')
                                     $scope.select(service);
                                 }
                             });
-                            $scope.display = buttonScope.display();
-                        }
+                            $scope.options = buttonScope.options();
+                        }]
                     });
                     modalInstance.result.then(function(selectedService) {
                         $scope.service = selectedService;
                     });
                 };
-            }
+            }]
         };
-    })
+    }])
     .directive('serviceselector', function() {
         return {
             restrict: 'E',
-            controller: function($scope, Service) {
+            controller: ['$scope', 'Service', function($scope, Service) {
                 $scope.services = Service.$search();
+
                 var selectedElement = undefined;
+
                 this.select = function(service, element) {
                     if (selectedElement) selectedElement.removeClass('selected');
                     $scope.selectedService = service;
                     selectedElement = element;
                     selectedElement.addClass('selected');
                 };
+
+                var navigated = undefined;
+
                 this.navigate = function navigate (service) {
-                    service.$fetch().$then(function (service){
-                        $scope.navigated = service;
+                    // service.$fetch().
+                    Service.$find(service.id).$then(function (service){
+                        console.log(service)
+                        navigated = service;
                         $scope.services = [service.invert()];
                     });
+                };
 
-                };
                 this.isNavigated = function isNavigated (service) {
-                    return $scope.navigated && $scope.navigated._id == service._id;
+                    return navigated ? navigated._id === service._id : false;
                 };
-                this.display = $scope.display();
-            },
+
+                var options = $scope.options();
+
+                this.isNavigable = options.navigable || function isNavigable () {
+                    return true;
+                };
+
+                this.isSelectable = options.selectable || function isSelectable () {
+                    return true;
+                };
+            }],
             template: '<serviceselectorlist services="services"></serviceselectorlist>',
             scope: {
                 selectedService: '=service',
-                display: '&'
+                options: '&'
             }
         };
     })
@@ -76,47 +105,55 @@ angular.module('ethiveApp')
             }
         };
     })
-    .directive('serviceselectornode', function($compile) {
+    .directive('serviceselectornode', ['$compile', function($compile) {
         return {
             restrict: 'E',
             require: '^serviceselector', // Inject serviceselector controller into link.
             scope: {
                 service: '='
             },
-            templateUrl: 'views/service/serviceSelector/serviceSelectorNode.html',
+            template: Node,
             link: function(scope, element, attrs, serviceSelectorCtrl) {
                 scope.select = function select (service) {
-                    return serviceSelectorCtrl.select(service, element);
+                    serviceSelectorCtrl.select(service, element);
                 };
 
                 scope.navigate = function navigate (service) {
                     serviceSelectorCtrl.navigate(service);
                 };
 
+                scope.isNavigable = function isNavigable (service) {
+                    return serviceSelectorCtrl.isNavigable(service);
+                };
+
+                scope.isSelectable = function isSelectable (service) {
+                    return serviceSelectorCtrl.isSelectable(service);
+                };
+
                 scope.isNavigated = function isNavigated (service) {
                     return serviceSelectorCtrl.isNavigated(service);
                 };
 
-                scope.display = serviceSelectorCtrl.display(scope.service);
-
                 function displayChildren (service) {
-                    var children = _.filter(service.children, function (service) {
-                        return serviceSelectorCtrl.display(service) !== '';
+                    // Display children if at least one child is displayed -- ie. selectable or navigable
+                    return _.filter(service.children, function (service) {
+                        return scope.isNavigable(service) || scope.isSelectable(service);
                     });
-                    return children.length === 0 ? false : children;
-                }
+                };
+
+                scope.displayChildren = displayChildren(scope.service);
+
 
                 // Cases:
                 //      We're on the navigated service. If it has displayable children, show them. If not, show a message stating such
                 //      We're on any other service. Just show displayable children, if any.
-                //      
-                
-                var collectionSt = '<serviceselectorlist services="service.children"></serviceselectorlist>';
+                var collectionSt = '<serviceselectorlist services="displayChildren"></serviceselectorlist>';
 
-                if (!displayChildren(scope.service) && scope.isNavigated(scope.service)) {
+                if (!displayChildren(scope.service).length && scope.isNavigated(scope.service)) {
                     collectionSt = '<ul><li class="serviceSelectorNodeHeader" style="font-style: italic;">Sorry, this service has no selectable sub-services.</li></ul>';
                 }
 
+                // only compile if the service came with an array of children attached. if it did not, this implies that it is a child of the currently navigated service. these children will *not* have their descendents attached.
                 if (angular.isArray(scope.service.children)) {
                     $compile(collectionSt)(scope, function(cloned) {
                         element.append(cloned);
@@ -125,4 +162,4 @@ angular.module('ethiveApp')
 
             }
         };
-    });
+    }]);

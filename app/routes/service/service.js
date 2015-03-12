@@ -22,15 +22,8 @@ export default angular.module('ethiveServiceRoute', [
             }
         })
     }])
-    .controller('ServiceCtrl', ['$scope', 'service', function ($scope, Service) {
+    .controller('ServiceCtrl', ['$scope', 'service', function ($scope, service) {
         $scope.service = service;
-        Service.$find($stateParams.serviceID).$then(function (service) {
-            $scope.service = service;
-        }, function (err) {
-            if (err.$response.status === 404) {
-                $scope.error = 404;
-            }
-        });
     }])
     .directive('ethiveServiceAncestorsExclude', ['Service', function (Service) {
         return {

@@ -3,10 +3,12 @@ import 'angular-ui-router';
 import _ from 'lodash';
 
 import OfferModel from 'models/offer';
+import ServiceSelector from 'components/serviceSelector/serviceSelector';
 
 export default angular.module('ethiveNewOfferRoute', [
         'ui.router',
-        OfferModel.name
+        OfferModel.name,
+        ServiceSelector.name // Directive used in template
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('provider.newOffer', {
@@ -19,27 +21,22 @@ export default angular.module('ethiveNewOfferRoute', [
                 $scope.provider = provider;
                 $scope.newOffer = provider.offers.$build();
 
-                $scope.options = {
-                    location: {
-                        types: '(cities)'
+                $scope.locationOptions = {
+                    types: '(cities)'
+                };
+
+                $scope.serviceSelectorOptions = {
+                    navigable: function navigable(service) {
+                        return service.status === 'published' && service.type === 'category';
                     },
-                    display: function (service) {
-                        // published services are selectable
-                        if (service.status === 'published' && service.type === 'service') {
-                            return 'select';
-                        }
-                        // published categories are displayed
-                        if (service.status === 'published' && service.type === 'category') {
-                            return 'display';
-                        }
-                        // Hide anything else.
-                        return 'hide';
+                    selectable: function selectable(service) {
+                        return service.status === 'published' && service.type === 'service';
                     }
                 };
 
                 // TODO Proxy this call, set up as a service.
-                $http.jsonp('http://openexchangerates.org/api/currencies.json?app_id=9f55d699ea684dba9fa19a3491bd7557&callback=JSON_CALLBACK').success(function(data) {
-                    $scope.currencies = _.map(data, function(el, key) {
+                $http.jsonp('http://openexchangerates.org/api/currencies.json?app_id=9f55d699ea684dba9fa19a3491bd7557&callback=JSON_CALLBACK').success(function (data) {
+                    $scope.currencies = _.map(data, function (el, key) {
                         return {
                             code: key,
                             name: el
@@ -47,25 +44,25 @@ export default angular.module('ethiveNewOfferRoute', [
                     });
                 });
 
-                $scope.submit = function(form) {
-                    form.validate = function() {
-                        angular.forEach(form, function(field, key) {
+                $scope.submit = function (form) {
+                    form.validate = function () {
+                        angular.forEach(form, function (field, key) {
                             if (!key.match(/^\$/) && field.$validate) field.$validate();
                         });
                     };
-                    $scope.newOffer.$save().$then(function(resp) {
+                    $scope.newOffer.$save().$then(function (resp) {
                         // offer creation success!
                         // follow through by navigating to the offer
                         $state.go('offer', { // Go to the offer
                             offerID: resp[0]._id
                         });
-                    }, function(response) {
+                    }, function (response) {
                         // Should only ever get here if theres a server-side validation error, which should always be checked on the client side. No need for an error message if this is the case. Get the client side right!
                         form.validate();
                     });
                 };
 
-                $scope.cancel = function() {
+                $scope.cancel = function () {
                     $state.go('^');
                 };
             }]

@@ -26,7 +26,7 @@
   <label for="service" class="col-sm-2 control-label">Service</label>
   <div class="col-sm-10">
     <div class="form-control-static">
-      {{newOffer.service.name}} <serviceselectorbutton display="options.display" required name="service" service="newOffer.service"></serviceselectorbutton>
+      {{newOffer.service.name}} <serviceselectorbutton options="serviceSelectorOptions" required name="service" service="newOffer.service"></serviceselectorbutton>
       <span class="glyphicon form-control-feedback" ng-class="{'has-error': createOfferForm.service.$invalid && createOfferForm.service.$dirty, 'glyphicon-ok': createOfferForm.service.$valid}"></span>
     </div>
   </div>
@@ -35,7 +35,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': createOfferForm.location.$invalid && createOfferForm.location.$dirty, 'has-success': createOfferForm.location.$valid}">
   <label for="name" class="col-sm-2 control-label">Location</label>
   <div class="col-sm-10">
-    <input ng-model="newOffer.location" ng-autocomplete options="options.location" name="location" type="text" class="form-control" id="location" placeholder="Location" required />
+    <input ng-model="newOffer.location" ng-autocomplete options="locationOptions" name="location" type="text" class="form-control" id="location" placeholder="Location" required />
     <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': createOfferForm.location.$invalid && createOfferForm.location.$dirty, 'glyphicon-ok': createOfferForm.location.$valid}"></span>
     <div class="help-block">The city where this service will be offered.</div>
     <div class="help-block" ng-show="createOfferForm.location.$error.required && createOfferForm.location.$dirty">A location is required.</div>

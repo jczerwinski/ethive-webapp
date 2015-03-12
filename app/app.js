@@ -1,6 +1,8 @@
 import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-restmod';
+import _ from 'lodash';
+
 import routes from 'routes/routes';
 
 export default angular.module('ethiveApp', [
@@ -33,6 +35,9 @@ export default angular.module('ethiveApp', [
 		$rootScope.titleEnd = ' - ' + $rootScope.defaultTitle;*/
 	}])
 	.run(['$rootScope', '$timeout', function ($rootScope, $timeout) {
+		// Expose lodash
+		$rootScope._ = _;
+
 		// Using setTitle() preserves history when changing title from controllers in ui-router states. By default, prepends a sitewide ending to the title. Can be disabled by setting omitEnd to true.
 		var defaultTitle = 'Ethive';
 		var title = defaultTitle;

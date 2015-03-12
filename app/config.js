@@ -32,6 +32,7 @@ System.config({
     "angular-ui-router": "github:angular-ui/ui-router@0.2.13",
     "grevory/angular-local-storage": "github:grevory/angular-local-storage@0.1.5",
     "lodash": "npm:lodash@3.4.0",
+    "text": "github:systemjs/plugin-text@0.0.2",
     "github:angular-ui/bootstrap-bower@0.12.1": {
       "angular": "github:angular/bower-angular@1.2.28"
     },

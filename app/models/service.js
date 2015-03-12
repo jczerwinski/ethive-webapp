@@ -34,6 +34,18 @@ export default angular.module('ethiveServiceModel', [
                         return !!this.admins;
                     },
                     /**
+                     * A service is published when it and all of its ancestors have `published` status.
+                     * @return {Boolean}  Whether or not this service is published. 
+                     */
+                    /*
+                    
+                    BROKEN --- DO NOT USE. Service resources inline their children. These children do not have references to their parent. As such, recursing on parent DOES NOT WORK. Could maybe fix with custom hook to link children to parent manually on load?    
+
+                    isPublished: function () {
+                        var isPublished = (this.status === 'published');
+                        return this.parent ? isPublished && this.parent.isPublished() : isPublished;
+                    },*/
+                    /**
                      * Returns the root service of this service, with this service's ancestor tree on the `parent` attribute inverted onto the `children` attribute. Only this service's ancestors and children will be present in the tree.
                      */
                     invert: function () {
