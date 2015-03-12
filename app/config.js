@@ -18,6 +18,11 @@ System.config({
         "angular",
         "angular-inflector"
       ]
+    },
+    "github:platanus/angular-restmod@1.1.8/dist/plugins/dirty": {
+      "deps": [
+        "angular-restmod"
+      ]
     }
   }
 });
@@ -29,6 +34,7 @@ System.config({
     "angular-cookies": "github:angular/bower-angular-cookies@1.3.14",
     "angular-inflector": "github:iobaixas/angular-inflector@0.2.0",
     "angular-restmod": "github:platanus/angular-restmod@1.1.8",
+    "angular-restmod-dirty": "github:platanus/angular-restmod@1.1.8/dist/plugins/dirty",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.13",
     "grevory/angular-local-storage": "github:grevory/angular-local-storage@0.1.5",
     "lodash": "npm:lodash@3.4.0",

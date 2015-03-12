@@ -32,6 +32,6 @@ export default angular.module('ethiveEditServiceRoute', [
 
         $scope.cancel = function () {
             $scope.service.$restore();
-            $state.go('service');
+            $state.go('^');
         };
     }]);

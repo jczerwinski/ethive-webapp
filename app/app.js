@@ -1,6 +1,7 @@
 import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-restmod';
+import 'angular-restmod-dirty';
 import _ from 'lodash';
 
 import routes from 'routes/routes';
@@ -23,8 +24,8 @@ export default angular.module('ethiveApp', [
 		'restmod',
 		routes.name
 	])
-	.config(['$locationProvider', function ( $locationProvider) {
-		//restmodProvider.rebase('DirtyModel'); // Why?
+	.config(['$locationProvider', 'restmodProvider', function ($locationProvider, restmodProvider) {
+		restmodProvider.rebase('DirtyModel'); // Enables $restore, $dirty on models
 		$locationProvider.html5Mode(true);
 	}])
 	.controller('RootCtrl', ['$scope', '$state', '$rootScope', function ($scope, $state, $rootScope) {
