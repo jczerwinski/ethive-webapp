@@ -12,6 +12,9 @@ export default angular.module('ethiveEditServiceRoute', [
         });
     }])
     .controller('EditServiceCtrl', ['$scope', '$state', '$rootScope', function ($scope, $state, $rootScope) {
+        $scope.forms = {};
+
+        
         $scope.serviceSelectorOptions = {
             // display is used to determine whether and how to display services in the serviceSelector when selecting a new parent for this service.
             navigable: function navigable(service) {
@@ -22,11 +25,27 @@ export default angular.module('ethiveEditServiceRoute', [
                     service.type === 'category';
             },
         };
+
         $scope.submit = function () {
+            // Once parent changes again, set to valid by default.
+            $scope.$watch('service.parent', function () {
+                $scope.forms.editServiceForm.parent.$setValidity('cycle', true);
+            });
+
             $scope.service.$save().$then(function (service) {
                 return $state.go('service', {}, {
                     reload: true
                 });
+            }, function (error) {
+                // Set parent to invalid if we try and create a cycle.
+                function isCycleError(error) {
+                    return error.errors &&
+                        error.errors.parent &&
+                        error.errors.parent.message === 'cycle';
+                }
+                if (isCycleError(error.$response.data)) {
+                    $scope.forms.editServiceForm.parent.$setValidity('cycle', false);
+                }
             });
         };
 

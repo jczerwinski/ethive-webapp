@@ -25,14 +25,6 @@ export default angular.module('ethiveServiceRoute', [
     .controller('ServiceCtrl', ['$scope', 'service', function ($scope, service) {
         $scope.service = service;
     }])
-    .directive('ethiveServiceAncestorsExclude', ['Service', function (Service) {
-        return {
-            require: 'ngModel',
-            link: function (scope, elem, attrs, ngModelCtrl) {
-                // TODO -- Validator that supports prevents the selection of cycles in service selector for edit service.
-            }
-        };
-    }])
     .directive('uniqueServiceId', ['Service', function (Service) {
         return {
             require: 'ngModel',
