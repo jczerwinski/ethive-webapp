@@ -7,19 +7,6 @@ import _ from 'lodash';
 import routes from 'routes/routes';
 
 export default angular.module('ethiveApp', [
-/*		'ngCookies',
-		'ngResource',
-		'ngSanitize',
-		'ui.router',
-		'LocalStorageModule',
-		'focusOn',
-		'ui.bootstrap',
-		'ui.validate',
-		'restangular',
-		'restmod',
-		'ngAutocomplete',
-		'ui.router',
-		'restmod',*/
 		'ui.router',
 		'restmod',
 		routes.name
@@ -28,12 +15,9 @@ export default angular.module('ethiveApp', [
 		restmodProvider.rebase('DirtyModel'); // Enables $restore, $dirty on models
 		$locationProvider.html5Mode(true);
 	}])
-	.controller('RootCtrl', ['$scope', '$state', '$rootScope', function ($scope, $state, $rootScope) {
+	.controller('RootCtrl', ['$state', '$rootScope', function ($state, $rootScope) {
 		// Used by login link in header to pass current state as param for redirect after login.
 		$rootScope.$state = $state;
-
-		/*$rootScope.title = $rootScope.defaultTitle = 'Ethive';
-		$rootScope.titleEnd = ' - ' + $rootScope.defaultTitle;*/
 	}])
 	.run(['$rootScope', '$timeout', function ($rootScope, $timeout) {
 		// Expose lodash

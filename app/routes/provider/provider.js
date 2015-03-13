@@ -19,7 +19,7 @@ export default angular.module('ethiveProviderRoute', [
             templateUrl: 'routes/provider/provider.html',
             resolve: {
             	provider: ['Provider', '$stateParams', function (Provider, $stateParams) {
-            		return Provider.$find($stateParams.providerID);
+            		return Provider.$find($stateParams.providerID).$asPromise();
             	}]
             },
             controller: 'ProviderCtrl'

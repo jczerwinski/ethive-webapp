@@ -17,7 +17,7 @@ export default angular.module('ethiveHome', [
 			}],
 			resolve: {
 				services: ['Service', function (Service) {
-					return Service.$search();
+					return Service.$search().$asPromise();
 				}]
 			}
 		});

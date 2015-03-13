@@ -13,7 +13,7 @@ export default angular.module('ethiveOfferRoute', [
             templateUrl: 'routes/offer/offer.html',
             resolve: {
                 offer: ['Offer', '$stateParams', function (Offer, params) {
-                    return Offer.$find(params.offerID);
+                    return Offer.$find(params.offerID).$asPromise();
                 }]
             },
             controller: ['$scope', '$rootScope', 'offer', function ($scope, $rootScope, offer) {

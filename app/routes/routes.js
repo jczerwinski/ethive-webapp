@@ -54,10 +54,12 @@ export default angular.module('ethiveRoutes', [
                 }]
             })
     }]).run([
-        '$rootScope', function ($rootScope) {
-            $rootScope.$on('$stateChangeError', function $stateChangeError(event, toState,
-                toParams, fromState, fromParams, error) {
-                console.group();
+        '$rootScope', '$state', function ($rootScope, $state) {
+            $rootScope.$on('$stateChangeError', function $stateChangeError(event, toState, toParams, fromState, fromParams, error) {
+                if (error.$response && error.$response.status && error.$response.status === 404) {
+                    $state.go('otherwise', {}, {location: false});
+                }
+                /*console.group();
                 console.error('$stateChangeError', error);
                 console.error(error.stack);
                 console.info('event', event);
@@ -65,7 +67,7 @@ export default angular.module('ethiveRoutes', [
                 console.info('toParams', toParams);
                 console.info('fromState', fromState);
                 console.info('fromParams', fromParams);
-                console.groupEnd();
+                console.groupEnd();*/
             });
         }
     ]);

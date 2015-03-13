@@ -17,7 +17,7 @@ export default angular.module('ethiveServiceRoute', [
             controller: 'ServiceCtrl',
             resolve: {
                 service: ['Service', '$stateParams', function (Service, $stateParams) {
-                    return Service.$find($stateParams.serviceID);
+                    return Service.$find($stateParams.serviceID).$asPromise();
                 }]
             }
         })
