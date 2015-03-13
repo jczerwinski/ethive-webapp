@@ -36,6 +36,7 @@ System.config({
     "angular-restmod": "github:platanus/angular-restmod@1.1.8",
     "angular-restmod-dirty": "github:platanus/angular-restmod@1.1.8/dist/plugins/dirty",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.13",
+    "ng-focus-on": "github:goodeggs/ng-focus-on@0.2.2",
     "grevory/angular-local-storage": "github:grevory/angular-local-storage@0.1.5",
     "lodash": "npm:lodash@3.4.0",
     "text": "github:systemjs/plugin-text@0.0.2",

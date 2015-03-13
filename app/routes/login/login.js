@@ -1,9 +1,13 @@
 import angular from 'angular';
 import 'angular-ui-router';
+import 'ng-focus-on';
 
-// Already removed ng-focus-on. Must be replaced
+import selectOnFocus from 'components/selectOnFocus/selectOnFocus';
+
 export default angular.module('ethiveLoginRoute', [
-        'ui.router'
+        'ui.router',
+        'focusOn',
+        selectOnFocus.name
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('login', {
@@ -18,7 +22,7 @@ export default angular.module('ethiveLoginRoute', [
             }
         });
     }])
-    .controller('LoginCtrl', ['$scope', '$http', '$rootScope', '$state', '$stateParams', function($scope, $http, $rootScope, $state, $stateParams) {
+    .controller('LoginCtrl', ['$scope', '$http', '$rootScope', '$state', '$stateParams', 'focus', function($scope, $http, $rootScope, $state, $stateParams, focus) {
         $rootScope.setTitle('Log in to Ethive', true);
         $scope.submit = function() {
             // Try to authenticate
@@ -37,10 +41,10 @@ export default angular.module('ethiveLoginRoute', [
                 .catch(function(error) {
                     if (error.data.message === 'password') {
                         $scope.status = 'password';
-                        //focus('password');
+                        focus('password');
                     } else if (error.data.message === 'user') {
                         $scope.status = 'user';
-                        //focus('user');
+                        focus('username');
                     } else if (error.data.message === 'unverified') {
                         $scope.status = 'unverified';
                     } else if (error.data.message === 'brute') {
