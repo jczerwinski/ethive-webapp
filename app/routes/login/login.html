@@ -35,7 +35,10 @@
     </div>
   </div>
 </form>
-<div ng-show="user">
+<div ng-show="user && status !== 'success'">
   <div class="alert alert-danger">Oops! Looks like you're already logged in. If you would like to login as another user, you will have to logout first.</div>
   <button class="btn btn-primary pull-right" ng-click="logout()">Logout</button>
+</div>
+<div ng-show="user && status === 'success'">
+  <div class="alert alert-success">Login successful!</div>
 </div>

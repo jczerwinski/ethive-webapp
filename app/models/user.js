@@ -1,13 +1,15 @@
 import angular from 'angular';
 import 'angular-cookies';
 import 'grevory/angular-local-storage';
+import 'angular-ui-router';
 
 // localstore cookiestore restmod
 var USERNAME_REGEXP = /^[a-zA-Z0-9_.]{3,20}$/;
 var PASSWORD_REGEXP = /^[a-zA-Z0-9_.]{8,100}$/;
 export default angular.module('ethiveUserModel', [
 		'LocalStorageModule',
-		'ngCookies'
+		'ngCookies',
+		'ui.router'
 	])
 	.directive('username', function() {
 		return {
@@ -119,7 +121,7 @@ export default angular.module('ethiveUserModel', [
 	.config(['$httpProvider', function($httpProvider) {
 		$httpProvider.interceptors.push('auth');
 	}])
-	.run(['localStorageService', '$rootScope', '$cookieStore', 'User', function(localStorageService, $rootScope, $cookieStore, User) {
+	.run(['localStorageService', '$rootScope', '$cookieStore', 'User', '$state', function(localStorageService, $rootScope, $cookieStore, User, $state) {
 		$rootScope.auth = (function() {
 			return localStorageService.get('auth') || $cookieStore.get('auth');
 		})();
@@ -140,5 +142,6 @@ export default angular.module('ethiveUserModel', [
 			$cookieStore.remove('auth');
 			delete $rootScope.auth;
 			delete $rootScope.user;
+			$state.reload();
 		};
 	}]);

@@ -31,12 +31,13 @@ export default angular.module('ethiveLoginRoute', [
                 username: $scope.username,
                 password: $scope.password
             }).then(function(response) {
-                // Tronsitioning first prevents 'already logged in' message from displaying
+                $scope.status = 'success'; // Block 'already logged in' error message.
                 response.data.remember = $scope.remember;
-                return $state.go($stateParams.next.state || 'home')
-                    .then(function() {
-                        $rootScope.setAuth(response.data);
-                    }); //TODO better. Either go to the most recent page, or go to a redirect. see https://github.com/angular-ui/ui-router/issues/92
+                $rootScope.setAuth(response.data);
+                return $state.go($stateParams.next.state || 'home', $stateParams.next.params || {}, {reload: true}).then(function () {
+                    $scope.status = '';
+                });
+                    //TODO better. Either go to the most recent page, or go to a redirect. see https://github.com/angular-ui/ui-router/issues/92
             })
                 .catch(function(error) {
                     if (error.data.message === 'password') {
