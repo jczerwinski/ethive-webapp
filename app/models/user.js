@@ -11,11 +11,11 @@ export default angular.module('ethiveUserModel', [
 		'ngCookies',
 		'ui.router'
 	])
-	.directive('username', function() {
+	.directive('username', function () {
 		return {
 			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				function usernameValidator (username) {
+			link: function (scope, elm, attrs, ctrl) {
+				function usernameValidator(username) {
 					if (USERNAME_REGEXP.test(username)) {
 						// it is valid
 						ctrl.$setValidity('username', true);
@@ -30,58 +30,58 @@ export default angular.module('ethiveUserModel', [
 			}
 		};
 	})
-	.directive('unavailableUsername', ['User', function(User) {
+	.directive('unavailableUsername', ['User', function (User) {
 		return {
 			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				function unavailableUsernameValidator (username) {
+			link: function (scope, elm, attrs, ctrl) {
+				function unavailableUsernameValidator(username) {
 					User.$find(username).$then(function () {
-							// This condition should never be reached. If it is, it means the user is logged in and is attempting to sign up for a new account. Account signup should be disabled while logged in.
-						}, function (error) {
-							if (error.$response.status === 404) {
-								// Does not exist
-								ctrl.$setValidity('unavailableUsername', true);
-							} else {
-								// May include 403 -- Not Authorized (username exists), or any server error.
-								ctrl.$setValidity('unavailableUsername', false);
-							}
-						});
+						// This condition should never be reached. If it is, it means the user is logged in and is attempting to sign up for a new account. Account signup should be disabled while logged in.
+					}, function (error) {
+						if (error.$response.status === 404) {
+							// Does not exist
+							ctrl.$setValidity('unavailableUsername', true);
+						} else {
+							// May include 403 -- Not Authorized (username exists), or any server error.
+							ctrl.$setValidity('unavailableUsername', false);
+						}
+					});
 					return username;
 				}
 				ctrl.$parsers.push(unavailableUsernameValidator);
 			}
 		};
 	}])
-	.directive('unavailableEmail', ['User', function(User) {
+	.directive('unavailableEmail', ['User', function (User) {
 		return {
 			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				function unavailableEmailValidator (email) {
+			link: function (scope, elm, attrs, ctrl) {
+				function unavailableEmailValidator(email) {
 					User.$search({
 						email: email
-					}).$then(function (user) {
+					}).$then(function () {
 						// This condition should never be reached. If it is, it means the user is logged in and is attempting to sign up for a new account. Account signup should be disabled while logged in.
 						// TODO should throw error?
-						}, function (error) {
-							if (error.$response.status === 404) {
-								// Does not exist
-								ctrl.$setValidity('unavailableEmail', true);
-							} else {
-								// May include 403 -- Not Authorized (email exists), or any server error.
-								ctrl.$setValidity('unavailableEmail', false);
-							}
-						});
+					}, function (error) {
+						if (error.$response.status === 404) {
+							// Does not exist
+							ctrl.$setValidity('unavailableEmail', true);
+						} else {
+							// May include 403 -- Not Authorized (email exists), or any server error.
+							ctrl.$setValidity('unavailableEmail', false);
+						}
+					});
 					return email;
 				}
 				ctrl.$parsers.push(unavailableEmailValidator);
 			}
 		};
 	}])
-	.directive('password', function() {
+	.directive('password', function () {
 		return {
 			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				function passwordValidator (password) {
+			link: function (scope, elm, attrs, ctrl) {
+				function passwordValidator(password) {
 					if (PASSWORD_REGEXP.test(password)) {
 						// it is valid
 						ctrl.$setValidity('password', true);
@@ -96,20 +96,20 @@ export default angular.module('ethiveUserModel', [
 			}
 		};
 	})
-	.directive('autofocus', function() {
+	.directive('autofocus', function () {
 		return {
 			restrict: 'A',
-			link: function(scope, element) {
+			link: function (scope, element) {
 				element[0].focus();
 			}
 		};
 	})
-	.factory('User', ['restmod', function(restmod) {
+	.factory('User', ['restmod', function (restmod) {
 		return restmod.model('/api/users');
 	}])
-	.factory('auth', ['$rootScope', function($rootScope) {
+	.factory('auth', ['$rootScope', function ($rootScope) {
 		return {
-			request: function(config) {
+			request: function (config) {
 				// Set the auth token.
 				if ($rootScope.auth) {
 					config.headers.Authorization = 'Bearer ' + $rootScope.auth.token;
@@ -118,16 +118,18 @@ export default angular.module('ethiveUserModel', [
 			}
 		};
 	}])
-	.config(['$httpProvider', function($httpProvider) {
+	.config(['$httpProvider', function ($httpProvider) {
 		$httpProvider.interceptors.push('auth');
 	}])
-	.run(['localStorageService', '$rootScope', '$cookieStore', 'User', '$state', function(localStorageService, $rootScope, $cookieStore, User, $state) {
-		$rootScope.auth = (function() {
+	.run(['localStorageService', '$rootScope', '$cookieStore', 'User', '$state', function (localStorageService, $rootScope, $cookieStore, User, $state) {
+		$rootScope.auth = (function () {
 			return localStorageService.get('auth') || $cookieStore.get('auth');
 		})();
-		if ($rootScope.auth) $rootScope.user = User.$find($rootScope.auth._id);
+		if ($rootScope.auth) {
+			$rootScope.user = User.$find($rootScope.auth._id);
+		}
 
-		$rootScope.setAuth = function(auth) {
+		$rootScope.setAuth = function (auth) {
 			if (auth.remember) {
 				localStorageService.set('auth', auth);
 			} else {
@@ -137,7 +139,7 @@ export default angular.module('ethiveUserModel', [
 			$rootScope.user = User.$find(auth._id);
 		};
 
-		$rootScope.logout = function() {
+		$rootScope.logout = function () {
 			localStorageService.remove('auth');
 			$cookieStore.remove('auth');
 			delete $rootScope.auth;

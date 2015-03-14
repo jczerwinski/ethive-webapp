@@ -29,16 +29,18 @@ export default angular.module('ethiveApp', [
 		var titleEnd = ' - Ethive';
 
 		$rootScope.setTitle = function (newTitle, omitEnd) {
-			$timeout(setTitle);
 			function setTitle () {
 				if (newTitle === false) {
-					return title = defaultTitle;
+					title = defaultTitle;
+					return;
 				}
 				if (omitEnd) {
-					return title = newTitle;
+					title = newTitle;
+					return;
 				}
 				title = newTitle + titleEnd;
 			}
+			$timeout(setTitle);
 		};
 
 		$rootScope.getTitle = function () {
