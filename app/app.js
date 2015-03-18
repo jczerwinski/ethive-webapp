@@ -5,11 +5,13 @@ import 'angular-restmod-dirty';
 import _ from 'lodash';
 
 import routes from 'routes/routes';
+import header from 'components/header/header';
 
 export default angular.module('ethiveApp', [
 		'ui.router',
 		'restmod',
-		routes.name
+		routes.name,
+		header.name
 	])
 	.config(['$locationProvider', 'restmodProvider', function ($locationProvider, restmodProvider) {
 		restmodProvider.rebase('DirtyModel'); // Enables $restore, $dirty on models

@@ -18,12 +18,6 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link href='http://fonts.googleapis.com/css?family=Nunito:300' rel='stylesheet' type='text/css'>
 
-    <!-- build:css({.tmp,app}) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/stylus_main.css">
     <link rel="stylesheet" href="styles/less_main.css">
@@ -35,7 +29,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header" ng-include="'routes/header/header.html'"></div>
+    <ethive-header></ethive-header>
     <div class="alerts container">
       <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.message}}</alert>
     </div>
