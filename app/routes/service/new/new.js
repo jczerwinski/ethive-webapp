@@ -1,13 +1,15 @@
 import angular from 'angular';
 import 'angular-ui-router';
 
+import template from 'routes/service/new/new.html!text';
+
 export default angular.module('ethiveNewServiceRoute', [
         'ui.router'
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('service.newService', {
             url: '/new',
-            templateUrl: 'routes/service/new/new.html',
+            template: template,
             controller: 'CreateServiceCtrl'
         });
     }])

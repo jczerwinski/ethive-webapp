@@ -3,6 +3,8 @@ import 'angular-ui-router';
 
 import OfferModel from 'models/offer';
 
+import template from 'routes/offer/offer.html!text';
+
 export default angular.module('ethiveOfferRoute', [
         'ui.router',
         OfferModel.name
@@ -10,7 +12,7 @@ export default angular.module('ethiveOfferRoute', [
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('offer', {
             url: '/providers/:providerID/offers/:offerID',
-            templateUrl: 'routes/offer/offer.html',
+            template: template,
             resolve: {
                 offer: ['Offer', '$stateParams', function (Offer, params) {
                     return Offer.$find(params.offerID).$asPromise();

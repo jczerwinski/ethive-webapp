@@ -3,6 +3,7 @@ import 'angular-ui-router';
 import 'ng-focus-on';
 
 import selectOnFocus from 'components/selectOnFocus/selectOnFocus';
+import template from 'routes/login/login.html!text';
 
 export default angular.module('ethiveLoginRoute', [
         'ui.router',
@@ -12,7 +13,7 @@ export default angular.module('ethiveLoginRoute', [
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('login', {
             url: '/login',
-            templateUrl: 'routes/login/login.html',
+            template: template,
             controller: 'LoginCtrl',
             params: {
                 next: {
@@ -56,4 +57,4 @@ export default angular.module('ethiveLoginRoute', [
                     }
                 });
         };
-    }]); 
+    }]);

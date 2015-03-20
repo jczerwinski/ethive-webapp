@@ -2,10 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> 
-<!--
-<html ng-app="ethiveApp" ng-controller="RootCtrl" class="no-js">
--->
+<!--[if gt IE 8]><!-->
 <html data-main-app ng-cloak class="no-js">
 <!--<![endif]-->
   <head>
@@ -24,11 +21,11 @@
     <!-- endbuild -->
   </head>
   <body>
+
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
     <ethive-header></ethive-header>
     <div class="alerts container">
       <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.message}}</alert>
@@ -47,19 +44,20 @@
        ga('send', 'pageview');
     </script>
 
+    <!--build:script scripts/scripts.js -->
     <script src="jspm_packages/traceur-runtime.js"></script>
     <script src="jspm_packages/es6-module-loader.src.js"></script>
     <script src="jspm_packages/system.src.js"></script>
 
-    <script src="/config.js"></script>
+    <script src="config.js"></script>
     <script>
         System.import('init');
     </script>
+    <!-- endbuild -->
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
-
 </body>
 </html>

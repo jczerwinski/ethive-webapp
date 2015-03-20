@@ -13,6 +13,12 @@ import signupRoute from 'routes/signup/signup';
 import signupFailureRoute from 'routes/signup/signup.failure';
 import accountRoute from 'routes/account/account';
 
+import signupSuccessTemplate from 'routes/signup/signup.success.html!text';
+import signupFailureTemplate from 'routes/signup/signup.failure.html!text';
+import verifyEmailSuccessTemplate from 'routes/verifyEmail/verifyEmailSuccess.html!text';
+import verifyEmailFailureTemplate from 'routes/verifyEmail/verifyEmailFailure.html!text';
+import otherwiseTemplate from 'routes/not-found/not-found.html!text';
+
 export default angular.module('ethiveRoutes', [
 		'ui.router',
 		homeRoute.name,
@@ -31,24 +37,24 @@ export default angular.module('ethiveRoutes', [
 		$stateProvider
 			.state('signup.success', {
 				url: '/success',
-				templateUrl: 'routes/signup/signup.success.html'
+				template: signupSuccessTemplate
 			})
 			.state('signup.failure', {
 				url: '/failure',
-				templateUrl: 'routes/signup/signup.failure.html',
+				template: signupFailureTemplate,
 				controller: 'SignupFailureCtrl'
 			})
 			.state('verifyEmailSuccess', {
 				url: '/verifyEmailSuccess',
-				templateUrl: 'routes/verifyEmail/verifyEmailSuccess.html'
+				template: verifyEmailSuccessTemplate
 			})
 			.state('verifyEmailFailure', {
 				url: '/verifyEmailFailure',
-				templateUrl: 'routes/verifyEmail/verifyEmailFailure.html'
+				template: verifyEmailFailureTemplate
 			})
 			.state('otherwise', {
 				url: '*path',
-				templateUrl: 'routes/not-found/not-found.html',
+				template: otherwiseTemplate,
 				controller: ['$rootScope', function ($rootScope) {
 					$rootScope.setTitle('Not found');
 				}]

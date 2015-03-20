@@ -1,6 +1,8 @@
 import angular from 'angular';
 import 'angular-ui-router';
 
+import template from 'routes/signup/signup.html!text';
+
 import User from 'models/user';
 
 export default angular.module('ethiveSignupRoute', [
@@ -10,7 +12,7 @@ export default angular.module('ethiveSignupRoute', [
 	.config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('signup', {
             url: '/signup',
-            templateUrl: 'routes/signup/signup.html',
+            template: template,
             controller: 'SignupCtrl'
         });
     }])

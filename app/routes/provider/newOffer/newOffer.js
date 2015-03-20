@@ -5,6 +5,8 @@ import _ from 'lodash';
 import OfferModel from 'models/offer';
 import ServiceSelector from 'components/serviceSelector/serviceSelector';
 
+import template from 'routes/provider/newOffer/newOffer.html!text';
+
 export default angular.module('ethiveNewOfferRoute', [
         'ui.router',
         OfferModel.name,
@@ -13,7 +15,7 @@ export default angular.module('ethiveNewOfferRoute', [
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('provider.newOffer', {
             url: '/offers/new',
-            templateUrl: 'routes/provider/newOffer/newOffer.html',
+            template: template,
             controller: ['$rootScope', '$scope', '$state', 'provider', '$http', function ($rootScope, $scope, $state, provider, $http) {
 
                 $rootScope.setTitle('Create a new offer');

@@ -2,6 +2,9 @@ import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-bootstrap';
 
+import accountTemplate from 'routes/account/account.html!text';
+import newProviderTemplate from 'routes/provider/new/new.html!text';
+
 export default angular.module('ethiveAccountRoute', [
         'ui.router',
         'ui.bootstrap.modal'
@@ -9,7 +12,7 @@ export default angular.module('ethiveAccountRoute', [
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('account', {
             url: '/account',
-            templateUrl: 'routes/account/account.html',
+            template: accountTemplate,
             controller: 'AccountCtrl'
         });
     }])
@@ -18,7 +21,7 @@ export default angular.module('ethiveAccountRoute', [
         if ($rootScope.user) {
             $scope.open = function () {
                 var modalInstance = $modal.open({
-                    templateUrl: '/views/provider/new/new.html',
+                    template: newProviderTemplate,
                     controller: 'NewProviderCtrl'
                 });
             };

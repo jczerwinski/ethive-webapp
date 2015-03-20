@@ -5,6 +5,9 @@ import 'angular-bootstrap';
 import NewOfferRoute from 'routes/provider/newOffer/newOffer';
 import Provider from 'models/provider';
 
+import providerTemplate from 'routes/provider/provider.html!text';
+import newOfferTemplate from 'routes/provider/newOffer/newOffer.html!text';
+
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 
 export default angular.module('ethiveProviderRoute', [
@@ -13,73 +16,56 @@ export default angular.module('ethiveProviderRoute', [
 		Provider.name,
 		NewOfferRoute.name
 	])
-    .config(['$stateProvider', function ($stateProvider) {
-	    $stateProvider.state('provider', {
-            url: '/providers/:providerID',
-            templateUrl: 'routes/provider/provider.html',
-            resolve: {
-            	provider: ['Provider', '$stateParams', function (Provider, $stateParams) {
-            		return Provider.$find($stateParams.providerID).$asPromise();
-            	}]
-            },
-            controller: 'ProviderCtrl'
-        });
+	.config(['$stateProvider', function ($stateProvider) {
+		$stateProvider.state('provider', {
+			url: '/providers/:providerID',
+			template: providerTemplate,
+			resolve: {
+				provider: ['Provider', '$stateParams', function (Provider, $stateParams) {
+					return Provider.$find($stateParams.providerID).$asPromise();
+				}]
+			},
+			controller: 'ProviderCtrl'
+		});
 	}])
-	.controller('ProviderCtrl', ['$scope', '$stateParams', 'provider', '$rootScope', function($scope, $stateParams, provider, $rootScope) {
+	.controller('ProviderCtrl', ['$scope', '$stateParams', 'provider', '$rootScope', function ($scope, $stateParams, provider, $rootScope) {
 		$scope.provider = provider;
 		$rootScope.setTitle(provider.name);
-		
-		$scope.newOffer = function(size) {
+
+		$scope.newOffer = function (size) {
 			var modalInstance = $modal.open({
-				templateUrl: '/routes/offer/new/new.html',
+				template: newOfferTemplate,
 				controller: 'NewOfferCtrl',
 				//size: size,
 				resolve: {
-                    provider: function() {
-                        return $scope.provider;
-                    },
-                    service: function () {
-                    	return undefined;
-                    }
-                }
+					provider: function () {
+						return $scope.provider;
+					},
+					service: function () {
+						return undefined;
+					}
+				}
 			});
 		};
-
-		$scope.offerTable = function() {
-			return {
-				header: [{}]
-			};
-		};
-
 	}])
-	.directive('offertable', function() {
-		return {
-			restrict: 'E',
-			replace: true,
-			scope: {
-				offers: '=offers'
-			},
-			templateUrl: 'views/publicProviderOfferTable.html'
-		};
-	})
-	.directive('providerId', ['Provider', '$q', function(Provider, $q) {
+	.directive('providerId', ['Provider', '$q', function (Provider, $q) {
 		return {
 			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				ctrl.$validators.id = function(modelValue, viewValue) {
+			link: function (scope, elm, attrs, ctrl) {
+				ctrl.$validators.id = function (modelValue, viewValue) {
 					return ID_REGEXP.test(modelValue || viewValue);
 				};
 			}
 		};
 	}])
-	.directive('uniqueProviderId', ['Provider', '$q', function(Provider, $q) {
+	.directive('uniqueProviderId', ['Provider', '$q', function (Provider, $q) {
 		return {
 			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				ctrl.$asyncValidators.uniqueProviderId = function(modelVal, viewVal) {
-					return Provider.$find(modelVal || viewVal).$asPromise().then(function() {
+			link: function (scope, elm, attrs, ctrl) {
+				ctrl.$asyncValidators.uniqueProviderId = function (modelVal, viewVal) {
+					return Provider.$find(modelVal || viewVal).$asPromise().then(function () {
 						return $q.reject('exists');
-					}, function(resp) {
+					}, function (resp) {
 						// Only return true/valid on 404 -- any other error means we can't say for certain.
 						if (resp.$response.status === 404) {
 							return true;
@@ -91,11 +77,11 @@ export default angular.module('ethiveProviderRoute', [
 			}
 		};
 	}])
-	.directive('existingProviderId', ['Provider', '$q', function(Provider, $q) {
+	.directive('existingProviderId', ['Provider', '$q', function (Provider, $q) {
 		return {
 			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				ctrl.$asyncValidators.existingProviderId = function(modelVal, viewVal) {
+			link: function (scope, elm, attrs, ctrl) {
+				ctrl.$asyncValidators.existingProviderId = function (modelVal, viewVal) {
 					return Provider.$find(modelVal || viewVal).$asPromise();
 				};
 			}

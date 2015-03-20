@@ -2,6 +2,8 @@ import angular from 'angular';
 import 'angular-restmod';
 import 'angular-ui-router';
 
+import template from 'routes/service/service.html!text';
+
 import service from 'models/service';
 
 var SERVICEID_REGEXP = /^[a-z0-9-]{1,}$/;
@@ -13,7 +15,7 @@ export default angular.module('ethiveServiceRoute', [
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('service', {
             url: '/services/:serviceID',
-            templateUrl: 'routes/service/service.html',
+            template: template,
             controller: 'ServiceCtrl',
             resolve: {
                 service: ['Service', '$stateParams', function (Service, $stateParams) {

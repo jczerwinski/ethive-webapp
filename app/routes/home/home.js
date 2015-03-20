@@ -2,6 +2,7 @@ import angular from 'angular';
 import 'angular-ui-router';
 
 import Service from 'models/service';
+import template from 'routes/home/home.html!text';
 
 export default angular.module('ethiveHome', [
 		'ui.router',
@@ -10,7 +11,7 @@ export default angular.module('ethiveHome', [
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('home', {
 			url: '/',
-			templateUrl: 'routes/home/home.html',
+			template: template,
 			controller: ['$scope', '$rootScope', 'services', function ($scope, $rootScope, services) {
 				$rootScope.setTitle(false);
 				$scope.services = services;
