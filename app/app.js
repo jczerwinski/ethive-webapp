@@ -3,6 +3,8 @@ import 'angular-ui-router';
 import 'angular-restmod';
 import 'angular-restmod-dirty';
 import _ from 'lodash';
+import 'angulartics';
+import 'angulartics-ga';
 
 import routes from 'routes/routes';
 import header from 'components/header/header';
@@ -10,6 +12,8 @@ import header from 'components/header/header';
 export default angular.module('ethiveApp', [
 		'ui.router',
 		'restmod',
+		'angulartics',
+		'angulartics.google.analytics',
 		routes.name,
 		header.name
 	])

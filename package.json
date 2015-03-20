@@ -56,6 +56,7 @@
       "grevory/angular-local-storage": "github:grevory/angular-local-storage@^0.1.5",
       "iobaixas/angular-inflector": "github:iobaixas/angular-inflector@^0.2.0",
       "lodash": "npm:lodash@^3.4.0",
+      "luisfarzati/angulartics": "github:luisfarzati/angulartics@^0.17.2",
       "platanus/angular-restmod": "github:platanus/angular-restmod@^1.1.8",
       "text": "github:systemjs/plugin-text@^0.0.2"
     }
