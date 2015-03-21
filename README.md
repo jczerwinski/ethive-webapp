@@ -1,4 +1,4 @@
-# Ethive Webapp
+# Ethive Webapp [ ![Codeship Status for jczerwinski/ethive-webapp](https://codeship.com/projects/9278b860-abe4-0132-c74f-46f15878b48e/status?branch=master)](https://codeship.com/projects/68429)
 
 ## Getting Started
 First, clone this repository:
