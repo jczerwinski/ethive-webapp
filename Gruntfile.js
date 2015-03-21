@@ -155,7 +155,8 @@ module.exports = function (grunt) {
 				'Gruntfile.js',
 				'<%= yeoman.app %>/{,}*.js',
 				'!<%= yeoman.app %>/bower_components/{,*/}*.js',
-				'!<%= yeoman.app %>/jspm_packages/{,*/}*.js'
+				'!<%= yeoman.app %>/jspm_packages/{,*/}*.js',
+				'!<%= yeoman.app %>/config.js'
 			]
 		},
 
@@ -240,7 +241,7 @@ module.exports = function (grunt) {
 				assetsDirs: ['<%= yeoman.dist %>'],
 				blockReplacements: {
 					script: function (block) {
-						return '<script type="text/javascript" src="' + block.dest + '"></script>'
+						return '<script type="text/javascript" src="' + block.dest + '"></script>';
 					}
 				}
 			}
