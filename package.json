@@ -43,7 +43,7 @@
     "node": ">=0.10.30"
   },
   "scripts": {
-    "postinstall": "jspm install && grunt"
+    "build": "jspm install && grunt"
   },
   "jspm": {
     "directories": {
