@@ -36,7 +36,8 @@
     "load-grunt-tasks": "~0.2.0",
     "systemjs-builder": "^0.9.1",
     "time-grunt": "~0.2.1",
-    "jspm": "latest"
+    "jspm": "latest",
+    "grunt-cli": "latest"
   },
   "engines": {
     "node": ">=0.10.30"
