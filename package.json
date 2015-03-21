@@ -44,7 +44,7 @@
   },
   "scripts": {
     "postinstall": "jspm install && grunt"
-    },
+  },
   "jspm": {
     "directories": {
       "baseURL": "app",
@@ -59,6 +59,7 @@
       "goodeggs/ng-focus-on": "github:goodeggs/ng-focus-on@^0.2.2",
       "grevory/angular-local-storage": "github:grevory/angular-local-storage@^0.1.5",
       "iobaixas/angular-inflector": "github:iobaixas/angular-inflector@^0.2.0",
+      "bootstrap": "github:jczerwinski/bootstrap@master",
       "lodash": "npm:lodash@^3.4.0",
       "luisfarzati/angulartics": "github:luisfarzati/angulartics@^0.17.2",
       "platanus/angular-restmod": "github:platanus/angular-restmod@^1.1.8",

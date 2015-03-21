@@ -36,10 +36,11 @@ System.config({
     "angular-restmod": "github:platanus/angular-restmod@1.1.8",
     "angular-restmod-dirty": "github:platanus/angular-restmod@1.1.8/dist/plugins/dirty",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.13",
-    "grevory/angular-local-storage": "github:grevory/angular-local-storage@0.1.5",
-    "lodash": "npm:lodash@3.4.0",
     "angulartics": "github:luisfarzati/angulartics@0.17.2",
     "angulartics-ga": "github:luisfarzati/angulartics@0.17.2/src/angulartics-ga",
+    "grevory/angular-local-storage": "github:grevory/angular-local-storage@0.1.5",
+    "bootstrap": "github:jczerwinski/bootstrap@master",
+    "lodash": "npm:lodash@3.4.0",
     "ng-focus-on": "github:goodeggs/ng-focus-on@0.2.2",
     "text": "github:systemjs/plugin-text@0.0.2",
     "github:angular-ui/bootstrap-bower@0.12.1": {
