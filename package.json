@@ -36,16 +36,13 @@
     "load-grunt-tasks": "~0.2.0",
     "systemjs-builder": "^0.9.1",
     "time-grunt": "~0.2.1",
-    "jspm-cli": "latest",
-    "divshot-cli": "latest"
+    "jspm": "latest"
   },
   "engines": {
     "node": ">=0.10.30"
   },
   "scripts": {
-    "postinstall": "jspm install",
-    "predeploy": "grunt",
-    "deploy": "divshot push"
+    "postinstall": "jspm install && grunt"
     },
   "jspm": {
     "directories": {
