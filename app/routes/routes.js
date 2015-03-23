@@ -79,7 +79,9 @@ export default angular.module('ethiveRoutes', [
 					});
 				}
 				if (error.$response && error.$response.status && error.$response.status === 500) {
-					$state.go('error.500');
+					$state.go('error.500', {}, {
+						location: false
+					});
 				}
 				/*console.group();
 				console.error('$stateChangeError', error);
