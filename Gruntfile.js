@@ -330,9 +330,6 @@ module.exports = function (grunt) {
 					src: ['generated/*']
 				}]
 			},
-			fonts: {
-
-			},
 			styles: {
 				expand: true,
 				cwd: '<%= yeoman.app %>/styles',
@@ -345,8 +342,7 @@ module.exports = function (grunt) {
 		concurrent: {
 			server: [
 				'stylus',
-				'less',
-				'fonts'
+				'less'
 			],
 			test: [
 				'stylus',
