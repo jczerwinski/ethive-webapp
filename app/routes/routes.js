@@ -18,6 +18,7 @@ import signupFailureTemplate from 'routes/signup/signup.failure.html!text';
 import verifyEmailSuccessTemplate from 'routes/verifyEmail/verifyEmailSuccess.html!text';
 import verifyEmailFailureTemplate from 'routes/verifyEmail/verifyEmailFailure.html!text';
 import otherwiseTemplate from 'routes/not-found/not-found.html!text';
+import error500Template from 'routes/errors/500.html!text';
 
 export default angular.module('ethiveRoutes', [
 		'ui.router',
@@ -52,6 +53,15 @@ export default angular.module('ethiveRoutes', [
 				url: '/verifyEmailFailure',
 				template: verifyEmailFailureTemplate
 			})
+			.state('error', {
+				abstract: true,
+				url: '/error',
+				template: '<ui-view/>'
+			})
+			.state('error.500', {
+				url: '/500',
+				template: error500Template
+			})
 			.state('otherwise', {
 				url: '*path',
 				template: otherwiseTemplate,
@@ -67,6 +77,9 @@ export default angular.module('ethiveRoutes', [
 					$state.go('otherwise', {}, {
 						location: false
 					});
+				}
+				if (error.$response && error.$response.status && error.$response.status === 500) {
+					$state.go('error.500');
 				}
 				/*console.group();
 				console.error('$stateChangeError', error);

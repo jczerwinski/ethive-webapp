@@ -48,19 +48,29 @@ module.exports = function (grunt) {
 				tasks: [
 					'stylus',
 					'autoprefixer'
-				]
+				],
+				options: {
+					livereload: '<%= connect.options.livereload %>'
+				}
 			},
 			less: {
 				files: [
 					'<%= yeoman.app %>/**/*.less',
+					'<%= yeoman.app %>/{,*/}*.less',
 					'!<%= yeoman.app %>/bower_components/{,*/}*.{less}'
 				],
 				tasks: [
 					'less'
-				]
+				],
+				options: {
+					livereload: '<%= connect.options.livereload %>'
+				}
 			},
 			gruntfile: {
-				files: ['Gruntfile.js']
+				files: ['Gruntfile.js'],
+				options: {
+					livereload: '<%= connect.options.livereload %>'
+				}
 			},
 			livereload: {
 				options: {
@@ -310,8 +320,6 @@ module.exports = function (grunt) {
 						'*.{ico,png,txt}',
 						'.htaccess',
 						'*.html',
-						//'views/{,*/}*.html',
-						//'bower_components/**/*',
 						'images/{,*/}*.{webp}',
 						'fonts/*'
 					]
@@ -321,6 +329,9 @@ module.exports = function (grunt) {
 					dest: '<%= yeoman.dist %>/images',
 					src: ['generated/*']
 				}]
+			},
+			fonts: {
+
 			},
 			styles: {
 				expand: true,
@@ -334,7 +345,8 @@ module.exports = function (grunt) {
 		concurrent: {
 			server: [
 				'stylus',
-				'less'
+				'less',
+				'fonts'
 			],
 			test: [
 				'stylus',
