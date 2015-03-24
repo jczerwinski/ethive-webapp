@@ -25,6 +25,7 @@ export default angular.module('ethiveServiceRoute', [
         })
     }])
     .controller('ServiceCtrl', ['$scope', 'service', function ($scope, service) {
+        $scope.setTitle(service.name);
         $scope.service = service;
     }])
     .directive('uniqueServiceId', ['Service', function (Service) {
