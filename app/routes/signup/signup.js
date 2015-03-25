@@ -3,7 +3,6 @@ import 'angular-ui-router';
 
 import signupTemplate from 'routes/signup/signup.html!text';
 import signupSuccessTemplate from 'routes/signup/signup.success.html!text';
-import signupFailureTemplate from 'routes/signup/signup.failure.html!text';
 
 import User from 'models/user';
 
@@ -29,9 +28,9 @@ export default angular.module('ethiveSignupRoute', [
 							email: $scope.newUser.email,
 							password: $scope.newUser.password
 						}).$then(function (response) {
-							$state.go('.success');
+							$state.go('signup.success');
 						}, function (error) {
-							$state.go('.failure');
+							$state.go('error.500');
 						});
 					};
 				}]
@@ -41,19 +40,6 @@ export default angular.module('ethiveSignupRoute', [
 				template: signupSuccessTemplate,
 				controller: ['$scope', function ($scope) {
 					$scope.setTitle('Sign up success');
-				}]
-			})
-			.state('signup.failure', {
-				url: '/failure',
-				template: signupFailureTemplate,
-				controller: ['$scope', '$state', function ($scope, $state) {
-					$scope.setTitle('Sign up failure');
-					$scope.reset = function () {
-						// Only called from signup.failure
-						$state.go('signup', {}, {
-							reload: true
-						});
-					};
 				}]
 			});
 	}]);
