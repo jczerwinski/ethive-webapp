@@ -10,11 +10,8 @@ import newProviderRoute from 'routes/provider/new/new';
 import offerRoute from 'routes/offer/offer';
 import loginRoute from 'routes/login/login';
 import signupRoute from 'routes/signup/signup';
-import signupFailureRoute from 'routes/signup/signup.failure';
 import accountRoute from 'routes/account/account';
 
-import signupSuccessTemplate from 'routes/signup/signup.success.html!text';
-import signupFailureTemplate from 'routes/signup/signup.failure.html!text';
 import verifyEmailSuccessTemplate from 'routes/verifyEmail/verifyEmailSuccess.html!text';
 import verifyEmailFailureTemplate from 'routes/verifyEmail/verifyEmailFailure.html!text';
 import otherwiseTemplate from 'routes/not-found/not-found.html!text';
@@ -31,20 +28,10 @@ export default angular.module('ethiveRoutes', [
 		offerRoute.name,
 		loginRoute.name,
 		signupRoute.name,
-		signupFailureRoute.name,
 		accountRoute.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
-			.state('signup.success', {
-				url: '/success',
-				template: signupSuccessTemplate
-			})
-			.state('signup.failure', {
-				url: '/failure',
-				template: signupFailureTemplate,
-				controller: 'SignupFailureCtrl'
-			})
 			.state('verifyEmailSuccess', {
 				url: '/verifyEmailSuccess',
 				template: verifyEmailSuccessTemplate
