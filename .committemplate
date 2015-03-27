@@ -1,15 +1,10 @@
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
 
 ## ethive commit template
 ##
 ## Inspired by https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
-## 
+##
 ## Should support (conventional-changelog)[https://github.com/ajoslin/conventional-changelog/blob/master/CONVENTIONS.md]
-## 
+##
 ##
 ## type can be:
 ##   - feat (feature)
@@ -19,7 +14,7 @@
 ##   - refactor
 ##   - test (when adding missing tests)
 ##   - chore (maintain)
-## 
+##
 ## scope can be *any* code reference that helps narrow down what the scope of this change is. optional.
 ##
 ## subject is a short, present tense description of the change.
