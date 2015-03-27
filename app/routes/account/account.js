@@ -16,15 +16,15 @@ export default angular.module('ethiveAccountRoute', [
             controller: 'AccountCtrl'
         });
     }])
-    .controller('AccountCtrl', ['$rootScope', '$scope', '$modal', function ($rootScope, $scope, $modal) {
-        $rootScope.setTitle('Your account');
-        if ($rootScope.user) {
+    .controller('AccountCtrl', ['$scope', '$modal', function ($scope, $modal) {
+        $scope.setTitle('Your account');
+        if ($scope.user) {
             $scope.open = function () {
                 var modalInstance = $modal.open({
                     template: newProviderTemplate,
                     controller: 'NewProviderCtrl'
                 });
             };
-            $rootScope.user.$refresh();
+            $scope.user.$refresh();
         }
     }]);
