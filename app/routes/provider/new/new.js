@@ -16,7 +16,7 @@ export default angular.module('ethiveNewProviderRoute', [
     }])
     .controller('NewProviderCtrl', ['$scope', '$modalInstance', 'Provider', '$state', function($scope, $modalInstance, Provider, $state) {
         $scope.newProvider = Provider.$build({
-            admins: [$scope.user]
+            admins: [$scope.user._id]
         });
 
         $scope.submit = function (form) {
@@ -25,12 +25,12 @@ export default angular.module('ethiveNewProviderRoute', [
                     if (!key.match(/^\$/) && field.$validate) field.$validate();
                 });
             };
-            
+
             $scope.newProvider.$save().$then(function (response) {
                 // provider creation success!
                 // close modal and navigate back to the last page, refreshed:
                 $scope.cancel();
-                $state.go('provider', {}, {
+                $state.go('provider', {
                     providerID: $scope.newProvider._id
                 });
             }, function (response) {
