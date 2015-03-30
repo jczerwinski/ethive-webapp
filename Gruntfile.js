@@ -102,7 +102,7 @@ module.exports = function (grunt) {
 
 					// 1. mod-rewrite behavior
 					var rules = [
-						'!\\.html|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.gif$ /index.html'
+						'!\\.html|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.gif|\\.woff2|\\.woff|\\.ttf|\\.svg$ /index.html'
 					];
 					middleware.push(rewrite(rules));
 
