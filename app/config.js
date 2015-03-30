@@ -47,6 +47,7 @@ System.config({
     "ng-focus-on": "github:goodeggs/ng-focus-on@0.2.2",
     "platanus/angular-restmod": "github:platanus/angular-restmod@1.1.8",
     "text": "github:systemjs/plugin-text@0.0.2",
+    "ngAutocomplete": "github:wpalahnuk/ngAutocomplete@1.0.0",
     "github:angular-ui/bootstrap-bower@0.12.1": {
       "angular": "github:angular/bower-angular@1.2.28"
     },

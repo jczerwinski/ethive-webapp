@@ -27,8 +27,8 @@
     <![endif]-->
 
     <ethive-header></ethive-header>
-
     <div class="container" ui-view></div>
+
     <!-- Google Analytics - using Angulartics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -38,6 +38,8 @@
 
       ga('create', 'UA-16951704-4', 'auto');
     </script>
+    <!-- Google Maps API for ngAutocomplete -->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 
     <!--build:script scripts/scripts.js -->
     <script src="jspm_packages/traceur-runtime.js"></script>

@@ -1,6 +1,7 @@
 import angular from 'angular';
 import 'angular-ui-router';
 import _ from 'lodash';
+import 'ngAutocomplete';
 
 import OfferModel from 'models/offer';
 import ServiceSelector from 'components/serviceSelector/serviceSelector';
@@ -9,6 +10,7 @@ import template from 'routes/provider/newOffer/newOffer.html!text';
 
 export default angular.module('ethiveNewOfferRoute', [
         'ui.router',
+        'ngAutocomplete',
         OfferModel.name,
         ServiceSelector.name // Directive used in template
     ])

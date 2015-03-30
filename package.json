@@ -64,7 +64,8 @@
       "lodash": "npm:lodash@^3.4.0",
       "luisfarzati/angulartics": "github:luisfarzati/angulartics@^0.17.2",
       "platanus/angular-restmod": "github:platanus/angular-restmod@^1.1.8",
-      "text": "github:systemjs/plugin-text@^0.0.2"
+      "text": "github:systemjs/plugin-text@^0.0.2",
+      "wpalahnuk/ngAutocomplete": "github:wpalahnuk/ngAutocomplete@^1.0.0"
     }
   }
 }
