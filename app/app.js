@@ -19,6 +19,15 @@ export default angular.module('ethiveApp', [
 	])
 	.config(['$locationProvider', 'restmodProvider', function ($locationProvider, restmodProvider) {
 		restmodProvider.rebase('DirtyModel'); // Enables $restore, $dirty on models
+
+		// Suppress warning:
+		// No API style base was selected, see the Api Integration FAQ for more information on this warning
+		restmodProvider.rebase({
+			$config: {
+				style: 'Mongoose', // By setting the style variable the warning is disabled.
+			}
+		});
+
 		$locationProvider.html5Mode(true);
 	}])
 	.controller('RootCtrl', ['$state', '$rootScope', function ($state, $rootScope) {
@@ -35,7 +44,7 @@ export default angular.module('ethiveApp', [
 		var titleEnd = ' - Ethive';
 
 		$rootScope.setTitle = function (newTitle, omitEnd) {
-			function setTitle () {
+			function setTitle() {
 				if (newTitle === false) {
 					title = defaultTitle;
 					return;
