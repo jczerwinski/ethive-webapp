@@ -5,6 +5,7 @@ import 'angular-restmod-dirty';
 import _ from 'lodash';
 import 'angulartics';
 import 'angulartics-ga';
+import baseModel from 'models/baseModel';
 
 import routes from 'routes/routes';
 import header from 'components/header/header';
@@ -15,18 +16,11 @@ export default angular.module('ethiveApp', [
 		'angulartics',
 		'angulartics.google.analytics',
 		routes.name,
-		header.name
+		header.name,
+		baseModel.name
 	])
 	.config(['$locationProvider', 'restmodProvider', function ($locationProvider, restmodProvider) {
-		restmodProvider.rebase('DirtyModel'); // Enables $restore, $dirty on models
-
-		// Suppress warning:
-		// No API style base was selected, see the Api Integration FAQ for more information on this warning
-		restmodProvider.rebase({
-			$config: {
-				style: 'Mongoose', // By setting the style variable the warning is disabled.
-			}
-		});
+		restmodProvider.rebase('DirtyModel', 'EthiveBaseModel'); // Enables $restore, $dirty on models
 
 		$locationProvider.html5Mode(true);
 	}])
