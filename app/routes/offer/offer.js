@@ -11,7 +11,7 @@ export default angular.module('ethiveOfferRoute', [
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state('offer', {
-            url: '/providers/:providerID/offers/:offerID',
+            url: '/offers/:offerID',
             template: template,
             resolve: {
                 offer: ['Offer', '$stateParams', function (Offer, params) {

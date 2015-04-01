@@ -67,7 +67,6 @@ export default angular.module('ethiveServiceSelector', [
                 this.navigate = function navigate (service) {
                     // service.$fetch().
                     Service.$find(service.id).$then(function (service){
-                        console.log(service)
                         navigated = service;
                         $scope.services = [service.invert()];
                     });

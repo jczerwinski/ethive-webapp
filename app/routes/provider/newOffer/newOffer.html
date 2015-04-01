@@ -26,7 +26,7 @@
   <label for="service" class="col-sm-2 control-label">Service</label>
   <div class="col-sm-10">
     <div class="form-control-static">
-      {{newOffer.service.name}} <serviceselectorbutton options="serviceSelectorOptions" required name="service" service="newOffer.service"></serviceselectorbutton>
+      {{newOffer.service.name}} <serviceselectorbutton options="serviceSelectorOptions" required ng-model="newOffer.service" name="service" service="newOffer.service"></serviceselectorbutton>
       <span class="glyphicon form-control-feedback" ng-class="{'has-error': createOfferForm.service.$invalid && createOfferForm.service.$dirty, 'glyphicon-ok': createOfferForm.service.$valid}"></span>
     </div>
   </div>
@@ -64,6 +64,20 @@
     <div class="help-block" ng-show="createOfferForm.landing.$invalid && createOfferForm.landing.$dirty">Your landing page must be a valid web page address (URL). <span class="glyphicon glyphicon-remove"></span></div>
     <div class="help-block no-validation">The web page that you would like users who click on this offer to be redirected to.</div>
     <div class="help-block no-validation">Make sure you get this right. If you are paying us for clicks to this page, you may be charged even if you provide an incorrect URL.</div>
+  </div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': createOfferForm.status.$invalid && createOfferForm.status.$dirty, 'has-success': createOfferForm.status.$valid}">
+  <label for="price" class="col-sm-2 control-label">Status</label>
+  <div class="col-sm-10" ng-init="newOffer.status = 'draft'">
+    <label class="radio-inline">
+      <input ng-model="newOffer.status" value="draft" type="radio" name="status" id="draft"> Draft
+    </label>
+    <label class="radio-inline">
+      <input ng-model="newOffer.status" value="public" type="radio" name="status" id="public"> Public
+    </label>
+    <div class="help-block no-validation">Draft offers are only visible to your Provider's administrators.</div>
+    <div class="help-block no-validation">Public offers are visible to the public.</div>
   </div>
 </div>
 
