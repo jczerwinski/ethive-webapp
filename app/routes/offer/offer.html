@@ -1,4 +1,11 @@
-<h2>{{offer.service.name}}</h2>
+<h2>
+	{{offer.service.name}}
+	<a ng-if="offer.isAdministeredBy(user)" ui-sref="offer.editOffer({offerID: offer._id})" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+	<span class="btn btn-info btn-xs">
+		Offer <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+	</span>
+
+</h2>
 <h4>in {{offer.location}}</h4>
 <h3>Offer Details</h3>
 <div class="form-horizontal">

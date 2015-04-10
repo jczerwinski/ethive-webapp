@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="offer in provider.offers">
-          <td><a ui-sref="offer({providerID: provider._id, offerID: offer._id})">{{offer.service.name}}</a></td>
+          <td><a ui-sref="offer.view({offerID: offer._id})">{{offer.service.name}}</a></td>
           <td>{{offer.location}}</td>
           <td>{{offer.price.amount}} {{offer.price.currency}}</td>
         </tr>
