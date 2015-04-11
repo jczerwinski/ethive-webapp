@@ -7,6 +7,7 @@ import Provider from 'models/provider';
 
 import providerTemplate from 'routes/provider/provider.html!text';
 import newOfferTemplate from 'routes/provider/newOffer/newOffer.html!text';
+import confirmDeleteTemplate from './confirmDelete.html!text';
 
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 
@@ -28,9 +29,30 @@ export default angular.module('ethiveProviderRoute', [
 			controller: 'ProviderCtrl'
 		});
 	}])
-	.controller('ProviderCtrl', ['$scope', '$stateParams', 'provider', '$rootScope', function ($scope, $stateParams, provider, $rootScope) {
+	.controller('ProviderCtrl', ['$scope', '$stateParams', 'provider', '$modal', '$state', function ($scope, $stateParams, provider, $modal, $state) {
 		$scope.provider = provider;
-		$rootScope.setTitle(provider.name);
+		$scope.setTitle(provider.name);
+
+		$scope.deleteProvider = function (size) {
+			$modal.open({
+				template: confirmDeleteTemplate,
+				controller: ['provider', '$scope', function (provider, $scope) {
+					$scope.provider = provider;
+				}],
+				//size: size,
+				resolve: {
+					provider: function () {
+						return $scope.provider;
+					}
+				}
+			}).result.then(function() {
+				// Delete
+				return provider.$destroy().$asPromise();
+			}).then(function () {
+				$state.go('account');
+			});
+		};
+
 
 		$scope.newOffer = function (size) {
 			var modalInstance = $modal.open({

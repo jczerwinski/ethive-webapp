@@ -2,6 +2,9 @@
 	<h1>
     {{provider.name}}
     <span class="btn btn-xs btn-info">Provider <span class="glyphicon glyphicon-info-sign"></span></span>
+    <span ng-if="provider.isAdministeredBy(user)" ng-click="deleteProvider()" class="btn btn-xs btn-danger">Delete <span class="glyphicon glyphicon-trash"></span></span>
+  </h1>
+  </h1>
   </h1>
   <div ui-view>
   	<h2>Offers <a ng-if="provider.isAdministeredBy(user)" ui-sref="provider.newOffer"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Offer</button></a></h2>
