@@ -7,7 +7,7 @@ import Provider from 'models/provider';
 
 import providerTemplate from 'routes/provider/provider.html!text';
 import newOfferTemplate from 'routes/provider/newOffer/newOffer.html!text';
-import confirmDeleteTemplate from './confirmDelete.html!text';
+import confirmDeleteTemplate from 'components/confirmDeleteModal/confirmDelete.html!text';
 
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 
@@ -37,7 +37,7 @@ export default angular.module('ethiveProviderRoute', [
 			$modal.open({
 				template: confirmDeleteTemplate,
 				controller: ['provider', '$scope', function (provider, $scope) {
-					$scope.provider = provider;
+					$scope.name = provider.name;
 				}],
 				//size: size,
 				resolve: {
