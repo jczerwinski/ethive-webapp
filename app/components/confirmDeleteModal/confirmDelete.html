@@ -1,0 +1,12 @@
+<div class="modal-header bg-danger">
+    <h3 class="modal-title text-danger">Are you sure?</h3>
+</div>
+<div class="modal-body">
+<p>All data associated with {{name}} will be deleted and will not be recoverable.</p>
+
+<p>Are you sure you want to delete {{name}}?</p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-danger" ng-click="$close()"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
+</div>
