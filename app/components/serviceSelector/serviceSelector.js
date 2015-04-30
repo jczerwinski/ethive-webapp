@@ -47,7 +47,7 @@ export default angular.module('ethiveServiceSelector', [
             }]
         };
     }])
-    .directive('serviceselector', function() {
+    .directive('serviceselector', [function() {
         return {
             restrict: 'E',
             controller: ['$scope', 'Service', function($scope, Service) {
@@ -73,7 +73,7 @@ export default angular.module('ethiveServiceSelector', [
                 };
 
                 this.isNavigated = function isNavigated (service) {
-                    return navigated ? navigated._id === service._id : false;
+                    return navigated ? navigated.id === service.id : false;
                 };
 
                 var options = $scope.options();
@@ -92,8 +92,8 @@ export default angular.module('ethiveServiceSelector', [
                 options: '&'
             }
         };
-    })
-    .directive('serviceselectorlist', function() {
+    }])
+    .directive('serviceselectorlist', [function() {
         return {
             restrict: 'E',
             scope: {
@@ -103,7 +103,7 @@ export default angular.module('ethiveServiceSelector', [
                 return '<ul><serviceselectornode ng-repeat="service in services" service="service"></serviceselectornode></ul>'
             }
         };
-    })
+    }])
     .directive('serviceselectornode', ['$compile', function($compile) {
         return {
             restrict: 'E',

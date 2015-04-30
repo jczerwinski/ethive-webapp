@@ -23,7 +23,7 @@ export default angular.module('ethiveHome', [
 			}
 		});
 	}])
-	.directive('collection', function () {
+	.directive('collection', [function () {
 		return {
 			restrict: 'E',
 			replace: true,
@@ -32,7 +32,7 @@ export default angular.module('ethiveHome', [
 			},
 			template: '<ul><member ng-repeat="member in collection" member="member"></member></ul>'
 		};
-	})
+	}])
 	.directive('member', ['$compile', function ($compile) {
 		return {
 			restrict: 'E',
@@ -40,7 +40,7 @@ export default angular.module('ethiveHome', [
 			scope: {
 				member: '='
 			},
-			template: '<li><a ui-sref="service({serviceID: member._id})">{{member.name}}</a></li>',
+			template: '<li><a ui-sref="service.existing.view({serviceID: member.id})">{{member.name}}</a></li>',
 			link: function (scope, element) {
 				var collectionSt = '<collection collection="member.children"></collection>';
 				if (angular.isArray(scope.member.children)) {
@@ -51,7 +51,7 @@ export default angular.module('ethiveHome', [
 			}
 		};
 	}])
-	.directive('error', function () {
+	.directive('error', [function () {
 		return {
 			restrict: 'E',
 			replace: true,
@@ -60,4 +60,4 @@ export default angular.module('ethiveHome', [
 			},
 			template: '<div class="error" ng-if="error"><span class="glyphicon glyphicon-remove-circle"></span>Oops! Something went wrong. We\'re looking into it. Try back again later.</div>'
 		};
-	});
+	}]);

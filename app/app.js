@@ -24,10 +24,6 @@ export default angular.module('ethiveApp', [
 
 		$locationProvider.html5Mode(true);
 	}])
-	.controller('RootCtrl', ['$state', '$rootScope', function ($state, $rootScope) {
-		// Used by login link in header to pass current state as param for redirect after login. Also used for logout in header.
-		$rootScope.$state = $state;
-	}])
 	.run(['$rootScope', '$timeout', function ($rootScope, $timeout) {
 		// Expose lodash
 		$rootScope._ = _;

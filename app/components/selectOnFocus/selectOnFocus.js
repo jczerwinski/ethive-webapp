@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-export default angular.module('ethiveSelectOnFocus', []).directive('selectOnFocus', function () {
+export default angular.module('ethiveSelectOnFocus', []).directive('selectOnFocus', [function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -9,4 +9,4 @@ export default angular.module('ethiveSelectOnFocus', []).directive('selectOnFocu
             });
         }
     };
-});
+}]);

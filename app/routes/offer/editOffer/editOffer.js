@@ -51,7 +51,7 @@ export default angular.module('ethiveEditOfferRoute', [
 						// offer creation success!
 						// follow through by navigating to the offer
 						$state.go('offer.view', { // Go to the offer
-							offerID: $scope.offer._id
+							offerID: $scope.offer.id
 						});
 					}, function (response) {
 						// Should only ever get here if theres a server-side validation error, which should always be checked on the client side. No need for an error message if this is the case. Get the client side right!
@@ -61,7 +61,7 @@ export default angular.module('ethiveEditOfferRoute', [
 
 				$scope.cancel = function () {
 					$state.go('offer.view', {
-						offerID: $scope.offer._id
+						offerID: $scope.offer.id
 					});
 				};
 			}]

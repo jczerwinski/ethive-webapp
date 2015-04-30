@@ -7,7 +7,7 @@ export default angular.module('ethiveServiceModel', [
 	.factory('Service', ['restmod', function (restmod) {
 		return restmod.model('/api/services').mix({
 			$config: {
-				primaryKey: '_id'
+				primaryKey: 'id'
 			},
 			parent: {
 				belongsTo: 'Service',
@@ -21,7 +21,7 @@ export default angular.module('ethiveServiceModel', [
 				Record: {
 					hasAncestor: function (ancestor) {
 						if (this.parent) {
-							if (this.parent._id === (ancestor._id || ancestor)) {
+							if (this.parent.id === (ancestor.id || ancestor)) {
 								return true;
 							}
 							return this.parent.hasAncestor(ancestor);
@@ -38,8 +38,8 @@ export default angular.module('ethiveServiceModel', [
 					 * @return {Boolean}  Whether or not this service is published.
 					 */
 					/*
-					               
-					BROKEN --- DO NOT USE. Service resources inline their children. These children do not have references to their parent. As such, recursing on parent DOES NOT WORK. Could maybe fix with custom hook to link children to parent manually on load?    
+
+					BROKEN --- DO NOT USE. Service resources inline their children. These children do not have references to their parent. As such, recursing on parent DOES NOT WORK. Could maybe fix with custom hook to link children to parent manually on load?
 
 					isPublished: function () {
 					    var isPublished = (this.status === 'published');

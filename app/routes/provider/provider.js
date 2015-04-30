@@ -2,7 +2,11 @@ import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-bootstrap';
 
+import newProviderTemplate from './new/new.html!text';
+import editProviderTemplate from './editProvider/editProvider.html!text';
+
 import NewOfferRoute from 'routes/provider/newOffer/newOffer';
+import EditProviderRoute from './editProvider/editProvider';
 import Provider from 'models/provider';
 
 import providerTemplate from 'routes/provider/provider.html!text';
@@ -15,24 +19,45 @@ export default angular.module('ethiveProviderRoute', [
 		'ui.router',
 		'ui.bootstrap',
 		Provider.name,
-		NewOfferRoute.name
+		NewOfferRoute.name,
+		EditProviderRoute.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
-		$stateProvider.state('provider', {
-			url: '/providers/:providerID',
-			template: providerTemplate,
+		$stateProvider
+		.state('provider', {
+			url: '/providers',
+			abstract: true,
+			template: '<ui-view />'
+		})
+		.state('provider.new', {
+			url: '/new',
+			template: newProviderTemplate,
+			controller: 'NewProviderCtrl'
+		})
+		.state('provider.existing', {
+			url: '/:providerID',
+			abstract: true,
+			template: '<ui-view />',
 			resolve: {
 				provider: ['Provider', '$stateParams', function (Provider, $stateParams) {
 					return Provider.$find($stateParams.providerID).$asPromise();
 				}]
-			},
-			controller: 'ProviderCtrl'
+			}
+		})
+		.state('provider.existing.view', {
+			url: '',
+			template: providerTemplate,
+			controller: 'ViewProviderCtrl'
+		})
+		.state('provider.existing.edit', {
+			url: '/edit',
+			template: editProviderTemplate,
+			controller: 'EditProviderCtrl'
 		});
 	}])
-	.controller('ProviderCtrl', ['$scope', '$stateParams', 'provider', '$modal', '$state', function ($scope, $stateParams, provider, $modal, $state) {
+	.controller('ViewProviderCtrl', ['$scope', '$stateParams', 'provider', '$modal', '$state', function ($scope, $stateParams, provider, $modal, $state) {
 		$scope.provider = provider;
 		$scope.setTitle(provider.name);
-
 		$scope.deleteProvider = function (size) {
 			$modal.open({
 				template: confirmDeleteTemplate,
@@ -52,8 +77,6 @@ export default angular.module('ethiveProviderRoute', [
 				$state.go('account');
 			});
 		};
-
-
 		$scope.newOffer = function (size) {
 			var modalInstance = $modal.open({
 				template: newOfferTemplate,
@@ -83,9 +106,17 @@ export default angular.module('ethiveProviderRoute', [
 	.directive('uniqueProviderId', ['Provider', '$q', function (Provider, $q) {
 		return {
 			require: 'ngModel',
+			scope: {
+				editProviderID: '@editProviderId'
+			},
 			link: function (scope, elm, attrs, ctrl) {
 				ctrl.$asyncValidators.uniqueProviderId = function (modelVal, viewVal) {
-					return Provider.$find(modelVal || viewVal).$asPromise().then(function () {
+					var id = modelVal || viewVal;
+					// Allow providers to keep its existing ID
+					if (scope.editProviderID === id) {
+						return $q.when(true);
+					}
+					return Provider.$find(id).$asPromise().then(function () {
 						return $q.reject('exists');
 					}, function (resp) {
 						// Only return true/valid on 404 -- any other error means we can't say for certain.

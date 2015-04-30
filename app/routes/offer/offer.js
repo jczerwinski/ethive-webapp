@@ -11,7 +11,7 @@ import confirmDeleteTemplate from 'components/confirmDeleteModal/confirmDelete.h
 
 export default angular.module('ethiveOfferRoute', [
 		'ui.router',
-        'ui.bootstrap',
+		'ui.bootstrap',
 		editOfferRoute.name,
 		OfferModel.name
 	])
@@ -39,13 +39,13 @@ export default angular.module('ethiveOfferRoute', [
 							// Delete
 							return offer.$destroy().$asPromise();
 						}).then(function () {
-							$state.go('provider', {providerID: offer.provider._id});
+							$state.go('provider.existing.view', {providerID: offer.provider.id});
 						});
 					};
 				}]
 			})
 			.state('offer.view', {
 				url: '',
-				template: template,
-			})
+				template: template
+			});
 	}]);

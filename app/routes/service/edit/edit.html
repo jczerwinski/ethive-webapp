@@ -13,7 +13,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': forms.editServiceForm.id.$invalid && forms.editServiceForm.id.$dirty, 'has-success': forms.editServiceForm.id.$valid}">
   <label for="name" class="col-sm-2 control-label">ID</label>
   <div class="col-sm-10">
-    <p class="form-control-static">{{service._id}}</p>
+    <p class="form-control-static">{{service.id}}</p>
     <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.editServiceForm.id.$invalid && forms.editServiceForm.id.$dirty, 'glyphicon-ok': forms.editServiceForm.id.$valid}"></span>
     <div class="help-block">The service ID can not be changed.</div>
   </div>

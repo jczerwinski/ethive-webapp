@@ -8,6 +8,15 @@ export default angular.module('ethiveOfferModel', [
 		provider: {
 			hasOne: 'Provider'
 		},
+		service: {
+			hasOne: 'Service'
+		},
+		$hooks: {
+			// see https://github.com/platanus/angular-restmod/issues/234
+			'before-render': function (raw) {
+				raw.service = this.service.id;
+			}
+		},
 		isAdministeredBy: function (user) {
 			return this.provider.isAdministeredBy(user);
 		}

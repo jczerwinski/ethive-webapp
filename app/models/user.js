@@ -11,7 +11,7 @@ export default angular.module('ethiveUserModel', [
 		'ngCookies',
 		'ui.router'
 	])
-	.directive('username', function () {
+	.directive('username', [function () {
 		return {
 			require: 'ngModel',
 			link: function (scope, elm, attrs, ctrl) {
@@ -29,7 +29,7 @@ export default angular.module('ethiveUserModel', [
 				ctrl.$parsers.push(usernameValidator);
 			}
 		};
-	})
+	}])
 	.directive('unavailableUsername', ['User', function (User) {
 		return {
 			require: 'ngModel',
@@ -77,7 +77,7 @@ export default angular.module('ethiveUserModel', [
 			}
 		};
 	}])
-	.directive('password', function () {
+	.directive('password', [function () {
 		return {
 			require: 'ngModel',
 			link: function (scope, elm, attrs, ctrl) {
@@ -95,15 +95,15 @@ export default angular.module('ethiveUserModel', [
 				ctrl.$parsers.push(passwordValidator);
 			}
 		};
-	})
-	.directive('autofocus', function () {
+	}])
+	.directive('autofocus', [function () {
 		return {
 			restrict: 'A',
 			link: function (scope, element) {
 				element[0].focus();
 			}
 		};
-	})
+	}])
 	.factory('User', ['restmod', function (restmod) {
 		return restmod.model('/api/users');
 	}])
@@ -126,7 +126,7 @@ export default angular.module('ethiveUserModel', [
 			return localStorageService.get('auth') || $cookieStore.get('auth');
 		})();
 		if ($rootScope.auth) {
-			$rootScope.user = User.$find($rootScope.auth._id);
+			$rootScope.user = User.$find($rootScope.auth.username);
 		}
 
 		$rootScope.setAuth = function (auth) {
@@ -136,7 +136,7 @@ export default angular.module('ethiveUserModel', [
 				$cookieStore.put('auth', auth);
 			}
 			$rootScope.auth = auth;
-			$rootScope.user = User.$find(auth._id);
+			$rootScope.user = User.$find(auth.username);
 		};
 
 		$rootScope.logout = function () {

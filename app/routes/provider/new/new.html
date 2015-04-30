@@ -13,7 +13,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': createProviderForm.id.$invalid && createProviderForm.id.$dirty, 'has-success': createProviderForm.id.$valid}">
   <label for="name" class="col-sm-2 control-label">ID</label>
   <div class="col-sm-10">
-    <input ng-model="newProvider._id" name="id" type="text" class="form-control" id="id" placeholder="Unique Provider ID. Lowercase letters and dashes only. eg. ankle-surgery" provider-id unique-provider-id required autofocus />
+    <input ng-model="newProvider.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Provider ID. Lowercase letters and dashes only. eg. ankle-surgery" provider-id unique-provider-id required autofocus />
     <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': createProviderForm.id.$invalid && createProviderForm.id.$dirty, 'glyphicon-ok': createProviderForm.id.$valid}"></span>
     <div class="help-block">Should be a simplified version of the provider name. eg. dr-douglas-adams, wayne-enterprises.</div>
     <div class="help-block">Be aware that, once created, the Provider ID can not be changed.</div>

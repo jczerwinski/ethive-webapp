@@ -16,7 +16,7 @@ export default angular.module('ethiveNewProviderRoute', [
     }])
     .controller('NewProviderCtrl', ['$scope', '$modalInstance', 'Provider', '$state', function($scope, $modalInstance, Provider, $state) {
         $scope.newProvider = Provider.$build({
-            admins: [$scope.user._id]
+            admins: [$scope.user.username]
         });
 
         $scope.submit = function (form) {
@@ -30,8 +30,8 @@ export default angular.module('ethiveNewProviderRoute', [
                 // provider creation success!
                 // close modal and navigate back to the last page, refreshed:
                 $scope.cancel();
-                $state.go('provider', {
-                    providerID: $scope.newProvider._id
+                $state.go('provider.existing.view', {
+                    providerID: $scope.newProvider.id
                 });
             }, function (response) {
                 // Should only ever get here if theres a server-side validation error, which should always be checked on the client side. No need for an error message if this is the case. Get the client side right!
