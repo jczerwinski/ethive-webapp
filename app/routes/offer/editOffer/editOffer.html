@@ -2,79 +2,79 @@
 <form name="editOfferForm" class="form-horizontal" role="form" ng-submit="submit(editOfferForm)" novalidate>
 
 <div class="form-group has-feedback has-success">
-  <label class="col-sm-2 control-label">Provider</label>
-  <div class="col-sm-10">
-    <p class="form-control-static">
-      {{offer.provider.name}}
-      <span class="glyphicon form-control-feedback glyphicon-ok pull-left"></span>
-    </p>
-  </div>
+	<label class="col-sm-2 control-label">Provider</label>
+	<div class="col-sm-10">
+		<p class="form-control-static">
+			{{offer.provider.name}}
+			<span class="glyphicon form-control-feedback glyphicon-ok pull-left"></span>
+		</p>
+	</div>
 </div>
 
 <div class="form-group has-feedback" ng-class="{'has-error': editOfferForm.service.$invalid && editOfferForm.service.$dirty, 'has-success': editOfferForm.service.$valid}">
-  <label for="service" class="col-sm-2 control-label">Service</label>
-  <div class="col-sm-10">
-    <div class="form-control-static">
-      {{offer.service.name}} <serviceselectorbutton options="serviceSelectorOptions" required ng-model="offer.service" name="service" service="offer.service"></serviceselectorbutton>
-      <span class="glyphicon form-control-feedback" ng-class="{'has-error': editOfferForm.service.$invalid && editOfferForm.service.$dirty, 'glyphicon-ok': editOfferForm.service.$valid}"></span>
-    </div>
-  </div>
+	<label for="service" class="col-sm-2 control-label">Service</label>
+	<div class="col-sm-10">
+		<div class="form-control-static">
+			{{offer.service.name}} <serviceselectorbutton options="serviceSelectorOptions" required ng-model="offer.service" name="service"></serviceselectorbutton>
+			<span class="glyphicon form-control-feedback" ng-class="{'has-error': editOfferForm.service.$invalid && editOfferForm.service.$dirty, 'glyphicon-ok': editOfferForm.service.$valid}"></span>
+		</div>
+	</div>
 </div>
 
 <div class="form-group has-feedback" ng-class="{'has-error': editOfferForm.location.$invalid && editOfferForm.location.$dirty, 'has-success': editOfferForm.location.$valid}">
-  <label for="name" class="col-sm-2 control-label">Location</label>
-  <div class="col-sm-10">
-    <input ng-model="offer.location" ng-autocomplete options="locationOptions" name="location" type="text" class="form-control" id="location" placeholder="Location" required />
-    <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editOfferForm.location.$invalid && editOfferForm.location.$dirty, 'glyphicon-ok': editOfferForm.location.$valid}"></span>
-    <div class="help-block">The city where this service will be offered.</div>
-    <div class="help-block" ng-show="editOfferForm.location.$error.required && editOfferForm.location.$dirty">A location is required.</div>
-  </div>
+	<label for="name" class="col-sm-2 control-label">Location</label>
+	<div class="col-sm-10">
+		<input ng-model="offer.location" ng-autocomplete options="locationOptions" name="location" type="text" class="form-control" id="location" placeholder="Location" required />
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editOfferForm.location.$invalid && editOfferForm.location.$dirty, 'glyphicon-ok': editOfferForm.location.$valid}"></span>
+		<div class="help-block">The city where this service will be offered.</div>
+		<div class="help-block" ng-show="editOfferForm.location.$error.required && editOfferForm.location.$dirty">A location is required.</div>
+	</div>
 </div>
 
 <div class="form-group has-feedback" ng-class="{'has-error': editOfferForm.amount.$invalid && editOfferForm.amount.$dirty || editOfferForm.currency.$invalid && editOfferForm.currency.$dirty, 'has-success': editOfferForm.amount.$valid && editOfferForm.currency.$valid}">
-  <label for="price" class="col-sm-2 control-label">Price</label>
-  <div class="col-sm-10">
-    <input ng-model="offer.price.amount" min="0" type="number" name="amount" class="form-control form-control-inline" id="amount" placeholder="Amount" required style="width: 10px" />
-    <input type="text" ng-model="offer.price.currency" typeahead="currency.code as currency.code + ' - ' + currency.name for currency in currencies | filter: $viewValue | limitTo:7" typeahead-editable="false" name="currency" class="form-control form-control-inline" id="currency" placeholder="Currency" required />
-    <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': (editOfferForm.currency.$invalid && editOfferForm.currency.$dirty) || (editOfferForm.amount.$invalid && editOfferForm.amount.$dirty), 'glyphicon-ok': editOfferForm.currency.$valid && editOfferForm.amount.$valid}"></span>
-    <div class="help-block">The price at which you are offering this service.</div>
-    <div class="help-block" ng-show="(editOfferForm.amount.$error.required || editOfferForm.price.$error.required) && (editOfferForm.amount.$dirty || editOfferForm.price.$dirty)">Both an amount and a currency are required.</div>
-    <div class="help-block" ng-show="editOfferForm.amount.$invalid && editOfferForm.amount.$dirty">The amount must be a number zero or greater.</div>
-    <div class="help-block" ng-show="editOfferForm.currency.$invalid && editOfferForm.currency.$dirty">You must use a currency from the list provided.</div>
-  </div>
+	<label for="price" class="col-sm-2 control-label">Price</label>
+	<div class="col-sm-10">
+		<input ng-model="offer.price.amount" min="0" type="number" name="amount" class="form-control form-control-inline" id="amount" placeholder="Amount" required style="width: 10px" />
+		<input type="text" ng-model="offer.price.currency" typeahead="currency.code as currency.code + ' - ' + currency.name for currency in currencies | filter: $viewValue | limitTo:7" typeahead-editable="false" name="currency" class="form-control form-control-inline" id="currency" placeholder="Currency" required />
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': (editOfferForm.currency.$invalid && editOfferForm.currency.$dirty) || (editOfferForm.amount.$invalid && editOfferForm.amount.$dirty), 'glyphicon-ok': editOfferForm.currency.$valid && editOfferForm.amount.$valid}"></span>
+		<div class="help-block">The price at which you are offering this service.</div>
+		<div class="help-block" ng-show="(editOfferForm.amount.$error.required || editOfferForm.price.$error.required) && (editOfferForm.amount.$dirty || editOfferForm.price.$dirty)">Both an amount and a currency are required.</div>
+		<div class="help-block" ng-show="editOfferForm.amount.$invalid && editOfferForm.amount.$dirty">The amount must be a number zero or greater.</div>
+		<div class="help-block" ng-show="editOfferForm.currency.$invalid && editOfferForm.currency.$dirty">You must use a currency from the list provided.</div>
+	</div>
 </div>
 
 <div class="form-group has-feedback" ng-class="{'has-error': editOfferForm.landing.$invalid && editOfferForm.landing.$dirty, 'has-success': editOfferForm.landing.$valid}">
-  <label for="price" class="col-sm-2 control-label">Landing Page</label>
-  <div class="col-sm-10">
-    <input ng-model="offer.landing" type="url" name="landing" class="form-control" id="landing" placeholder="http://www.example.com/offer-page" required />
-    <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editOfferForm.landing.$invalid && editOfferForm.landing.$dirty, 'glyphicon-ok': editOfferForm.landing.$valid}"></span>
-    <div class="help-block" ng-show="editOfferForm.landing.$error.required && editOfferForm.landing.$dirty">A landing page is required. <span class="glyphicon glyphicon-remove"></span></div>
-    <div class="help-block" ng-show="editOfferForm.landing.$invalid && editOfferForm.landing.$dirty">Your landing page must be a valid web page address (URL). <span class="glyphicon glyphicon-remove"></span></div>
-    <div class="help-block no-validation">The web page that you would like users who click on this offer to be redirected to.</div>
-    <div class="help-block no-validation">Make sure you get this right. If you are paying us for clicks to this page, you may be charged even if you provide an incorrect URL.</div>
-  </div>
+	<label for="price" class="col-sm-2 control-label">Landing Page</label>
+	<div class="col-sm-10">
+		<input ng-model="offer.landing" type="url" name="landing" class="form-control" id="landing" placeholder="http://www.example.com/offer-page" required />
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': editOfferForm.landing.$invalid && editOfferForm.landing.$dirty, 'glyphicon-ok': editOfferForm.landing.$valid}"></span>
+		<div class="help-block" ng-show="editOfferForm.landing.$error.required && editOfferForm.landing.$dirty">A landing page is required. <span class="glyphicon glyphicon-remove"></span></div>
+		<div class="help-block" ng-show="editOfferForm.landing.$invalid && editOfferForm.landing.$dirty">Your landing page must be a valid web page address (URL). <span class="glyphicon glyphicon-remove"></span></div>
+		<div class="help-block no-validation">The web page that you would like users who click on this offer to be redirected to.</div>
+		<div class="help-block no-validation">Make sure you get this right. If you are paying us for clicks to this page, you may be charged even if you provide an incorrect URL.</div>
+	</div>
 </div>
 
 <div class="form-group has-feedback" ng-class="{'has-error': editOfferForm.status.$invalid && editOfferForm.status.$dirty, 'has-success': editOfferForm.status.$valid}">
-  <label for="price" class="col-sm-2 control-label">Status</label>
-  <div class="col-sm-10">
-    <label class="radio-inline">
-      <input ng-model="offer.status" value="draft" type="radio" name="status" id="draft"> Draft
-    </label>
-    <label class="radio-inline">
-      <input ng-model="offer.status" value="public" type="radio" name="status" id="public"> Public
-    </label>
-    <div class="help-block no-validation">Draft offers are only visible to your Provider's administrators.</div>
-    <div class="help-block no-validation">Public offers are visible to the public.</div>
-  </div>
+	<label for="price" class="col-sm-2 control-label">Status</label>
+	<div class="col-sm-10">
+		<label class="radio-inline">
+			<input ng-model="offer.status" value="draft" type="radio" name="status" id="draft"> Draft
+		</label>
+		<label class="radio-inline">
+			<input ng-model="offer.status" value="public" type="radio" name="status" id="public"> Public
+		</label>
+		<div class="help-block no-validation">Draft offers are only visible to your Provider's administrators.</div>
+		<div class="help-block no-validation">Public offers are visible to the public.</div>
+	</div>
 </div>
 
 <div class="form-group">
-  <div class="col-sm-offset-2 col-sm-10">
-    <button type="submit" id="submit" class="btn btn-success" ng-disabled="editOfferForm.$invalid">Save</button>
-    <button type="button" id="cancel" ng-click="cancel()" class="btn btn-cancel">Cancel</button>
-  </div>
+	<div class="col-sm-offset-2 col-sm-10">
+		<button type="submit" id="submit" class="btn btn-success" ng-disabled="editOfferForm.$invalid">Save</button>
+		<button type="button" id="cancel" ng-click="cancel()" class="btn btn-cancel">Cancel</button>
+	</div>
 </div>
 
 </form>

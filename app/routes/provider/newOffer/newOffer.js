@@ -22,7 +22,8 @@ export default angular.module('ethiveNewOfferRoute', [
 				$scope.setTitle('Create a new offer');
 
 				$scope.provider = provider;
-				$scope.newOffer = provider.offers.$build();
+				$scope.newOffer = {};
+				//$scope.newOffer = provider.offers.$build();
 
 				$scope.locationOptions = {
 					types: '(cities)'
@@ -48,17 +49,17 @@ export default angular.module('ethiveNewOfferRoute', [
 				});
 
 				$scope.submit = function (form) {
-					console.log($scope.newOffer)
 					form.validate = function () {
 						angular.forEach(form, function (field, key) {
 							if (!key.match(/^\$/) && field.$validate) field.$validate();
 						});
 					};
-					$scope.newOffer.$save().$then(function (resp) {
+					provider.offers.$create($scope.newOffer).$then(function (resp) {
 						// offer creation success!
 						// follow through by navigating to the offer
+						console.log(resp)
 						$state.go('offer.view', { // Go to the offer
-							offerID: resp[0].id
+							offerID: resp.id
 						});
 					}, function (response) {
 						// Should only ever get here if theres a server-side validation error, which should always be checked on the client side. No need for an error message if this is the case. Get the client side right!
