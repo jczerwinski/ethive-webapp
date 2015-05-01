@@ -10,8 +10,8 @@ export default angular.module('ethiveProviderModel', [
 			hasMany: 'Offer'
 		},
 		isAdministeredBy: function isAdministeredBy(user) {
-			return user && user.username && _.some(this.admins, function (admin) {
-				return admin.username === user.username;
+			return user && user._id && _.some(this.admins, function (admin) {
+				return admin === user._id;
 			});
 		}
 	});
