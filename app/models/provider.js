@@ -11,7 +11,7 @@ export default angular.module('ethiveProviderModel', [
 		},
 		isAdministeredBy: function isAdministeredBy(user) {
 			return user && user._id && _.some(this.admins, function (admin) {
-				return admin === user._id;
+				return admin === user._id || admin._id === user._id;
 			});
 		}
 	});

@@ -38,6 +38,9 @@ export default angular.module('ethiveServiceSelector', [
 							$scope.cancel = function() {
 								$modalInstance.dismiss();
 							};
+							$scope.selectNone = function () {
+								$modalInstance.close();
+							}
 							$scope.$watch('service', function (service) {
 								if (service !== undefined) {
 									$scope.select(service);

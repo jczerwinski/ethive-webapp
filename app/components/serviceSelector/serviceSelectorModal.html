@@ -3,5 +3,6 @@
     <serviceselector service="service" options="options"></serviceselector>
 </div>
 <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-if="options.selectNone" ng-click="selectNone()">Select None</button>
     <button type="button" ng-click="cancel()" class="btn btn-cancel">Cancel</button>
 </div>

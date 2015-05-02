@@ -22,7 +22,8 @@ export default angular.module('ethiveNewServiceRoute', [
 			selectable: function selectable (service) {
 				// All categories are selectable
 				return service.type === 'category';
-			}
+			},
+			selectNone: true
 		};
 		$scope.submit = function () {
 			var srv = Service.$create(newService).$then(function () {
