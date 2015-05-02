@@ -2,20 +2,23 @@ import angular from 'angular';
 import 'angular-ui-router';
 import _ from 'lodash';
 
+import currency from 'services/currency/currency';
+
 import OfferModel from 'models/offer';
 
 import template from 'routes/offer/editOffer/editOffer.html!text';
 
 export default angular.module('ethiveEditOfferRoute', [
 		'ui.router',
+		currency.name,
 		OfferModel.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('offer.editOffer', {
 			url: '/edit',
 			template: template,
-			controller: ['$scope', '$rootScope', 'offer', '$http', '$state', function ($scope, $rootScope, offer, $http, $state) {
-				$rootScope.setTitle(offer.service.name + ' - ' + offer.location + ' - ' + offer.provider.name);
+			controller: ['$scope', 'offer', '$state', 'currency', function ($scope, offer, $state, currency) {
+				$scope.setTitle(offer.service.name + ' - ' + offer.location + ' - ' + offer.provider.name);
 				$scope.offer = offer;
 
 				$scope.locationOptions = {
@@ -31,14 +34,8 @@ export default angular.module('ethiveEditOfferRoute', [
 					}
 				};
 
-				// TODO Proxy this call, set up as a service.
-				$http.jsonp('http://openexchangerates.org/api/currencies.json?app_id=9f55d699ea684dba9fa19a3491bd7557&callback=JSON_CALLBACK').success(function (data) {
-					$scope.currencies = _.map(data, function (el, key) {
-						return {
-							code: key,
-							name: el
-						};
-					});
+				currency.currencyList.then(function (currencies) {
+					$scope.currencies = currencies;
 				});
 
 				$scope.submit = function (form) {

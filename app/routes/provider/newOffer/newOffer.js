@@ -3,6 +3,8 @@ import 'angular-ui-router';
 import _ from 'lodash';
 import 'ngAutocomplete';
 
+import currency from 'services/currency/currency';
+
 import OfferModel from 'models/offer';
 import ServiceSelector from 'components/serviceSelector/serviceSelector';
 
@@ -12,18 +14,18 @@ export default angular.module('ethiveNewOfferRoute', [
 		'ui.router',
 		'ngAutocomplete',
 		OfferModel.name,
+		currency.name,
 		ServiceSelector.name // Directive used in template
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('provider.existing.newOffer', {
 			url: '/offers/new',
 			template: template,
-			controller: ['$scope', '$state', 'provider', '$http', function ($scope, $state, provider, $http) {
+			controller: ['$scope', '$state', 'provider', 'currency', function ($scope, $state, provider, currency) {
 				$scope.setTitle('Create a new offer');
 
 				$scope.provider = provider;
 				$scope.newOffer = {};
-				//$scope.newOffer = provider.offers.$build();
 
 				$scope.locationOptions = {
 					types: '(cities)'
@@ -38,14 +40,8 @@ export default angular.module('ethiveNewOfferRoute', [
 					}
 				};
 
-				// TODO Proxy this call, set up as a service.
-				$http.jsonp('http://openexchangerates.org/api/currencies.json?app_id=9f55d699ea684dba9fa19a3491bd7557&callback=JSON_CALLBACK').success(function (data) {
-					$scope.currencies = _.map(data, function (el, key) {
-						return {
-							code: key,
-							name: el
-						};
-					});
+				currency.currencyList.then(function (currencies) {
+					$scope.currencies = currencies;
 				});
 
 				$scope.submit = function (form) {
