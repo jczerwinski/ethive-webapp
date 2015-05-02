@@ -23,14 +23,12 @@
 					<th>Provider</th>
 					<th>Location(s)</th>
 					<th>Price</th>
-					<th></th>
 				</tr>
 
 				<tr ng-repeat="offer in service.offers">
-					<td><a ui-sref="provider.existing.view({providerID: offer.provider.id})">{{offer.provider.name}}</a></td>
+					<td><a ng-href="{{offer.landing}}">{{offer.provider.name}}</a></td>
 					<td>{{offer.location}}</td>
 					<td class="price">{{offer.price.amount | currency}}</td>
-					<td class="text-center"><a ui-sref="offer.view({offerID: offer.id})" class="btn btn-primary  btn-xs">more</a></td>
 				</tr>
 			</table>
 			<p ng-if="!service.offers.length">Sorry, there aren't any prices here yet. Check back later!</p>
