@@ -2,7 +2,7 @@ import angular from 'angular';
 import 'angular-ui-router';
 import _ from 'lodash';
 
-import currency from 'services/currency/currency';
+import currency from 'components/currency/currency';
 
 import OfferModel from 'models/offer';
 
@@ -34,9 +34,7 @@ export default angular.module('ethiveEditOfferRoute', [
 					}
 				};
 
-				currency.currencyList.then(function (currencies) {
-					$scope.currencies = currencies;
-				});
+				$scope.currencies = currency.currencyList;
 
 				$scope.submit = function (form) {
 					form.validate = function () {

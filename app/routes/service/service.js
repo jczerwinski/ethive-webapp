@@ -2,6 +2,8 @@ import angular from 'angular';
 import 'angular-restmod';
 import 'angular-ui-router';
 
+import currency from 'components/currency/currency';
+
 import EditServiceRoute from './edit/edit';
 import editServiceTemplate from './edit/edit.html!text';
 
@@ -16,6 +18,7 @@ var SERVICEID_REGEXP = /^[a-z0-9-]{1,}$/;
 export default angular.module('ethiveServiceRoute', [
 		'restmod',
 		'ui.router',
+		currency.name, // for ethiveFx filter in template
 		EditServiceRoute.name,
 		service.name
 	])

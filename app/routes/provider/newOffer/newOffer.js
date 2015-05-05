@@ -3,7 +3,7 @@ import 'angular-ui-router';
 import _ from 'lodash';
 import 'ngAutocomplete';
 
-import currency from 'services/currency/currency';
+import currency from 'components/currency/currency';
 
 import OfferModel from 'models/offer';
 import ServiceSelector from 'components/serviceSelector/serviceSelector';
@@ -40,9 +40,7 @@ export default angular.module('ethiveNewOfferRoute', [
 					}
 				};
 
-				currency.currencyList.then(function (currencies) {
-					$scope.currencies = currencies;
-				});
+				$scope.currencies = currency.currencyList;
 
 				$scope.submit = function (form) {
 					form.validate = function () {
