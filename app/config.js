@@ -1,5 +1,6 @@
 System.config({
   "baseURL": "/",
+  "transpiler": "traceur",
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
@@ -29,10 +30,10 @@ System.config({
 
 System.config({
   "map": {
+    "OpenBookPrices/country-data": "github:OpenBookPrices/country-data@0.0.19",
     "angular": "github:angular/bower-angular@1.3.15",
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.12.1",
     "angular-cookies": "github:angular/bower-angular-cookies@1.3.14",
-    "angular-deferred-bootstrap": "github:philippd/bower-angular-deferred-bootstrap@0.1.6",
     "angular-inflector": "github:iobaixas/angular-inflector@0.2.0",
     "angular-restmod": "github:platanus/angular-restmod@1.1.8",
     "angular-restmod-dirty": "github:platanus/angular-restmod@1.1.8/plugins/dirty",
@@ -45,12 +46,16 @@ System.config({
     "iobaixas/angular-inflector": "github:iobaixas/angular-inflector@0.2.0",
     "lodash": "npm:lodash@3.4.0",
     "luisfarzati/angulartics": "github:luisfarzati/angulartics@0.17.2",
+    "money": "npm:money@0.2.0",
     "ng-focus-on": "github:goodeggs/ng-focus-on@0.2.2",
     "ngAutocomplete": "github:wpalahnuk/ngAutocomplete@1.0.0",
     "openexchangerates/money.js": "github:openexchangerates/money.js@0.1.3",
-    "philippd/bower-angular-deferred-bootstrap": "github:philippd/bower-angular-deferred-bootstrap@0.1.6",
+    "philippd/bower-angular-deferred-bootstrap": "github:philippd/bower-angular-deferred-bootstrap@dev",
     "platanus/angular-restmod": "github:platanus/angular-restmod@1.1.8",
     "text": "github:systemjs/plugin-text@0.0.2",
+    "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
+    "wpalahnuk/ngAutocomplete": "github:wpalahnuk/ngAutocomplete@1.0.0",
     "github:angular-ui/bootstrap-bower@0.12.1": {
       "angular": "github:angular/bower-angular@1.2.28"
     },
@@ -62,6 +67,9 @@ System.config({
     },
     "github:jspm/nodelibs-process@0.1.1": {
       "process": "npm:process@0.10.1"
+    },
+    "github:philippd/bower-angular-deferred-bootstrap@dev": {
+      "angular": "github:angular/bower-angular@1.3.15"
     },
     "github:platanus/angular-restmod@1.1.8": {
       "angular": "github:angular/bower-angular@1.3.15"

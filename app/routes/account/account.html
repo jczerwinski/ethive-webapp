@@ -1,4 +1,4 @@
-<div ng-if="user">
+<div ng-if="user.isLoggedIn()">
     <h1>{{user.username}}'s Account</h1>
     <h2>Providers <a ng-if="true" ng-click="open()"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Provider</button></a></h2>
     <ul ng-if="user.providers.length" class="list-inline">
@@ -6,7 +6,7 @@
     </ul>
     <p ng-if="!user.providers.length">You currently administer no providers.</p>
 </div>
-<div ng-if="!user">
+<div ng-if="!user.isLoggedIn()">
     <h1>Your Account</h1>
     <div class="alert alert-danger">Oops! You are not logged in. You must log in to access your account.</div>
     <a class="btn btn-primary pull-right" ui-sref="login({next: {state: 'account'}})">Login</a>

@@ -54,9 +54,10 @@ export default angular.module('ethiveServiceRoute', [
 		.state('service.existing.view', {
 			url: '',
 			template: template,
-			controller: ['$scope', 'service', function ($scope, service) {
+			controller: ['$scope', 'service', 'currency', function ($scope, service, currency) {
 				$scope.setTitle(service.name);
 				$scope.service = service;
+				$scope.currencies = currency.currencyList;
 			}]
 		})
 		.state('service.existing.edit', {

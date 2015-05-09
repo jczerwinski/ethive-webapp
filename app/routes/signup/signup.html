@@ -1,10 +1,10 @@
 <h1>Sign Up for Ethive</h1>
 <div ui-view>
-  <div ng-if="user">
+  <div ng-if="user.isLoggedIn()">
     <div class="alert alert-danger">Oops! Looks like you're already logged in. If you would like to sign up as another user, you will have to logout first.</div>
     <button class="btn btn-primary pull-right" ng-click="logout()">Logout</button>
   </div>
-  <div ng-if="!user">
+  <div ng-if="!user.isLoggedIn()">
     <form name="signupForm" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
       <div class="form-group has-feedback" ng-class="{'has-error': signupForm.username.$invalid && signupForm.username.$dirty, 'has-success': signupForm.username.$valid}">
         <label for="username" class="col-sm-2 control-label">Username</label>

@@ -1,5 +1,5 @@
 <h1>Ethive Login</h1>
-<form ng-show="!user" name="loginForm" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
+<form ng-show="!user.isLoggedIn()" name="loginForm" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
   <div ng-show="status === 'error'" class="alert alert-danger">Sorry, we are experiencing technical difficulties. Please try again in a few minutes.</div>
   <div ng-show="status === 'unverified'" class="alert alert-danger">You still need to verify your email address. Please check your email and click on the verification link from us.</div>
   <div ng-show="status === 'brute'" class="alert alert-danger">You have had too many unsuccessful login attempts. Your account has been temporarily disabled. Please wait a few minutes and try again.</div>
@@ -35,10 +35,10 @@
     </div>
   </div>
 </form>
-<div ng-show="user && status !== 'success'">
+<div ng-show="user.isLoggedIn() && status !== 'success'">
   <div class="alert alert-danger">Oops! Looks like you're already logged in. If you would like to login as another user, you will have to logout first.</div>
   <button class="btn btn-primary pull-right" ng-click="logout()">Logout</button>
 </div>
-<div ng-show="user && status === 'success'">
+<div ng-show="user.isLoggedIn() && status === 'success'">
   <div class="alert alert-success">Login successful!</div>
 </div>

@@ -105,7 +105,14 @@ export default angular.module('ethiveUserModel', [
 		};
 	}])
 	.factory('User', ['restmod', function (restmod) {
-		return restmod.model('/api/users');
+		return restmod.model('/api/users').mix({
+			preferences: {
+				currency: 'USD'
+			},
+			isLoggedIn: function () {
+				return !!this._id;
+			}
+		});
 	}])
 	.factory('auth', ['$rootScope', function ($rootScope) {
 		return {
@@ -127,6 +134,8 @@ export default angular.module('ethiveUserModel', [
 		})();
 		if ($rootScope.auth) {
 			$rootScope.user = User.$find($rootScope.auth.username);
+		} else {
+			$rootScope.user = User.$build();
 		}
 
 		$rootScope.setAuth = function (auth) {
@@ -144,6 +153,7 @@ export default angular.module('ethiveUserModel', [
 			$cookieStore.remove('auth');
 			delete $rootScope.auth;
 			delete $rootScope.user;
+			$rootScope.user = User.$build();
 			$state.reload();
 		};
 	}]);

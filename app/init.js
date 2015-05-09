@@ -1,6 +1,6 @@
-import angular from 'angular';
+
+import deferredBootstapper from 'philippd/bower-angular-deferred-bootstrap';
 import app from './app';
-import deferredBootstapper from 'angular-deferred-bootstrap';
 
 var CURRENCIES_URL = 'http://openexchangerates.org/api/currencies.json?app_id=9f55d699ea684dba9fa19a3491bd7557&callback=JSON_CALLBACK';
 var RATES_URL = 'http://openexchangerates.org/api/latest.json?app_id=9f55d699ea684dba9fa19a3491bd7557&callback=JSON_CALLBACK';
