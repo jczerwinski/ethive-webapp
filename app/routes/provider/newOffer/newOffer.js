@@ -51,7 +51,6 @@ export default angular.module('ethiveNewOfferRoute', [
 					provider.offers.$create($scope.newOffer).$then(function (resp) {
 						// offer creation success!
 						// follow through by navigating to the offer
-						console.log(resp)
 						$state.go('offer.view', { // Go to the offer
 							offerID: resp.id
 						});
