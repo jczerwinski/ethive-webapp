@@ -3,12 +3,17 @@ import 'angular-ui-router';
 
 import template from 'routes/service/new/new.html!text';
 
+// Directive used in template
+import errors from 'components/unauthorized/unauthorized';
+
 export default angular.module('ethiveNewServiceRoute', [
-		'ui.router'
+		'ui.router',
+		errors.name
 	])
 	.controller('NewServiceCtrl', ['$scope', '$state', 'Service', 'service', function ($scope, $state, Service, service) {
 		var newService = $scope.newService = {};
 		if (service) {
+			$scope.service = service;
 			$scope.setTitle('Create New Subservice - ' + service.name);
 			newService.parent = service;
 		} else {
