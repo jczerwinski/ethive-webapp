@@ -58,6 +58,11 @@ export default angular.module('ethiveServiceRoute', [
 				$scope.setTitle(service.name);
 				$scope.service = service;
 				$scope.currencies = currency.currencyList;
+				$scope.changeCurrency = function () {
+					if ($scope.user.isLoggedIn()) {
+						$scope.user.$save(['preferences.currency']);
+					}
+				};
 			}]
 		})
 		.state('service.existing.edit', {

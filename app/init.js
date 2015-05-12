@@ -1,4 +1,3 @@
-
 import deferredBootstapper from 'angular-deferred-bootstrap';
 import app from './app';
 

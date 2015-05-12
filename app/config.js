@@ -45,6 +45,7 @@ System.config({
     "goodeggs/ng-focus-on": "github:goodeggs/ng-focus-on@0.2.2",
     "grevory/angular-local-storage": "github:grevory/angular-local-storage@0.1.5",
     "iobaixas/angular-inflector": "github:iobaixas/angular-inflector@0.2.0",
+    "json": "github:systemjs/plugin-json@0.1.0",
     "lodash": "npm:lodash@3.4.0",
     "luisfarzati/angulartics": "github:luisfarzati/angulartics@0.17.2",
     "money": "npm:money@0.2.0",

@@ -23,7 +23,7 @@
 					<th>Provider</th>
 					<th>Location(s)</th>
 					<th class="form-inline"><label>Price
-					<select class="form-control input-sm currency-selector" ng-model="user.preferences.currency" ng-options="currency.code as currency.code + '   ' + currency.name for currency in currencies">
+					<select class="form-control input-sm currency-selector" ng-model="user.preferences.currency" ng-options="currency.code as currency.code + '   ' + currency.name for currency in currencies" ng-change="changeCurrency()">
 					</select></label>
 					</th>
 				</tr>

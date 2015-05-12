@@ -2,11 +2,13 @@ import angular from 'angular';
 import 'angular-cookies';
 import 'grevory/angular-local-storage';
 import 'angular-ui-router';
+import currency from 'components/currency/currency';
 
 // localstore cookiestore restmod
 var USERNAME_REGEXP = /^[a-zA-Z0-9_.]{3,20}$/;
 var PASSWORD_REGEXP = /^[a-zA-Z0-9_.]{8,100}$/;
 export default angular.module('ethiveUserModel', [
+		currency.name,
 		'LocalStorageModule',
 		'ngCookies',
 		'ui.router'
@@ -104,10 +106,14 @@ export default angular.module('ethiveUserModel', [
 			}
 		};
 	}])
-	.factory('User', ['restmod', function (restmod) {
+	.factory('User', ['restmod', '$locale', 'localeCurrencyFilter', function (restmod, $locale, localeCurrencyFilter) {
 		return restmod.model('/api/users').mix({
 			preferences: {
-				currency: 'USD'
+				init: function () {
+					return {
+						currency: localeCurrencyFilter($locale.id)
+					};
+				}
 			},
 			isLoggedIn: function () {
 				return !!this._id;
