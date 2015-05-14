@@ -376,7 +376,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('systemjs', function () {
 		var done = this.async();
 		var builder = new Builder();
-		builder.loadConfig('app/systemjs-config.js').then(function () {
+		builder.loadConfig('app/config.js').then(function () {
 			return builder.config({
 				baseURL: 'app'
 			});
