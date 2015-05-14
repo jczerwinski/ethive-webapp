@@ -437,7 +437,7 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('default', [
-		'ngconstant:dist'
+		'ngconstant:dist',
 		'newer:jshint',
 		//'test',
 		'build'
