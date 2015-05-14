@@ -23,7 +23,7 @@ module.exports = function (grunt) {
 		// Project settings
 		yeoman: {
 			// configurable paths
-			app: require('./bower.json').appPath || 'app',
+			app: 'app',
 			dist: 'dist'
 		},
 
@@ -97,9 +97,6 @@ module.exports = function (grunt) {
 
 					var middleware = [];
 
-					// Proxy
-					middleware.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
-
 					// 1. mod-rewrite behavior
 					var rules = [
 						'!\\.html|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.gif|\\.woff2|\\.woff|\\.ttf|\\.svg$ /index.html'
@@ -124,13 +121,7 @@ module.exports = function (grunt) {
 						'.tmp',
 						'<%= yeoman.app %>'
 					]
-				},
-				proxies: [{
-					context: '/api',
-					host: 'localhost',
-					port: 3000,
-					changeOrigin: false
-				}]
+				}
 			},
 			test: {
 				options: {
@@ -145,13 +136,7 @@ module.exports = function (grunt) {
 			dist: {
 				options: {
 					base: '<%= yeoman.dist %>'
-				},
-				proxies: [{
-					context: '/api',
-					host: 'localhost',
-					port: 3000,
-					changeOrigin: false
-				}]
+				}
 			}
 		},
 
@@ -342,7 +327,8 @@ module.exports = function (grunt) {
 		concurrent: {
 			server: [
 				'stylus',
-				'less'
+				'less',
+				'ngconstant:serve'
 			],
 			test: [
 				'stylus',
@@ -354,6 +340,34 @@ module.exports = function (grunt) {
 				'imagemin',
 				'svgmin'
 			]
+		},
+
+		// Generate app/app-config.js
+		ngconstant: {
+			options: {
+				name: 'ethive.config',
+				dest: '<%= yeoman.app %>/app-config.js',
+				deps: [],
+				wrap: 'import angular from \'angular\';\n\nexport default {%= __ngModule %}'
+			},
+			serve: {
+				// Development config
+				constants: {
+					config: {
+						environment: 'development',
+						apiRoot: 'http://localhost:3000'
+					}
+				}
+			},
+			dist: {
+				// Production config
+				constants: {
+					config: {
+						environment: 'production',
+						apiRoot: 'https://api.ethive.com'
+					}
+				}
+			}
 		}
 	});
 
@@ -362,7 +376,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('systemjs', function () {
 		var done = this.async();
 		var builder = new Builder();
-		builder.loadConfig('app/config.js').then(function () {
+		builder.loadConfig('app/systemjs-config.js').then(function () {
 			return builder.config({
 				baseURL: 'app'
 			});
@@ -385,8 +399,8 @@ module.exports = function (grunt) {
 	grunt.registerTask('serve', function (target) {
 		if (target === 'dist') {
 			return grunt.task.run([
+				'ngconstant:serve',
 				'build',
-				'configureProxies:dist',
 				'connect:dist:keepalive'
 			]);
 		}
@@ -395,7 +409,6 @@ module.exports = function (grunt) {
 			'clean:server',
 			'concurrent:server',
 			'autoprefixer',
-			'configureProxies:livereload',
 			'connect:livereload',
 			'watch'
 		]);
@@ -424,6 +437,7 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('default', [
+		'ngconstant:dist'
 		'newer:jshint',
 		//'test',
 		'build'

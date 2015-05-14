@@ -2,15 +2,19 @@ import angular from 'angular';
 import 'angular-restmod';
 import 'angular-inflector';
 
+import config from 'app-config';
+
 export default angular.module('ethiveBaseModel', [
 	'restmod',
-	'platanus.inflector'
-]).factory('EthiveBaseModel', ['restmod', 'inflector', function (restmod, inflector) {
+	'platanus.inflector',
+	config.name
+]).factory('EthiveBaseModel', ['restmod', 'inflector', 'config', function (restmod, inflector, config) {
 	return restmod.mixin({
 		$config: {
 			// Suppress warning:
 			// No API style base was selected, see the Api Integration FAQ for more information on this warning
-			style: 'Mongoose', // By setting the style variable the warning is disabled.
+			style: 'Mongoose', // By setting the style variable the warning is disabled.,
+			urlPrefix: config.apiRoot
 		},
 		$extend: {
 				Model: {
