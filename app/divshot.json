@@ -1,5 +1,8 @@
 {
   "name": "ethive-webapp",
   "root": "dist",
-  "clean_urls": true
+  "clean_urls": true,
+  "routes": {
+    "*": "index.html"
+  }
 }
