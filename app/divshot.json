@@ -1,0 +1,5 @@
+{
+  "name": "ethive-webapp",
+  "root": "dist",
+  "clean_urls": true
+}
