@@ -365,7 +365,7 @@ module.exports = function (grunt) {
 				constants: {
 					config: {
 						environment: 'production',
-						apiRoot: 'https://api.ethive.com'
+						apiRoot: 'https://ethiveserver-46660.onmodulus.net'
 					}
 				}
 			}
