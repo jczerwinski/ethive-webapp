@@ -53,9 +53,11 @@ System.config({
     "ngAutocomplete": "github:wpalahnuk/ngAutocomplete@1.0.0",
     "openexchangerates/money.js": "github:openexchangerates/money.js@0.1.3",
     "platanus/angular-restmod": "github:platanus/angular-restmod@1.1.8",
+    "spin": "github:fgnass/spin.js@2.1.0",
     "text": "github:systemjs/plugin-text@0.0.2",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
+    "urish/angular-spinner": "github:urish/angular-spinner@0.6.1",
     "wpalahnuk/ngAutocomplete": "github:wpalahnuk/ngAutocomplete@1.0.0",
     "github:angular-ui/bootstrap-bower@0.12.1": {
       "angular": "github:angular/bower-angular@1.2.28"

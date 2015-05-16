@@ -4,6 +4,8 @@ import 'grevory/angular-local-storage';
 import 'angular-ui-router';
 import currency from 'components/currency/currency';
 
+import config from 'app-config';
+
 // localstore cookiestore restmod
 var USERNAME_REGEXP = /^[a-zA-Z0-9_.]{3,20}$/;
 var PASSWORD_REGEXP = /^[a-zA-Z0-9_.]{8,100}$/;
@@ -11,7 +13,8 @@ export default angular.module('ethiveUserModel', [
 		currency.name,
 		'LocalStorageModule',
 		'ngCookies',
-		'ui.router'
+		'ui.router',
+		config.name
 	])
 	.directive('username', [function () {
 		return {
@@ -106,17 +109,26 @@ export default angular.module('ethiveUserModel', [
 			}
 		};
 	}])
-	.factory('User', ['restmod', '$locale', 'localeCurrencyFilter', function (restmod, $locale, localeCurrencyFilter) {
+	.factory('User', ['restmod', '$locale', 'localeCurrencyFilter', '$http', 'config', function (restmod, $locale, localeCurrencyFilter, $http, config) {
 		return restmod.model('/api/users').mix({
+			$extend: {
+				Model: {
+					verifyEmail: function (verificationKey) {
+						return $http.get(config.apiRoot + '/api/verifyEmail/' + verificationKey);
+					}
+				},
+				Record: {
+					isLoggedIn: function () {
+						return !!this._id;
+					}
+				}
+			},
 			preferences: {
 				init: function () {
 					return {
 						currency: localeCurrencyFilter($locale.id)
 					};
 				}
-			},
-			isLoggedIn: function () {
-				return !!this._id;
 			}
 		});
 	}])

@@ -4,7 +4,7 @@ import 'angular-ui-router';
 import template from 'routes/service/new/new.html!text';
 
 // Directive used in template
-import errors from 'components/unauthorized/unauthorized';
+import errors from 'components/errors/errors';
 
 export default angular.module('ethiveNewServiceRoute', [
 		'ui.router',

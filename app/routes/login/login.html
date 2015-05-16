@@ -34,6 +34,7 @@
       <span><a ui-sref="signup.default">Or, sign up for Ethive!</a></span>
     </div>
   </div>
+  <div ng-if="verified" class="alert alert-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> You have successfully verified your email address! You can now log in.</div>
 </form>
 <div ng-show="user.isLoggedIn() && status !== 'success'">
   <div class="alert alert-danger">Oops! Looks like you're already logged in. If you would like to login as another user, you will have to logout first.</div>

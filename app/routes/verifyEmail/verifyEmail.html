@@ -1,0 +1,16 @@
+<div ng-switch="verifyEmailCtrl.status">
+	<div ng-switch-when="verifying">
+		<h1>Verifying email address...</h1>
+		<div class="alert alert-info">
+		<span us-spinner="{radius:30, width:8, length: 16}"></span>Please wait while we verify your email address...
+		</div>
+	</div>
+	<div ng-switch-when="not-found">
+		<h1>Account not found</h1>
+		<div class="alert alert-danger">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> We cannot find the account associated with the email address you are attempting to verify.
+		</div>
+			<p><a ui-sref="login" class="btn btn-primary btn-sm">Log In</a> if you already verified your email address.</p>
+			<p><a ui-sref="signup.default" class="btn btn-primary btn-sm">Sign Up</a> if you took too long to validate your account -- it may have been deleted.</p>
+	</div>
+</div>

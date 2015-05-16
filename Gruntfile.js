@@ -91,7 +91,7 @@ module.exports = function (grunt) {
 				port: 9000,
 				protocol: 'http',
 				// Change this to '0.0.0.0' to access the server from outside.
-				hostname: 'localhost',
+				hostname: '127.0.0.1',
 				livereload: 35729,
 				middleware: function (connect, options) {
 
@@ -356,7 +356,7 @@ module.exports = function (grunt) {
 				constants: {
 					config: {
 						environment: 'development',
-						apiRoot: 'http://localhost:3000'
+						apiRoot: 'http://127.0.0.1:3000'
 					}
 				}
 			},
