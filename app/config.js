@@ -39,6 +39,7 @@ System.config({
     "angular-restmod": "github:platanus/angular-restmod@1.1.8",
     "angular-restmod-dirty": "github:platanus/angular-restmod@1.1.8/plugins/dirty",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.13",
+    "angular-ui-utils": "github:angular-ui/ui-utils@0.2.3",
     "angulartics": "github:luisfarzati/angulartics@0.17.2",
     "angulartics-ga": "github:luisfarzati/angulartics@0.17.2/src/angulartics-ga",
     "bootstrap": "github:jczerwinski/bootstrap@master",
@@ -63,6 +64,9 @@ System.config({
       "angular": "github:angular/bower-angular@1.2.28"
     },
     "github:angular-ui/ui-router@0.2.13": {
+      "angular": "github:angular/bower-angular@1.3.15"
+    },
+    "github:angular-ui/ui-utils@0.2.3": {
       "angular": "github:angular/bower-angular@1.3.15"
     },
     "github:angular/bower-angular-cookies@1.3.14": {

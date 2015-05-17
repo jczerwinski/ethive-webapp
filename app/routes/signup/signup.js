@@ -1,6 +1,9 @@
 import angular from 'angular';
 import 'angular-ui-router';
 
+// For ui-validate in template
+import 'angular-ui-utils';
+
 import signupTemplate from 'routes/signup/signup.html!text';
 import signupSuccessTemplate from 'routes/signup/signup.success.html!text';
 
@@ -8,7 +11,8 @@ import User from 'models/user';
 
 export default angular.module('ethiveSignupRoute', [
 		'ui.router',
-		User.name
+		User.name,
+		'ui.utils'
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('signup', {

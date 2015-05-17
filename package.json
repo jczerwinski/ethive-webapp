@@ -59,6 +59,7 @@
       "angular-deferred-bootstrap": "github:philippd/bower-angular-deferred-bootstrap@^0.1.7",
       "angular-restmod": "github:platanus/angular-restmod@^1.1.8",
       "angular-ui-router": "github:angular-ui/ui-router@^0.2.13",
+      "angular-ui-utils": "github:angular-ui/ui-utils@^0.2.3",
       "bootstrap": "github:jczerwinski/bootstrap@master",
       "goodeggs/ng-focus-on": "github:goodeggs/ng-focus-on@^0.2.2",
       "grevory/angular-local-storage": "github:grevory/angular-local-storage@^0.1.5",
