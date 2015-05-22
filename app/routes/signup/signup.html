@@ -36,7 +36,7 @@
 					<input ng-model="newUser.password" password name="password" type="password" class="form-control" id="password" placeholder="Password" required>
 					<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove':  signupForm.password.$invalid && signupForm.password.$dirty, 'glyphicon-ok': signupForm.password.$valid}"></span>
 					<div class="help-block" ng-show="signupForm.password.$error.required && signupForm.password.$dirty">A password is required.</div>
-					<div class="help-block" ng-show="signupForm.password.$error.password && signupForm.password.$dirty">Passwords can only include letters, numbers, periods, and underscores, and must be between 8 and 100 characters long.</div>
+					<div class="help-block" ng-show="signupForm.password.$error.password && signupForm.password.$dirty">Passwords can only include letters, numbers, periods, and underscores, and must be at least 8 characters long.</div>
 					<div class="help-block" ng-show="signupForm.password.$valid">Looks good!</div>
 				</div>
 			</div>

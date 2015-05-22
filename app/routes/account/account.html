@@ -1,13 +1,57 @@
 <div ng-if="user.isLoggedIn()">
-    <h1>{{user.username}}'s Account</h1>
-    <h2>Providers <a ng-if="true" ng-click="open()"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Provider</button></a></h2>
-    <ul ng-if="user.providers.length" class="list-inline">
-        <li ng-repeat="provider in user.providers"><a ui-sref="provider.existing.view({providerID: provider.id})"><button type="button" class="btn btn-default">{{provider.name}}</button></a></li>
-    </ul>
-    <p ng-if="!user.providers.length">You currently administer no providers.</p>
+	<h1>{{user.username}}'s Account</h1>
+	<h2>Providers <a ng-if="true" ng-click="open()"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Provider</button></a></h2>
+	<ul ng-if="user.providers.length" class="list-inline">
+		<li ng-repeat="provider in user.providers"><a ui-sref="provider.existing.view({providerID: provider.id})"><button type="button" class="btn btn-default">{{provider.name}}</button></a></li>
+	</ul>
+	<p ng-if="!user.providers.length">You currently administer no providers.</p>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2 class="panel-title">Change Password</h2>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal" name="changePasswordForm" role="form" ng-submit="changePassword(changePasswordForm)" novalidate>
+
+				<div class="form-group has-feedback" ng-class="{'has-error': changePasswordForm.currentPassword.$invalid && changePasswordForm.currentPassword.$dirty}">
+					<label for="currentPassword" class="col-sm-4 control-label">Current Password</label>
+					<div class="col-sm-8">
+						<input ng-change="changePasswordForm.currentPassword.$setValidity('incorrect', true)" ng-model="passwords.currentPassword" name="currentPassword" type="password" class="form-control" id="currentPassword" placeholder="Current Password" required focus-on="currentPassword" select-on-focus>
+						<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': status === 'password'}"></span>
+						<div class="help-block" ng-show="changePasswordForm.$error.incorrect">Oops! Wrong password.</div>
+					</div>
+				</div>
+
+				<div class="form-group has-feedback" ng-class="{'has-error': changePasswordForm.newPassword.$invalid && changePasswordForm.newPassword.$dirty, 'has-success': changePasswordForm.newPassword.$valid}">
+				<label for="newPassword" class="col-sm-4 control-label">New Password</label>
+				<div class="col-sm-8">
+					<input ng-model="passwords.newPassword" password name="newPassword" type="password" class="form-control" id="newPassword" placeholder="New Password" required>
+					<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove':  changePasswordForm.newPassword.$invalid && changePasswordForm.newPassword.$dirty, 'glyphicon-ok': changePasswordForm.newPassword.$valid}"></span>
+					<div class="help-block" ng-show="changePasswordForm.newPassword.$error.required && changePasswordForm.newPassword.$dirty">A password is required.</div>
+					<div class="help-block" ng-show="changePasswordForm.newPassword.$error.password && changePasswordForm.newPassword.$dirty">Passwords can only include letters, numbers, periods, and underscores, and must be at least 8 characters long.</div>
+					<div class="help-block" ng-show="changePasswordForm.newPassword.$valid">Looks good!</div>
+				</div>
+			</div>
+
+			<div class="form-group has-feedback" ng-class="{'has-error': changePasswordForm.repeatPassword.$invalid && changePasswordForm.repeatPassword.$dirty, 'has-success': changePasswordForm.repeatPassword.$valid}">
+				<label for="repeatPassword" class="col-sm-4 control-label">Repeat Password</label>
+				<div class="col-sm-8">
+					<input ng-model="passwords.repeatPassword" name="repeatPassword" type="password" class="form-control" id="repeatPassword" placeholder="Repeat Password" ui-validate="'passwords.newPassword === $value'" ui-validate-watch="'passwords.newPassword'" required>
+					<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove':  changePasswordForm.repeatPassword.$invalid && changePasswordForm.repeatPassword.$dirty, 'glyphicon-ok': changePasswordForm.repeatPassword.$valid}"></span>
+					<div class="help-block" ng-show="changePasswordForm.repeatPassword.$error.validator && changePasswordForm.repeatPassword.$dirty">Passwords do not match or password is invalid.</div>
+					<div class="help-block" ng-show="changePasswordForm.repeatPassword.$valid">Looks good!</div>
+				</div>
+			</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-8">
+						<button type="submit" id="submit" class="btn btn-success" ng-disabled="changePasswordForm.$invalid">Change Password</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 <div ng-if="!user.isLoggedIn()">
-    <h1>Your Account</h1>
-    <div class="alert alert-danger">Oops! You are not logged in. You must log in to access your account.</div>
-    <a class="btn btn-primary pull-right" ui-sref="login">Login</a>
+	<h1>Your Account</h1>
+	<div class="alert alert-danger">Oops! You are not logged in. You must log in to access your account.</div>
+	<a class="btn btn-primary pull-right" ui-sref="login">Login</a>
 </div>

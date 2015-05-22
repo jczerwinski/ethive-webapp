@@ -8,7 +8,7 @@ import config from 'app-config';
 
 // localstore cookiestore restmod
 var USERNAME_REGEXP = /^[a-zA-Z0-9_.]{3,20}$/;
-var PASSWORD_REGEXP = /^[a-zA-Z0-9_.]{8,100}$/;
+var PASSWORD_REGEXP = /^[a-zA-Z0-9_.]{8,}$/;
 export default angular.module('ethiveUserModel', [
 		currency.name,
 		'LocalStorageModule',
@@ -120,6 +120,9 @@ export default angular.module('ethiveUserModel', [
 				Record: {
 					isLoggedIn: function () {
 						return !!this._id;
+					},
+					changePassword: function (passwords) {
+						return $http.post(config.apiRoot + '/api/users/' + this.username + '/changePassword', passwords);
 					}
 				}
 			},
