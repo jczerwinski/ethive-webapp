@@ -6,6 +6,7 @@ import _ from 'lodash';
 import 'angulartics';
 import 'angulartics-ga';
 import baseModel from 'models/baseModel';
+import errors from 'components/errors/errors';
 
 import routes from 'routes/routes';
 import header from 'components/header/header';
@@ -17,7 +18,8 @@ export default angular.module('ethiveApp', [
 		'angulartics.google.analytics',
 		routes.name,
 		header.name,
-		baseModel.name
+		baseModel.name,
+		errors.name
 	])
 	.config(['$locationProvider', 'restmodProvider', function ($locationProvider, restmodProvider) {
 		restmodProvider.rebase('DirtyModel', 'EthiveBaseModel'); // Enables $restore, $dirty on models
