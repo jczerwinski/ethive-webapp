@@ -40,6 +40,7 @@ export default angular.module('ethive.errors', [
 				// Uncaught server error. Bad news.
 				alert();
 			}
+			throw err;
 		}
 	}
 }])
