@@ -1,16 +1,18 @@
 <div class="header">
-  <ul class="nav nav-pills pull-right">
-  	<li class="active"><a ui-sref="home">Home</a></li>
-  	<li ng-if="!user.isLoggedIn()"><a ui-sref="login">Login/Sign Up</a></li>
-  	<li ng-if="user.isLoggedIn()" class="dropdown" dropdown>
-        <a href class="dropdown-toggle" dropdown-toggle>
-          {{user.email}} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu pull-right">
-          <li><a ui-sref="account">Account</a></li>
-          <li><a href ng-click="logout()">Logout</a></li>
-        </ul>
-    </li>
-  </ul>
-  <h3 class="brand"><a ui-sref="home"><img src="img/logo.png" /></a></h3>
+	<div class="container">
+		<ul class="nav nav-pills pull-right">
+			<li class="active"><a ui-sref="home">Home</a></li>
+			<li ng-if="!user.isLoggedIn()"><a ui-sref="login">Login/Sign Up</a></li>
+			<li ng-if="user.isLoggedIn()" class="dropdown" dropdown>
+					<a href class="dropdown-toggle" dropdown-toggle>
+						{{user.email}} <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu pull-right">
+						<li><a ui-sref="account">Account</a></li>
+						<li><a href ng-click="logout()">Logout</a></li>
+					</ul>
+			</li>
+		</ul>
+		<h3 class="brand"><a ui-sref="home"><img src="img/logo.png" /></a></h3>
+	</div>
 </div>
