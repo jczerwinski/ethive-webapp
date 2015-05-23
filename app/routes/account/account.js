@@ -1,6 +1,5 @@
 import angular from 'angular';
 import 'angular-ui-router';
-import 'angular-bootstrap';
 import 'angular-ui-utils';
 import 'ng-focus-on';
 
@@ -11,7 +10,6 @@ import newProviderTemplate from 'routes/provider/new/new.html!text';
 
 export default angular.module('ethiveAccountRoute', [
 		'ui.router',
-		'ui.bootstrap.modal',
 		'ui.utils',
 		'focusOn',
 		user.name // For password directive
@@ -20,17 +18,9 @@ export default angular.module('ethiveAccountRoute', [
 		$stateProvider.state('account', {
 			url: '/account',
 			template: accountTemplate,
-			controller: ['$scope', '$modal', 'focus', function ($scope, $modal, focus) {
+			controller: ['$scope', function ($scope) {
 				$scope.setTitle('Your account');
-				if ($scope.user.isLoggedIn()) {
-					$scope.open = function () {
-						var modalInstance = $modal.open({
-							template: newProviderTemplate,
-							controller: 'NewProviderCtrl'
-						});
-					};
-					$scope.user.$refresh();
-				}
+				$scope.user.$refresh();
 				$scope.passwords = {};
 				$scope.changePassword = function (form) {
 					$scope.user.changePassword($scope.passwords).then(function (resp) {

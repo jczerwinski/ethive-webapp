@@ -30,7 +30,7 @@ export default angular.module('ethive.errors', [
 	}
 	return alert;
 }])
-.factory('ethiveServerErrorInterceptor', ['ethiveServerErrorAlertService', function (alert) {
+.factory('ethiveServerErrorInterceptor', ['$q', 'ethiveServerErrorAlertService', function ($q, alert) {
 	return {
 		responseError: function (err) {
 			if (err.status === 0) {
@@ -40,7 +40,7 @@ export default angular.module('ethive.errors', [
 				// Uncaught server error. Bad news.
 				alert();
 			}
-			throw err;
+			return $q.reject(err);
 		}
 	}
 }])
