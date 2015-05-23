@@ -23,7 +23,7 @@ export default angular.module('ethiveLoginRoute', [
 				$scope.submit = function() {
 					// Try to authenticate
 					// TODO HTTPS only.
-					$http.post(config.apiRoot + '/api/auth', {
+					$http.post(config.apiRoot + '/auth', {
 						username: $scope.username,
 						password: $scope.password
 					}).then(function(response) {

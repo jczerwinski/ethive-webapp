@@ -5,7 +5,7 @@ import _ from 'lodash';
 export default angular.module('ethiveProviderModel', [
 	'restmod'
 ]).factory('Provider', ['restmod', function (restmod) {
-	return restmod.model('/api/providers').mix({
+	return restmod.model('/providers').mix({
 		offers: {
 			hasMany: 'Offer'
 		},

@@ -4,7 +4,7 @@ import 'angular-restmod';
 export default angular.module('ethiveOfferModel', [
 	'restmod'
 ]).factory('Offer', ['restmod', function (restmod) {
-	return restmod.model('/api/offers').mix({
+	return restmod.model('/offers').mix({
 		provider: {
 			hasOne: 'Provider'
 		},

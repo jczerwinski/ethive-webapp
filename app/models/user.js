@@ -110,11 +110,11 @@ export default angular.module('ethiveUserModel', [
 		};
 	}])
 	.factory('User', ['restmod', '$locale', 'localeCurrencyFilter', '$http', 'config', function (restmod, $locale, localeCurrencyFilter, $http, config) {
-		return restmod.model('/api/users').mix({
+		return restmod.model('/users').mix({
 			$extend: {
 				Model: {
 					verifyEmail: function (verificationKey) {
-						return $http.get(config.apiRoot + '/api/verifyEmail/' + verificationKey);
+						return $http.get(config.apiRoot + '/verifyEmail/' + verificationKey);
 					}
 				},
 				Record: {
@@ -122,7 +122,7 @@ export default angular.module('ethiveUserModel', [
 						return !!this._id;
 					},
 					changePassword: function (passwords) {
-						return $http.post(config.apiRoot + '/api/users/' + this.username + '/changePassword', passwords);
+						return $http.post(config.apiRoot + '/users/' + this.username + '/changePassword', passwords);
 					}
 				}
 			},

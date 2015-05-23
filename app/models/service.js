@@ -5,7 +5,7 @@ export default angular.module('ethiveServiceModel', [
 		'restmod'
 	])
 	.factory('Service', ['restmod', function (restmod) {
-		return restmod.model('/api/services').mix({
+		return restmod.model('/services').mix({
 			$config: {
 				primaryKey: 'id'
 			},

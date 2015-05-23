@@ -356,7 +356,7 @@ module.exports = function (grunt) {
 				constants: {
 					config: {
 						environment: 'development',
-						apiRoot: 'http://127.0.0.1:3000'
+						apiRoot: 'http://127.0.0.1:3000/api'
 					}
 				}
 			},
@@ -365,7 +365,7 @@ module.exports = function (grunt) {
 				constants: {
 					config: {
 						environment: 'production',
-						apiRoot: 'https://ethiveserver-46660.onmodulus.net'
+						apiRoot: 'https://ethiveserver-46660.onmodulus.net/api'
 					}
 				}
 			}
