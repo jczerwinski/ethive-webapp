@@ -1,6 +1,7 @@
 import angular from 'angular';
 import 'angular-restmod';
 import 'angular-ui-router';
+import _ from 'lodash';
 
 import currency from 'components/currency/currency';
 
@@ -54,7 +55,7 @@ export default angular.module('ethiveServiceRoute', [
 		.state('service.existing.view', {
 			url: '',
 			template: template,
-			controller: ['$scope', 'service', 'currency', function ($scope, service, currency) {
+			controller: ['$scope', 'service', 'currency', '$filter', function ($scope, service, currency, $filter) {
 				$scope.setTitle(service.name);
 				$scope.service = service;
 				$scope.currencies = currency.currencyList;
@@ -120,4 +121,13 @@ export default angular.module('ethiveServiceRoute', [
 				ctrl.$parsers.push(serviceIDValidator);
 			}
 		};
+	}])
+	.filter('fxOffers', ['fxFilter', function (fxFilter) {
+		return function (offers, to) {
+			return _.map(offers, function (offer) {
+				offer.price.amount = fxFilter(offer.price.amount, offer.price.currency, to);
+				offer.price.currency = to;
+				return offer;
+			});
+		}
 	}]);
