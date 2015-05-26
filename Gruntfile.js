@@ -1,11 +1,4 @@
-// Generated on 2014-03-22 using generator-angular 0.7.1
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
 
@@ -30,25 +23,8 @@ module.exports = function (grunt) {
 		// Watches files for changes and runs tasks based on the changed files
 		watch: {
 			js: {
-				files: ['<%= yeoman.app %>/**/*.js', '!<%= yeoman.app %>/bower_components/{,*/}*.js'],
+				files: ['<%= yeoman.app %>/**/*.js'],
 				tasks: ['newer:jshint:all'],
-				options: {
-					livereload: '<%= connect.options.livereload %>'
-				}
-			},
-			//jsTest: {
-			//  files: ['test/spec/{,*/}*.js'],
-			//  tasks: ['karma']
-			//},
-			stylus: {
-				files: [
-					'<%= yeoman.app %>/**/*.styl',
-					'!<%= yeoman.app %>/bower_components/{,*/}*.{styl}'
-				],
-				tasks: [
-					'stylus',
-					'autoprefixer'
-				],
 				options: {
 					livereload: '<%= connect.options.livereload %>'
 				}
@@ -78,7 +54,7 @@ module.exports = function (grunt) {
 				},
 				files: [
 					'<%= yeoman.app %>/**/*.html',
-					'.tmp/styles/{,*/}*.css',
+					'.tmp/assets/styles/{,*/}*.css',
 					'<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
 				]
 			}
@@ -178,18 +154,10 @@ module.exports = function (grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '.tmp/styles/',
+					cwd: '.tmp/assets/styles/',
 					src: '{,*/}*.css',
-					dest: '.tmp/styles/'
+					dest: '.tmp/assets/styles/'
 				}]
-			}
-		},
-
-		stylus: {
-			compile: {
-				files: {
-					'.tmp/styles/stylus_main.css': ['<%= yeoman.app %>/**/*.styl', '!<%= yeoman.app %>/bower_components/**/*.styl']
-				}
 			}
 		},
 
@@ -199,21 +167,7 @@ module.exports = function (grunt) {
 					paths: ['app']
 				},
 				files: {
-					'.tmp/styles/less_main.css': ['<%= yeoman.app %>/styles/main.less']
-				}
-			}
-		},
-
-		// Renames files for browser caching purposes
-		rev: {
-			dist: {
-				files: {
-					src: [
-						'<%= yeoman.dist %>/scripts/{,*/}*.js',
-						'<%= yeoman.dist %>/styles/{,*/}*.css',
-						//'<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-						'<%= yeoman.dist %>/styles/fonts/*'
-					]
+					'.tmp/assets/styles/less_main.css': ['<%= yeoman.app %>/styles/main.less']
 				}
 			}
 		},
@@ -231,7 +185,7 @@ module.exports = function (grunt) {
 		// Performs rewrites based on rev and the useminPrepare configuration
 		usemin: {
 			html: ['<%= yeoman.dist %>/{,*/}*.html'],
-			css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+			css: ['<%= yeoman.dist %>/assets/styles/{,*/}*.css'],
 			options: {
 				assetsDirs: ['<%= yeoman.dist %>'],
 				blockReplacements: {
@@ -243,26 +197,6 @@ module.exports = function (grunt) {
 		},
 
 		// The following *-min tasks produce minified files in the dist folder
-		imagemin: {
-			dist: {
-				files: [{
-					expand: true,
-					cwd: '<%= yeoman.app %>/images',
-					src: '{,*/}*.{png,jpg,jpeg,gif}',
-					dest: '<%= yeoman.dist %>/images'
-				}]
-			}
-		},
-		svgmin: {
-			dist: {
-				files: [{
-					expand: true,
-					cwd: '<%= yeoman.app %>/images',
-					src: '{,*/}*.svg',
-					dest: '<%= yeoman.dist %>/images'
-				}]
-			}
-		},
 		htmlmin: {
 			dist: {
 				options: {
@@ -274,25 +208,11 @@ module.exports = function (grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= yeoman.dist %>',
-					src: ['*.html', 'views/{,*/}*.html'],
+					src: ['*.html'],
 					dest: '<%= yeoman.dist %>'
 				}]
 			}
 		},
-
-		// Allow the use of non-minsafe AngularJS files. Automatically makes it
-		// minsafe compatible so Uglify does not destroy the ng references
-		ngmin: {
-			dist: {
-				files: [{
-					expand: true,
-					cwd: '.tmp/concat/scripts',
-					src: '*.js',
-					dest: '.tmp/concat/scripts'
-				}]
-			}
-		},
-
 		// Copies remaining files to places other tasks can use
 		copy: {
 			dist: {
@@ -302,44 +222,26 @@ module.exports = function (grunt) {
 					cwd: '<%= yeoman.app %>',
 					dest: '<%= yeoman.dist %>',
 					src: [
-						'*.{ico,png,txt}',
-						'*.html',
-						'favicons/*',
-						'images/*',
-						'fonts/*',
+						'robots.txt',
+						'index.html',
+						'assets/**/*',
 						'divshot.json'
 					]
-				}, {
-					expand: true,
-					cwd: '.tmp/images',
-					dest: '<%= yeoman.dist %>/images',
-					src: ['generated/*']
 				}]
-			},
-			styles: {
-				expand: true,
-				cwd: '<%= yeoman.app %>/styles',
-				dest: '.tmp/styles/',
-				src: '{,*/}*.css'
 			}
 		},
 
 		// Run some tasks in parallel to speed up the build process
 		concurrent: {
 			server: [
-				'stylus',
 				'less',
 				'ngconstant:serve'
 			],
 			test: [
-				'stylus',
 				'less'
 			],
 			dist: [
-				'stylus',
-				'less',
-				'imagemin',
-				'svgmin'
+				'less'
 			]
 		},
 
@@ -382,7 +284,7 @@ module.exports = function (grunt) {
 				baseURL: 'app'
 			});
 		}).then(function () {
-			return builder.buildSFX('init', 'dist/scripts/scripts.js', {
+			return builder.buildSFX('init', 'dist/assets/scripts/scripts.js', {
 				minify: false,
 				sourceMaps: true
 			});
@@ -415,14 +317,6 @@ module.exports = function (grunt) {
 		]);
 	});
 
-	/*	grunt.registerTask('test', [
-			'clean:server',
-			'concurrent:test',
-			'autoprefixer',
-			'connect:test',
-			'karma'
-		]);*/
-
 	grunt.registerTask('build', [
 		'clean:dist',
 		'useminPrepare',
@@ -431,7 +325,6 @@ module.exports = function (grunt) {
 		'copy:dist',
 		'concat',
 		'cssmin',
-		'rev',
 		'systemjs',
 		'usemin',
 		'htmlmin'
@@ -440,7 +333,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('default', [
 		'ngconstant:dist',
 		'newer:jshint',
-		//'test',
 		'build'
 	]);
 };
