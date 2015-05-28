@@ -12,6 +12,7 @@ import loginRoute from 'routes/login/login';
 import signupRoute from 'routes/signup/signup';
 import accountRoute from 'routes/account/account';
 import verifyEmailRoute from 'routes/verifyEmail/verifyEmail';
+import forProvidersRoute from 'routes/for-providers/for-providers';
 
 import otherwiseTemplate from 'routes/not-found/not-found.html!text';
 import error500Template from 'routes/errors/500.html!text';
@@ -28,7 +29,8 @@ export default angular.module('ethiveRoutes', [
 		loginRoute.name,
 		signupRoute.name,
 		accountRoute.name,
-		verifyEmailRoute.name
+		verifyEmailRoute.name,
+		forProvidersRoute.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider

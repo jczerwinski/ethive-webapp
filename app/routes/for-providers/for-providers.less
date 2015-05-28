@@ -1,0 +1,41 @@
+.for-providers .get-started {
+	dd {
+		&:extend(.clearfix all); // Clear the floated `dt` if an empty `dd` is present
+		margin-left: 85px !important;
+	}
+
+	dt {
+		float: left;
+		clear: left;
+		.text-overflow();
+	}
+}
+
+.for-providers .get-started dt {
+	background-color: @brand-primary;
+	color: white;
+	width: 80px !important;
+	height: 80px !important;
+	.border-top-radius(40px);
+	.border-right-radius(40px);
+	.border-bottom-radius(40px);
+	.border-left-radius(40px);
+	text-align: center;
+	font-size: 50px;
+}
+
+.for-providers .get-started dd {
+	margin-left: 85px !important;
+	margin-bottom: 5px;
+	vertical-align: middle;
+	font-size: 20px;
+}
+
+.for-providers .get-started dd, .for-providers .get-started dt {
+	line-height: 80px;
+}
+
+.cta {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
