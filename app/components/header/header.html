@@ -1,18 +1,47 @@
-<div class="header">
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
 	<div class="container">
-		<ul class="nav nav-pills pull-right">
-			<li class="active"><a ui-sref="home">Home</a></li>
-			<li ng-if="!user.isLoggedIn()"><a ui-sref="login">Login/Sign Up</a></li>
-			<li ng-if="user.isLoggedIn()" class="dropdown" dropdown>
-					<a href class="dropdown-toggle" dropdown-toggle>
-						{{user.email}} <span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu pull-right">
-						<li><a ui-sref="account">Account</a></li>
-						<li><a href ng-click="logout()">Logout</a></li>
-					</ul>
-			</li>
-		</ul>
-		<h3 class="brand"><a ui-sref="home"><img src="assets/images/logo.png" /></a></h3>
+		<div class="navbar-header">
+			<button type="button" ng-init="navbarCollapsed = true" class="navbar-toggle" ng-click="navbarCollapsed = false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" ui-sref="home">
+				<img alt="ethive" src="assets/images/logo.png" />
+			</a>
+		</div>
+
+		<!-- Nav for large screens -->
+		<div class="hidden-xs">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a ui-sref="home">Home</a></li>
+				<li ng-if="!user.isLoggedIn()"><a ui-sref="login">Log In/Sign Up</a></li>
+				<li ng-if="user.isLoggedIn()" class="dropdown" dropdown>
+						<a href class="dropdown-toggle" dropdown-toggle>
+							{{user.email}} <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a ui-sref="account">Account</a></li>
+							<li><a href ng-click="logout()">Log Out</a></li>
+						</ul>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Nav for small screens -->
+		<div class="visible-xs-block">
+			<div class="navbar-collapse" collapse="navbarCollapsed" ng-click="navbarCollapsed = true">
+				<div class="invisible-underlay"></div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a ui-sref="home">Home</a></li>
+					<li class="divider"></li>
+					<li ng-if="!user.isLoggedIn()"><a ui-sref="login">Log In</a></li>
+					<li ng-if="!user.isLoggedIn()"><a ui-sref="signup.default">Sign Up</a></li>
+					<li ng-if="user.isLoggedIn()"><a ui-sref="account">Account</a></li>
+					<li ng-if="user.isLoggedIn()"><a href ng-click="logout()">Log Out</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
-</div>
+</nav>
