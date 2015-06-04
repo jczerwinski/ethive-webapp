@@ -31,9 +31,9 @@ export default angular.module('ethiveApp', [
 		$rootScope._ = _;
 
 		// Using setTitle() preserves history when changing title from controllers in ui-router states. By default, prepends a sitewide ending to the title. Can be disabled by setting omitEnd to true.
-		var defaultTitle = 'Ethive';
+		var defaultTitle = 'ethive';
 		var title = defaultTitle;
-		var titleEnd = ' - Ethive';
+		var titleEnd = ' - ' + defaultTitle;
 
 		$rootScope.setTitle = function (newTitle, omitEnd) {
 			function setTitle() {
