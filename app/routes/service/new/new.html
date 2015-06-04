@@ -56,10 +56,8 @@
 		</div>
 		<div class="form-group">
 			<label for="description" class="col-sm-2 control-label">Description</label>
-			<div class="col-sm-10 has-feedback" ng-class="{'has-error': createServiceForm.description.$error.required && createServiceForm.description.$dirty, 'has-success': createServiceForm.description.$valid}">
-				<textarea ng-model="newService.description" name="description" class="form-control" id="description" placeholder="Add a description of this service here." required></textarea>
-				<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': createServiceForm.description.$invalid && createServiceForm.description.$dirty, 'glyphicon-ok': createServiceForm.description.$valid}"></span>
-				<div class="help-block" ng-show="createServiceForm.description.$error.required && createServiceForm.description.$dirty">A description is required.</div>
+			<div class="col-sm-10">
+				<textarea ng-model="newService.description" name="description" class="form-control" id="description" placeholder="Add a description of this service here."></textarea>
 			</div>
 		</div>
 		<div class="form-group">
