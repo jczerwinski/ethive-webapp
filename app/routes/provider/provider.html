@@ -1,29 +1,29 @@
 <div class="provider">
 	<h1>
-    {{provider.name}}
-    <span class="btn btn-xs btn-info">Provider <span class="glyphicon glyphicon-info-sign"></span></span>
-    <span ng-if="provider.isAdministeredBy(user)" ui-sref="^.edit" class="btn btn-xs btn-primary">Edit <span class="glyphicon glyphicon-edit"></span></span>
-    <span ng-if="provider.isAdministeredBy(user)" ng-click="deleteProvider()" class="btn btn-xs btn-danger">Delete <span class="glyphicon glyphicon-trash"></span></span>
-  </h1>
-  </h1>
-  </h1>
-  <div ui-view>
-  	<h2>Offers <a ng-if="provider.isAdministeredBy(user)" ui-sref="provider.existing.newOffer"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Offer</button></a></h2>
-    <table class="table table-striped table-condensed">
-      <thead>
-        <tr>
-          <td>Service</td>
-          <td>Location</td>
-          <td>Price</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="offer in provider.offers">
-          <td><a ui-sref="offer.view({offerID: offer._id})">{{offer.service.name}}</a></td>
-          <td>{{offer.location}}</td>
-          <td>{{offer.price.amount}} {{offer.price.currency}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+		{{provider.name}}
+		<span class="btn btn-xs btn-info">Provider <span class="glyphicon glyphicon-info-sign"></span></span>
+		<span ng-if="provider.isAdministeredBy(user)" ui-sref="^.edit" class="btn btn-xs btn-primary">Edit <span class="glyphicon glyphicon-edit"></span></span>
+		<span ng-if="provider.isAdministeredBy(user)" ng-click="deleteProvider()" class="btn btn-xs btn-danger">Delete <span class="glyphicon glyphicon-trash"></span></span>
+	</h1>
+	</h1>
+	</h1>
+	<div ui-view>
+		<h2>Offers <a ng-if="provider.isAdministeredBy(user)" ui-sref="provider.existing.newOffer"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Offer</button></a></h2>
+		<table class="table table-striped table-condensed">
+			<thead>
+				<tr>
+					<td>Service</td>
+					<td>Location</td>
+					<td>Price</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="offer in provider.offers">
+					<td><a ui-sref="offer.view({offerID: offer._id})">{{offer.service.name}}</a></td>
+					<td>{{offer.location}}</td>
+					<td>{{offer.price.amount}} {{offer.price.currency}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
