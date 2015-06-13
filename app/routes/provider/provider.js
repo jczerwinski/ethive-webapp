@@ -2,6 +2,8 @@ import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-bootstrap';
 
+import 'chieffancypants/angular-hotkeys';
+
 import newProviderTemplate from './new/new.html!text';
 import editProviderTemplate from './editProvider/editProvider.html!text';
 
@@ -18,6 +20,7 @@ var ID_REGEXP = /^[a-z0-9-]{1,}$/;
 export default angular.module('ethiveProviderRoute', [
 		'ui.router',
 		'ui.bootstrap',
+		'cfp.hotkeys',
 		Provider.name,
 		NewOfferRoute.name,
 		EditProviderRoute.name
@@ -55,7 +58,14 @@ export default angular.module('ethiveProviderRoute', [
 			controller: 'EditProviderCtrl'
 		});
 	}])
-	.controller('ViewProviderCtrl', ['$scope', '$stateParams', 'provider', '$modal', '$state', function ($scope, $stateParams, provider, $modal, $state) {
+	.controller('ViewProviderCtrl', ['$scope', '$stateParams', 'provider', '$modal', '$state', 'hotkeys', function ($scope, $stateParams, provider, $modal, $state, hotkeys) {
+		hotkeys.bindTo($scope).add({
+			combo: 'o',
+			description: 'Create a new offer',
+			callback: function () {
+				$state.go('^.newOffer');
+			}
+		});
 		$scope.provider = provider;
 		$scope.setTitle(provider.name);
 		$scope.deleteProvider = function (size) {

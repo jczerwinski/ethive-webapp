@@ -8,7 +8,6 @@ System.config({
   }
 });
 
-
 System.config({
   "map": {
     "OpenBookPrices/country-data": "github:OpenBookPrices/country-data@0.0.19",
