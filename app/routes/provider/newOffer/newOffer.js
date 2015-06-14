@@ -3,7 +3,7 @@ import 'angular-ui-router';
 import _ from 'lodash';
 import 'ngAutocomplete';
 
-import ServiceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
+//import ServiceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
 
 import currency from 'components/currency/currency';
 
