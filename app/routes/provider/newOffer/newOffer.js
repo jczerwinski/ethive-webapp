@@ -15,7 +15,7 @@ import template from 'routes/provider/newOffer/newOffer.html!text';
 export default angular.module('ethiveNewOfferRoute', [
 		'ui.router',
 		'ngAutocomplete',
-		ServiceSelectorSearch.name,
+		//ServiceSelectorSearch.name,
 		OfferModel.name,
 		currency.name,
 		ServiceSelector.name // Directive used in template
