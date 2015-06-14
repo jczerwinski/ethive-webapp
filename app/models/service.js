@@ -1,5 +1,6 @@
 import angular from 'angular';
 import 'angular-restmod';
+import _ from 'lodash';
 
 export default angular.module('ethiveServiceModel', [
 		'restmod'
@@ -14,10 +15,33 @@ export default angular.module('ethiveServiceModel', [
 				key: 'parentId'
 			},
 			children: {
-				belongsToMany: 'Service',
-				key: 'childrenId'
+				hasMany: 'Service'//,
+				//key: 'childrenIds'
 			},
 			$extend: {
+				Scope: {
+					$forest: function () {
+						return this.$search().$on('after-request', function (raw) {
+							var index = _.reduce(raw.data, function (index, service) {
+								index[service._id] = service;
+								return index;
+							}, {});
+							raw.data = _.filter(raw.data, function (service) {
+								if (service.parentId) {
+									var parent = index[service.parentId];
+									// Service is a child -- attach it to its parent.
+									if (angular.isArray(parent.children)) {
+										parent.children.push(service);
+									} else {
+										parent.children = [service];
+									}
+									return false
+								}
+								return true;
+							});
+						});
+					}
+				},
 				Record: {
 					hasAncestor: function (ancestor) {
 						if (this.parent) {
@@ -33,18 +57,6 @@ export default angular.module('ethiveServiceModel', [
 						// admins array is only attached to server response if user is an admin
 						return !!this.admins;
 					},
-					/**
-					 * A service is published when it and all of its ancestors have `published` status.
-					 * @return {Boolean}  Whether or not this service is published.
-					 */
-					/*
-
-					BROKEN --- DO NOT USE. Service resources inline their children. These children do not have references to their parent. As such, recursing on parent DOES NOT WORK. Could maybe fix with custom hook to link children to parent manually on load?
-
-					isPublished: function () {
-					    var isPublished = (this.status === 'published');
-					    return this.parent ? isPublished && this.parent.isPublished() : isPublished;
-					},*/
 					/**
 					 * Returns the root service of this service, with this service's ancestor tree on the `parent` attribute inverted onto the `children` attribute. Only this service's ancestors and children will be present in the tree.
 					 */

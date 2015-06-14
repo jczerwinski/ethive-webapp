@@ -60,7 +60,7 @@ export default angular.module('ethiveServiceSelector', [
 		return {
 			restrict: 'E',
 			controller: ['$scope', 'Service', function($scope, Service) {
-				$scope.services = Service.$search();
+				$scope.services = Service.$forest();
 
 				var selectedElement = undefined;
 

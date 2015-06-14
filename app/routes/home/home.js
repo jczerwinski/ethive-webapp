@@ -12,13 +12,13 @@ export default angular.module('ethiveHome', [
 		$stateProvider.state('home', {
 			url: '/',
 			template: template,
-			controller: ['$scope', '$rootScope', 'services', function ($scope, $rootScope, services) {
-				$rootScope.setTitle(false);
+			controller: ['$scope','services', function ($scope, services) {
+				$scope.setTitle(false);
 				$scope.services = services;
 			}],
 			resolve: {
 				services: ['Service', function (Service) {
-					return Service.$search().$asPromise();
+					return Service.$forest().$asPromise();
 				}]
 			}
 		});
