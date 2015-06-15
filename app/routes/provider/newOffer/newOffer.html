@@ -25,10 +25,11 @@
 <div class="form-group has-feedback" ng-class="{'has-error': createOfferForm.service.$invalid && createOfferForm.service.$dirty, 'has-success': createOfferForm.service.$valid}">
 	<label for="service" class="col-sm-2 control-label">Service</label>
 	<div class="col-sm-10">
-		<div class="form-control-static">
+		<ethive-service-selector-search ng-model="newOffer.service" name="service" options="serviceSelectorOptions" required></ethive-service-selector-search>
+		<!--<div class="form-control-static">
 			{{newOffer.service.name}}  <serviceselectorbutton options="serviceSelectorOptions" required ng-model="newOffer.service" name="service"></serviceselectorbutton>
 			<span class="glyphicon form-control-feedback" ng-class="{'has-error': createOfferForm.service.$invalid && createOfferForm.service.$dirty, 'glyphicon-ok': createOfferForm.service.$valid}"></span>
-		</div>
+		</div> -->
 	</div>
 </div>
 
