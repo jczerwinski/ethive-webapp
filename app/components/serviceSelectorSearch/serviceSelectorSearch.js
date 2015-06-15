@@ -2,6 +2,7 @@ import angular from 'angular';
 import 'angular-bootstrap';
 import Service from 'models/service';
 import template from './serviceSelectorSearch.html!text';
+import _ from 'lodash';
 
 export default angular.module('ethiveServiceSelectorSearch', [
 	Service.name
@@ -11,10 +12,14 @@ export default angular.module('ethiveServiceSelectorSearch', [
 		restrict: 'E',
 		scope:{
 			selected: '=ngModel',
-			options: '&'
+			filter: '&'
 		},
-		controller: ['Service', function (Service) {
-			this.services = Service.$search();
+		controller: ['Service', '$scope', function (Service, $scope) {
+			this.services = Service.$search().$asPromise().then(function (services) {
+				if ($scope.filter) {
+					return _.filter(services, $scope.filter());
+				}
+			});
 		}],
 		controllerAs: 'ctrl'
 	};

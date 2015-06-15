@@ -8,7 +8,6 @@ import ServiceSelectorSearch from 'components/serviceSelectorSearch/serviceSelec
 import currency from 'components/currency/currency';
 
 import OfferModel from 'models/offer';
-import ServiceSelector from 'components/serviceSelector/serviceSelector';
 
 import template from 'routes/provider/newOffer/newOffer.html!text';
 
@@ -17,8 +16,7 @@ export default angular.module('ethiveNewOfferRoute', [
 		'ngAutocomplete',
 		ServiceSelectorSearch.name,
 		OfferModel.name,
-		currency.name,
-		ServiceSelector.name // Directive used in template
+		currency.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('provider.existing.newOffer', {
@@ -30,17 +28,8 @@ export default angular.module('ethiveNewOfferRoute', [
 				$scope.provider = provider;
 				$scope.newOffer = {};
 
-				$scope.locationOptions = {
-					types: '(cities)'
-				};
-
-				$scope.serviceSelectorOptions = {
-					navigable: function navigable(service) {
-						return service.status === 'published' && service.type === 'category';
-					},
-					selectable: function selectable(service) {
-						return service.status === 'published' && service.type === 'service';
-					}
+				$scope.serviceSelectorFilter = function (service) {
+					return service.status === 'published' && service.type === 'service';
 				};
 
 				$scope.currencies = currency.currencyList;
