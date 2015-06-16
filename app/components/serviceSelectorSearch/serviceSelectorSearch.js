@@ -11,15 +11,17 @@ export default angular.module('ethiveServiceSelectorSearch', [
 		template: template,
 		restrict: 'E',
 		scope:{
-			selected: '=ngModel',
+			ngModel: '=ngModel',
 			filter: '&'
 		},
 		controller: ['Service', '$scope', function (Service, $scope) {
-			this.services = Service.$search().$asPromise().then(function (services) {
+			this.search = function (name) {
+				var query = {search: name};
 				if ($scope.filter) {
-					return _.filter(services, $scope.filter());
+					_.extend(query, $scope.filter);
 				}
-			});
+				return Service.$search(query).$asPromise();
+			};
 		}],
 		controllerAs: 'ctrl'
 	};
