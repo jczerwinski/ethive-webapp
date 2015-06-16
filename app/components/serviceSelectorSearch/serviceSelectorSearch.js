@@ -11,7 +11,7 @@ export default angular.module('ethiveServiceSelectorSearch', [
 		template: template,
 		restrict: 'E',
 		scope:{
-			ngModel: '=ngModel',
+			selected: '=ngModel',
 			filter: '&'
 		},
 		controller: ['Service', '$scope', function (Service, $scope) {
