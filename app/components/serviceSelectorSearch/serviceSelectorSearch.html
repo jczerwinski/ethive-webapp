@@ -1,1 +1,1 @@
-<input class="form-control" type="text" ng-model="selected" placeholder="Begin typing to search for a Service" typeahead="service as service.name for service in ctrl.services">
+<input class="form-control" type="text" ng-model="selected" placeholder="Begin typing to search for a Service" typeahead="service as service.name for service in ctrl.services | limitTo:10" typeahead-editable="false">
