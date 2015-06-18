@@ -10,15 +10,18 @@
 		<div class="help-block" ng-show="forms.editServiceForm.name.$error.required && forms.editServiceForm.name.$dirty">A name is required.</div>
 	</div>
 </div>
-<div class="form-group has-feedback" ng-class="{'has-error': forms.editServiceForm.id.$invalid && forms.editServiceForm.id.$dirty, 'has-success': forms.editServiceForm.id.$valid}">
-	<label for="name" class="col-sm-2 control-label">ID</label>
+<div class="form-group has-feedback" ng-class="{'has-error': forms.editServiceForm	.id.$invalid && forms.editServiceForm	.id.$dirty, 'has-success': forms.editServiceForm	.id.$valid}">
+	<label for="id" class="col-sm-2 control-label">ID</label>
 	<div class="col-sm-10">
-		<p class="form-control-static">{{service.id}}</p>
-		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.editServiceForm.id.$invalid && forms.editServiceForm.id.$dirty, 'glyphicon-ok': forms.editServiceForm.id.$valid}"></span>
-		<div class="help-block">The service ID can not be changed.</div>
+		<input ng-model="service.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Service ID. Lowercase letters and dashes only. eg. ankle-surgery" unique-service-id unique-service-id-allow="service.$cmStatus.id" service-id required/>
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.editServiceForm	.id.$invalid && forms.editServiceForm	.id.$dirty, 'glyphicon-ok': forms.editServiceForm	.id.$valid}"></span>
+		<div class="help-block no-validation">Should be able to stand alone without any context from ancestor services. For example, use "orthopedic-ankle-surgery", not "ankle".</div>
+		<div class="help-block" ng-show="forms.editServiceForm	.id.$error.required && forms.editServiceForm	.id.$dirty">An ID is required.</div>
+		<div class="help-block" ng-show="forms.editServiceForm	.id.$error.id && forms.editServiceForm	.id.$dirty">An ID must consist only of lowercase letters, numbers, and dashes.</div>
+		<div class="help-block" ng-show="forms.editServiceForm	.id.$error.uniqueServiceId && forms.editServiceForm	.id.$dirty">That ID is already in use.</div>
 	</div>
 </div>
-<div class="form-group">
+	<div class="form-group">
 	<label for="name" class="col-sm-2 control-label">Type</label>
 	<div class="col-sm-10">
 		<label class="radio-inline">

@@ -80,12 +80,19 @@ export default angular.module('ethiveServiceRoute', [
 	.directive('uniqueServiceId', ['Service', function (Service) {
 		return {
 			require: 'ngModel',
+			scope: {
+				allowId: '=uniqueServiceIdAllow'
+			},
 			link: function (scope, elm, attrs, ctrl) {
 				function uniqueIDValidator(id) {
 					if (id) {
 						Service.$find(id)
 							.$then(function (service) {
-								ctrl.$setValidity('uniqueServiceId', false);
+								if (scope.allowId && scope.allowId === id) {
+									ctrl.$setValidity('uniqueServiceId', true);
+								} else {
+									ctrl.$setValidity('uniqueServiceId', false);
+								}
 							}, function (error) {
 								if (error.$response.status === 404) {
 									ctrl.$setValidity('uniqueServiceId', true);
