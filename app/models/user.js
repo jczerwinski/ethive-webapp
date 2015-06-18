@@ -6,7 +6,6 @@ import currency from 'components/currency/currency';
 
 import config from 'app-config';
 
-// localstore cookiestore restmod
 var USERNAME_REGEXP = /^[a-zA-Z0-9_.]{3,20}$/;
 var PASSWORD_REGEXP = /^[a-zA-Z0-9_.]{8,}$/;
 export default angular.module('ethiveUserModel', [
@@ -135,46 +134,59 @@ export default angular.module('ethiveUserModel', [
 			}
 		});
 	}])
-	.factory('auth', ['$rootScope', function ($rootScope) {
+	.factory('auth', ['$rootScope', 'localStorageService', '$cookies', '$http', 'User', '$state', 'config', function ($rootScope, localStorageService, $cookies, $http, User, $state, config) {
+		return {
+			init: function () {
+				$rootScope.auth = localStorageService.get('auth') || $cookies.getObject('auth');
+				if ($rootScope.auth) {
+					$rootScope.user = User.$find($rootScope.auth.username);
+				} else {
+					$rootScope.user = User.$build();
+				}
+			},
+			login: function (credentials, remember) {
+				return $http.post(config.apiRoot + '/auth', credentials).then(function(response) {
+					$rootScope.auth = response.data;
+					if (remember) {
+						localStorageService.set('auth', $rootScope.auth);
+					} else {
+						$cookies.putObject('auth', $rootScope.auth);
+					}
+					return User.$find($rootScope.auth.username).$asPromise().then(function (user) {
+						$rootScope.user = user;
+						return user;
+					});
+				});
+			},
+			logout: function () {
+				localStorageService.remove('auth');
+				$cookies.remove('auth');
+				$rootScope.auth = undefined;
+				delete $rootScope.user;
+				$rootScope.user = User.$build();
+				return $state.go('home', {}, {reload: true});
+			}
+		};
+	}])
+	.factory('authInterceptor', ['config', '$rootScope', function (appConfig, $rootScope) {
+		// HTTP Interceptor
 		return {
 			request: function (config) {
 				// Set the auth token.
-				if ($rootScope.auth) {
-					config.headers.Authorization = 'Bearer ' + $rootScope.auth.token;
+				if (config.url.match('^' + appConfig.apiRoot)) {
+					if ($rootScope.auth) {
+						config.headers.Authorization = 'Bearer ' + $rootScope.auth.token;
+					}
 				}
 				return config;
 			}
 		};
 	}])
 	.config(['$httpProvider', function ($httpProvider) {
-		$httpProvider.interceptors.push('auth');
+		$httpProvider.interceptors.push('authInterceptor');
 	}])
-	.run(['localStorageService', '$rootScope', '$cookieStore', 'User', '$state', function (localStorageService, $rootScope, $cookieStore, User, $state) {
-		$rootScope.auth = (function () {
-			return localStorageService.get('auth') || $cookieStore.get('auth');
-		})();
-		if ($rootScope.auth) {
-			$rootScope.user = User.$find($rootScope.auth.username);
-		} else {
-			$rootScope.user = User.$build();
-		}
-
-		$rootScope.setAuth = function (auth) {
-			if (auth.remember) {
-				localStorageService.set('auth', auth);
-			} else {
-				$cookieStore.put('auth', auth);
-			}
-			$rootScope.auth = auth;
-			$rootScope.user = User.$find(auth.username);
-		};
-
-		$rootScope.logout = function () {
-			localStorageService.remove('auth');
-			$cookieStore.remove('auth');
-			delete $rootScope.auth;
-			delete $rootScope.user;
-			$rootScope.user = User.$build();
-			$state.reload();
-		};
+	.run(['auth', '$rootScope', function (auth, $rootScope) {
+		auth.init();
+		$rootScope.login = auth.login;
+		$rootScope.logout = auth.logout;
 	}]);

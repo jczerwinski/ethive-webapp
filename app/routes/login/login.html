@@ -6,7 +6,7 @@
   <div class="form-group has-feedback" ng-class="{'has-error': status === 'user'}">
     <label for="username" class="col-sm-2 control-label">Email/Username</label>
     <div class="col-sm-10">
-      <input ng-model="username" name="username" type="text" class="form-control" id="username" placeholder="Email/Username" ng-change="status = ''" required autofocus focus-on="username" select-on-focus>
+      <input ng-model="credentials.username" name="username" type="text" class="form-control" id="username" placeholder="Email/Username" ng-change="status = ''" required autofocus focus-on="username" select-on-focus>
       <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': status === 'username'}"></span>
       <div class="help-block" ng-show="status === 'user'">Sorry, we can't find that username or email address in our system.</div>
     </div>
@@ -14,7 +14,7 @@
   <div class="form-group has-feedback" ng-class="{'has-error': status === 'password'}">
     <label for="password" class="col-sm-2 control-label">Password</label>
     <div class="col-sm-10">
-      <input ng-model="password" name="password" type="password" class="form-control" id="password" placeholder="Password" ng-change="status = ''" required focus-on="password" select-on-focus>
+      <input ng-model="credentials.password" name="password" type="password" class="form-control" id="password" placeholder="Password" ng-change="status = ''" required focus-on="password" select-on-focus>
       <span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': status === 'password'}"></span>
       <div class="help-block" ng-show="status === 'password'">Oops! Wrong password.</div>
     </div>
@@ -35,6 +35,7 @@
     </div>
   </div>
   <div ng-if="verified" class="alert alert-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> You have successfully verified your email address! You can now log in.</div>
+  <div ng-if="account" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> You must login before you can access your account.</div>
 </form>
 <div ng-show="user.isLoggedIn() && status !== 'success'">
   <div class="alert alert-danger">Oops! Looks like you're already logged in. If you would like to login as another user, you will have to logout first.</div>
