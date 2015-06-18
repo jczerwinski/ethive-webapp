@@ -15,8 +15,7 @@ export default angular.module('ethiveServiceModel', [
 				key: 'parentId'
 			},
 			children: {
-				hasMany: 'Service'//,
-				//key: 'childrenIds'
+				hasMany: 'Service'
 			},
 			$extend: {
 				Scope: {
@@ -43,15 +42,11 @@ export default angular.module('ethiveServiceModel', [
 					}
 				},
 				Record: {
-					hasAncestor: function (ancestor) {
-						if (this.parent) {
-							if (this.parent.id === (ancestor.id || ancestor)) {
-								return true;
-							}
-							return this.parent.hasAncestor(ancestor);
-						} else {
-							return false;
-						}
+					equals: function (service) {
+						return this._id === service._id;
+					},
+					hasAncestor: function (service) {
+						return this.parent && (service.equals(this.parent) || this.parent.hasAncestor(service));
 					},
 					isAdministeredBy: function () {
 						// admins array is only attached to server response if user is an admin

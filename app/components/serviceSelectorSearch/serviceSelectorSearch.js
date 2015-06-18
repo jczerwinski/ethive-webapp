@@ -1,28 +1,34 @@
 import angular from 'angular';
 import 'angular-bootstrap';
 import Service from 'models/service';
-import template from './serviceSelectorSearch.html!text';
 import _ from 'lodash';
 
 export default angular.module('ethiveServiceSelectorSearch', [
-	Service.name
-	]).directive('ethiveServiceSelectorSearch', [function () {
+	Service.name,
+	'ui.bootstrap'
+	]).directive('ethiveServiceSelectorSearch', ['$compile', function ($compile) {
 	return {
-		template: template,
-		restrict: 'E',
-		scope:{
-			selected: '=ngModel',
-			filter: '&'
-		},
+		restrict: 'A',
+		priority: 1000,
+		terminal: true,
 		controller: ['Service', '$scope', function (Service, $scope) {
 			this.search = function (name) {
-				var query = {search: name};
-				if ($scope.filter) {
-					_.extend(query, $scope.filter);
-				}
-				return Service.$search(query).$asPromise();
+				return Service.$search({search: name}).$asPromise().then(function (services) {
+					if ($scope.filter) {
+						return _.filter(services, $scope.filter);
+					}
+					return services;
+				});
 			};
 		}],
-		controllerAs: 'ctrl'
+		controllerAs: 'ctrl',
+		bindToController: true,
+		link: function (scope, elem, attrs) {
+			scope.filter = scope.$eval(attrs.filter);
+			elem.removeAttr('ethive-service-selector-search');
+			elem.attr('typeahead', 'service as service.name for service in ctrl.search($viewValue) | limitTo:10');
+			elem.attr('typeahead-editable', 'false');
+			$compile(elem)(scope);
+		}
 	};
 }]);
