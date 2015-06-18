@@ -62,7 +62,8 @@ export default angular.module('ethiveProviderRoute', [
 		hotkeys.bindTo($scope).add({
 			combo: 'o',
 			description: 'Create a new offer',
-			callback: function () {
+			callback: function (event) {
+				event.preventDefault();
 				$state.go('^.newOffer');
 			}
 		});
