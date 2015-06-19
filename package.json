@@ -61,7 +61,7 @@
       "jczerwinski/bootstrap": "github:jczerwinski/bootstrap@master",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "lodash": "npm:lodash@^3.4.0",
-      "luisfarzati/angulartics": "github:luisfarzati/angulartics@^0.17.2",
+      "luisfarzati/angulartics": "github:luisfarzati/angulartics@^0.18.0",
       "money": "npm:money@^0.2.0",
       "openexchangerates/money.js": "github:openexchangerates/money.js@^0.1.3",
       "platanus/angular-restmod": "github:platanus/angular-restmod@^1.1.9",

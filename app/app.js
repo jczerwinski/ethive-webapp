@@ -3,8 +3,8 @@ import 'angular-ui-router';
 import 'angular-restmod';
 import 'angular-restmod-dirty';
 import _ from 'lodash';
-import 'angulartics';
-import 'angulartics-ga';
+import 'luisfarzati/angulartics';
+import 'luisfarzati/angulartics-ga';
 import baseModel from 'models/baseModel';
 import errors from 'components/errors/errors';
 
