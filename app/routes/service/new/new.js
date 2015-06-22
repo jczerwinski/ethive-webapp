@@ -1,5 +1,6 @@
 import angular from 'angular';
 import 'angular-ui-router';
+import serviceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
 
 import template from 'routes/service/new/new.html!text';
 
@@ -8,7 +9,8 @@ import errors from 'components/errors/errors';
 
 export default angular.module('ethiveNewServiceRoute', [
 		'ui.router',
-		errors.name
+		errors.name,
+		serviceSelectorSearch.name
 	])
 	.controller('NewServiceCtrl', ['$scope', '$state', 'Service', 'service', function ($scope, $state, Service, service) {
 		var newService = $scope.newService = {};
@@ -19,16 +21,9 @@ export default angular.module('ethiveNewServiceRoute', [
 		} else {
 			$scope.setTitle('Create New Service');
 		}
-		$scope.parentOptions = {
-			navigable: function navigable (service) {
-				// All categories with children are navigable
-				return service.type === 'category' && service.children && service.children.length;
-			},
-			selectable: function selectable (service) {
-				// All categories are selectable
-				return service.type === 'category';
-			},
-			selectNone: true
+		$scope.serviceSelectorFilter = function (service) {
+			return service.isAdministeredBy($scope.user) &&
+				service.type === 'category'
 		};
 		$scope.submit = function () {
 			var srv = Service.$create(newService).$then(function () {

@@ -221,6 +221,20 @@ module.exports = function (grunt) {
 		},
 		// Copies remaining files to places other tasks can use
 		copy: {
+			fonts: {
+				files: [{
+					expand: true,
+					dot: true,
+					flatten: true,
+					cwd: '<%= yeoman.app %>',
+					dest: '.tmp/assets/fonts',
+					// Include font dependencies here
+					src: [
+						'jspm_packages/github/jczerwinski/bootstrap@master/fonts/*',
+						'jspm_packages/github/components/font-awesome@4.3.0/fonts/*'
+					]
+				}]
+			},
 			dist: {
 				files: [{
 					expand: true,
@@ -241,13 +255,15 @@ module.exports = function (grunt) {
 		concurrent: {
 			server: [
 				'less',
-				'ngconstant:serve'
+				'ngconstant:serve',
+				'copy:fonts'
 			],
 			test: [
 				'less'
 			],
 			dist: [
-				'less'
+				'less',
+				'copy:fonts'
 			]
 		},
 

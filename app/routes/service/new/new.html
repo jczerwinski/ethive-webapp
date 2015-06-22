@@ -48,11 +48,11 @@
 		<div class="form-group">
 			<label for="parent" class="col-sm-2 control-label">Parent</label>
 			<div class="col-sm-10">
-			<div class="form-control-static">
-				{{newService.parent.name}} <serviceselectorbutton options="parentOptions" ng-model="newService.parent" name="parent"></serviceselectorbutton>
-				<span class="glyphicon form-control-feedback" ng-class="{'has-error': createOfferForm.service.$invalid && createOfferForm.service.$dirty, 'glyphicon-ok': createOfferForm.service.$valid}"></span>
+				<input ng-model="service.parent" ethive-service-selector-search class="form-control" name="parent" filter="serviceSelectorFilter" placeholder="Search by name..." typeahead-loading="loadingServices" >
+				<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.editServiceForm.parent.$invalid, 'glyphicon-ok': forms.editServiceForm.parent.$valid}"></span>
+				<div ng-if="loadingServices" class="help-block no-validation"><span class="fa fa-spin fa-spinner"></span> Loading results...</div>
+				<div class="help-block no-validation">Must be a category, and cannot have itself or a descendent as a parent.</div>
 			</div>
-		</div>
 		</div>
 		<div class="form-group">
 			<label for="description" class="col-sm-2 control-label">Description</label>

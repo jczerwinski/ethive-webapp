@@ -55,6 +55,7 @@
       "angular-ui-utils": "github:angular-ui/ui-utils@^0.2.3",
       "bootstrap": "github:jczerwinski/bootstrap@master",
       "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@1.4.5",
+      "components/font-awesome": "github:components/font-awesome@^4.3.0",
       "goodeggs/ng-focus-on": "github:goodeggs/ng-focus-on@^0.2.2",
       "grevory/angular-local-storage": "github:grevory/angular-local-storage@^0.1.5",
       "iobaixas/angular-inflector": "github:iobaixas/angular-inflector@^0.2.0",

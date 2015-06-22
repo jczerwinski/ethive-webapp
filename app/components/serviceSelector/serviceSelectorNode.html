@@ -1,7 +1,0 @@
-<!-- use display function provided by client to decide whether and how to display service -->
-<li ng-if="isNavigable(service) || isSelectable(service)" class="serviceSelectorNodeHeader">
-    <span class="selectedIcon" aria-hidden="true"></span>
-    <a ng-if="isNavigable(service) && !isNavigated(service)" href ng-click="navigate(service);">{{service.name}}</a>
-    <span ng-if="!isNavigable(service) || isNavigated(service)">{{service.name}}</span>
-    <button ng-click="select(service)" ng-if="isSelectable(service)" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Select</button>
-</li>

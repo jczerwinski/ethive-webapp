@@ -25,8 +25,9 @@
 <div class="form-group has-feedback" ng-class="{'has-error': createOfferForm.service.$invalid && createOfferForm.service.$dirty, 'has-success': createOfferForm.service.$valid}">
 	<label for="service" class="col-sm-2 control-label">Service</label>
 	<div class="col-sm-10">
-		<input ng-model="newOffer.service" ethive-service-selector-search class="form-control" name="service" filter="serviceSelectorFilter" placeholder="Search by name..." required autofocus >
+		<input ng-model="newOffer.service" ethive-service-selector-search class="form-control" name="service" filter="serviceSelectorFilter" placeholder="Search by name..." typeahead-loading="loadingServices" required autofocus >
 		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': createOfferForm.service.$invalid && createOfferForm.service.$dirty, 'glyphicon-ok': createOfferForm.service.$valid}"></span>
+		<div ng-if="loadingServices" class="help-block no-validation"><span class="fa fa-spin fa-spinner"></span> Loading results...</div>
 	</div>
 </div>
 

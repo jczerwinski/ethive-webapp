@@ -1,15 +1,12 @@
 import angular from 'angular';
 import 'angular-ui-router';
-import _ from 'lodash';
-
 import currency from 'components/currency/currency';
-
 import OfferModel from 'models/offer';
-
 import template from 'routes/offer/editOffer/editOffer.html!text';
-
+import serviceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
 export default angular.module('ethiveEditOfferRoute', [
 		'ui.router',
+		serviceSelectorSearch.name,
 		currency.name,
 		OfferModel.name
 	])
@@ -25,13 +22,8 @@ export default angular.module('ethiveEditOfferRoute', [
 					types: '(cities)'
 				};
 
-				$scope.serviceSelectorOptions = {
-					navigable: function navigable(service) {
-						return service.status === 'published' && service.type === 'category';
-					},
-					selectable: function selectable(service) {
-						return service.status === 'published' && service.type === 'service';
-					}
+				$scope.serviceSelectorFilter = function (service) {
+					return service.status === 'published' && service.type === 'service';
 				};
 
 				$scope.currencies = currency.currencyList;
