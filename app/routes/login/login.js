@@ -12,26 +12,19 @@ export default angular.module('ethiveLoginRoute', [
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('login', {
-			url: '/login?verified&account',
+			url: '/login?verified',
 			template: template,
 			controller: ['$scope', '$state', '$stateParams', 'focus', function($scope, $state, $stateParams, focus) {
 				$scope.setTitle('Log in to ethive', true);
 				$scope.verified = !!$stateParams.verified;
-				$scope.account = $stateParams.account;
 				$scope.credentials = {};
 				$scope.submit = function() {
 					$scope.status = 'pending'; // Block 'already logged in error messages'
 					$scope.login($scope.credentials, $scope.remember).then(function () {
 						$scope.status = 'success'; // Block 'already logged in' error message.
-						if ($stateParams.account) {
-							return $state.go('account').then(function () {
-								$scope.status = '';
-							});
-						} else {
-							return $state.go('home', {}, {reload: true}).then(function () {
-								$scope.status = '';
-							});
-						}
+						return $state.go('home', {}, {reload: true}).then(function () {
+							$scope.status = '';
+						});
 						//TODO better. Either go to the most recent page, or go to a redirect. see https://github.com/angular-ui/ui-router/issues/92
 					})
 					.catch(function(error) {

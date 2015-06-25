@@ -16,9 +16,9 @@ export default angular.module('ethiveApp', [
 		'restmod',
 		'angulartics',
 		'angulartics.google.analytics',
+		baseModel.name,
 		routes.name,
 		header.name,
-		baseModel.name,
 		errors.name
 	])
 	.config(['$locationProvider', 'restmodProvider', function ($locationProvider, restmodProvider) {

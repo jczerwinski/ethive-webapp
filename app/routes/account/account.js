@@ -19,32 +19,28 @@ export default angular.module('ethiveAccountRoute', [
 			url: '/account',
 			template: accountTemplate,
 			controller: ['$scope', '$state', function ($scope, $state) {
-				if (!$scope.user.isLoggedIn()) {
-					$state.go('login', {account: true});
-				} else {
-					$scope.setTitle('Your account');
-					$scope.user.$refresh();
-					$scope.passwords = {};
-					$scope.changePassword = function (form) {
-						$scope.user.changePassword($scope.passwords).then(function (resp) {
-						}, function(error) {
-							if (error.status === 403) {
-								form.currentPassword.$setValidity('incorrect', false);
-								focus('currentPassword');
-							}
+				$scope.setTitle('Your account');
+				$scope.user.$refresh();
+				$scope.passwords = {};
+				$scope.changePassword = function (form) {
+					$scope.user.changePassword($scope.passwords).then(function (resp) {
+					}, function(error) {
+						if (error.status === 403) {
+							form.currentPassword.$setValidity('incorrect', false);
+							focus('currentPassword');
+						}
 
-							if (error.data) {
-								if (error.data.message === 'password') {
-									$scope.status = 'password';
-								} else if (error.data.message === 'brute') {
-									$scope.status = 'brute';
-								}
-							} else {
-								throw error;
+						if (error.data) {
+							if (error.data.message === 'password') {
+								$scope.status = 'password';
+							} else if (error.data.message === 'brute') {
+								$scope.status = 'brute';
 							}
-						});
-					};
-				}
+						} else {
+							throw error;
+						}
+					});
+				};
 			}]
 		});
 	}]);

@@ -186,6 +186,7 @@ export default angular.module('ethiveUserModel', [
 		$httpProvider.interceptors.push('authInterceptor');
 	}])
 	.run(['auth', '$rootScope', function (auth, $rootScope) {
+		// Set up user
 		auth.init();
 		$rootScope.login = auth.login;
 		$rootScope.logout = auth.logout;
