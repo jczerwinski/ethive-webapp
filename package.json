@@ -68,8 +68,7 @@
       "platanus/angular-restmod": "github:platanus/angular-restmod@^1.1.9",
       "spin": "github:fgnass/spin.js@^2.1.0",
       "text": "github:systemjs/plugin-text@^0.0.2",
-      "urish/angular-spinner": "github:urish/angular-spinner@^0.6.1",
-      "wpalahnuk/ngAutocomplete": "github:wpalahnuk/ngAutocomplete@^1.0.0"
+      "urish/angular-spinner": "github:urish/angular-spinner@^0.6.1"
     },
     "devDependencies": {
       "traceur": "github:jmcriffey/bower-traceur@0.0.88",

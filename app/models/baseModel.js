@@ -20,7 +20,19 @@ export default angular.module('ethiveBaseModel', [
 				Model: {
 					// Suppress warning:
 					// Default paremeterization of urls will be disabled in 1.2, override Model.encodeUrlName with inflector.parameterize in your base model to keep the same behaviour
-					encodeUrlName: inflector.parameterize
+					encodeUrlName: inflector.parameterize,
+					// Build and save a new model on this service. Useful for maintaining form state between controller instantiation and destruction.
+					$cached: function (init) {
+						if (this.$$cached) {
+							return this.$$cached.$extend(init);
+						} else {
+							this.$$cached = this.$build(init);
+							return this.$$cached;
+						}
+					},
+					$clearCached: function () {
+						delete this.$$cached;
+					}
 				}
 			}
 	});

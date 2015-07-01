@@ -7,12 +7,10 @@ import 'chieffancypants/angular-hotkeys';
 import newProviderTemplate from './new/new.html!text';
 import editProviderTemplate from './editProvider/editProvider.html!text';
 
-import NewOfferRoute from 'routes/provider/newOffer/newOffer';
 import EditProviderRoute from './editProvider/editProvider';
 import Provider from 'models/provider';
 
 import providerTemplate from 'routes/provider/provider.html!text';
-import newOfferTemplate from 'routes/provider/newOffer/newOffer.html!text';
 import confirmDeleteTemplate from 'components/confirmDeleteModal/confirmDelete.html!text';
 
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
@@ -22,7 +20,6 @@ export default angular.module('ethiveProviderRoute', [
 		'ui.bootstrap',
 		'cfp.hotkeys',
 		Provider.name,
-		NewOfferRoute.name,
 		EditProviderRoute.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
@@ -64,7 +61,7 @@ export default angular.module('ethiveProviderRoute', [
 			description: 'Create a new offer',
 			callback: function (event) {
 				event.preventDefault();
-				$state.go('^.newOffer');
+				$state.go('offer.new', {provider: provider});
 			}
 		});
 		$scope.provider = provider;
@@ -86,21 +83,6 @@ export default angular.module('ethiveProviderRoute', [
 				return provider.$destroy().$asPromise();
 			}).then(function () {
 				$state.go('account');
-			});
-		};
-		$scope.newOffer = function (size) {
-			var modalInstance = $modal.open({
-				template: newOfferTemplate,
-				controller: 'NewOfferCtrl',
-				//size: size,
-				resolve: {
-					provider: function () {
-						return $scope.provider;
-					},
-					service: function () {
-						return undefined;
-					}
-				}
 			});
 		};
 	}])
@@ -137,16 +119,6 @@ export default angular.module('ethiveProviderRoute', [
 							return $q.reject('error');
 						}
 					});
-				};
-			}
-		};
-	}])
-	.directive('existingProviderId', ['Provider', '$q', function (Provider, $q) {
-		return {
-			require: 'ngModel',
-			link: function (scope, elm, attrs, ctrl) {
-				ctrl.$asyncValidators.existingProviderId = function (modelVal, viewVal) {
-					return Provider.$find(modelVal || viewVal).$asPromise();
 				};
 			}
 		};

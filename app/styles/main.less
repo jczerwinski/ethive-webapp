@@ -16,8 +16,16 @@
 @import "components/footer/footer.less";
 @import "routes/terms-of-service/terms-of-service.less";
 
-// Inline brand
+// Font-awesome spinning form-control-feedback positioning
+.fa.form-control-feedback {
+	height: inherit;
+	top: 10px;
+}
+.form-control-feedback.form-control-feedback-secondary {
+	right: 34px !important;
+}
 
+// Inline brand
 span.brand {
 	font-family: 'Nunito', sans;
 	color: @brand-primary;
@@ -26,6 +34,10 @@ span.brand {
 // To prevent validation styling on info-only form help blocks
 .help-block.no-validation {
 	color: lighten(@text-color, 25%) !important;
+}
+
+.form-control-loading-spinner {
+	color: @brand-primary !important;
 }
 
 // Custom Styles
@@ -61,21 +73,16 @@ h1>.badge, h2>.badge, h3>.badge { // Align with headers
 	width: initial !important; // Smaller width on form elements
 }
 
-.form-control-feedback-inline {
-	position: static;
-	display: inline;
-};
+// Remove feedback padding from inline form controls with feedback
+.has-feedback .form-control-inline {
+	padding: 6px 12px;
+}
 
 .browsehappy {
 	margin: 0.2em 0;
 	background: #ccc;
 	color: #000;
 	padding: 0.2em 0;
-}
-
-/* ngAutocomplete fix -- not visible with angular-bootstrap modals without this */
-.pac-container {
-	z-index: 1100 !important;
 }
 
 /* Space out content a bit */

@@ -6,6 +6,9 @@ export default angular.module('ethiveProviderModel', [
 	'restmod'
 ]).factory('Provider', ['restmod', function (restmod) {
 	return restmod.model('/providers').mix({
+		$config: {
+			primaryKey: 'id'
+		},
 		offers: {
 			hasMany: 'Offer'
 		},
