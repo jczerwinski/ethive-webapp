@@ -51,11 +51,11 @@ export default angular.module('ethiveProviderRoute', [
 							if (!key.match(/^\$/) && field.$validate) field.$validate();
 						});
 					};
-					$scope.provider.$save().$then(function (response) {
+					$scope.provider.$save().$then(function (provider) {
 						// provider creation success!
 						// navigate to our new provider's page
 						$state.go('^.existing.view', {
-							providerID: response.id
+							provider: provider
 						});
 						Provider.$clearCached();
 					}, function (response) {
@@ -71,18 +71,26 @@ export default angular.module('ethiveProviderRoute', [
 		})
 		.state('provider.existing', {
 			url: '/:providerID',
+			params: {
+				provider: null
+			},
 			abstract: true,
 			template: '<ui-view />',
 			resolve: {
 				provider: ['Provider', '$stateParams', function (Provider, $stateParams) {
-					return Provider.$find($stateParams.providerID).$asPromise();
+					if ($stateParams.provider) {
+						return $stateParams.provider;
+					}
+					if ($stateParams.providerID) {
+						return Provider.$find($stateParams.providerID).$asPromise();
+					}
 				}]
 			}
 		})
 		.state('provider.existing.view', {
 			url: '',
 			template: viewTemplate,
-			controller: ['$scope', '$stateParams', 'provider', '$modal', '$state', 'hotkeys', function ($scope, $stateParams, provider, $modal, $state, hotkeys) {
+			controller: ['$scope', 'provider', '$modal', '$state', 'hotkeys', function ($scope, provider, $modal, $state, hotkeys) {
 				hotkeys.bindTo($scope).add({
 					combo: 'o',
 					description: 'Create a new offer',
@@ -150,7 +158,8 @@ export default angular.module('ethiveProviderRoute', [
 				};
 				$scope.save = function () {
 					provider.$save().$then(function () {
-						$state.go('^.view', {providerID: provider.id});
+						provider.$pk = provider.id;
+						$state.go('^.view', {provider: provider, providerID: provider.id}, {reload: true});
 					});
 				};
 			}]
