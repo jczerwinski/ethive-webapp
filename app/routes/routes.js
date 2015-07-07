@@ -6,7 +6,6 @@ import serviceRoute from 'routes/service/service';
 import newServiceRoute from 'routes/service/new/new';
 import editServiceRoute from 'routes/service/edit/edit';
 import providerRoute from 'routes/provider/provider';
-import newProviderRoute from 'routes/provider/new/new';
 import offerRoute from 'routes/offer/offer';
 import loginRoute from 'routes/login/login';
 import signupRoute from 'routes/signup/signup';
@@ -26,7 +25,6 @@ export default angular.module('ethiveRoutes', [
 		newServiceRoute.name,
 		editServiceRoute.name,
 		providerRoute.name,
-		newProviderRoute.name,
 		offerRoute.name,
 		loginRoute.name,
 		signupRoute.name,

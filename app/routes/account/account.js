@@ -1,24 +1,25 @@
 import angular from 'angular';
 import 'angular-ui-router';
+// Used by ui-validate in template
 import 'angular-ui-utils';
+// Used in template
 import 'ng-focus-on';
-
+// Used in template on password directive
 import user from 'models/user';
 
-import accountTemplate from 'routes/account/account.html!text';
-import newProviderTemplate from 'routes/provider/new/new.html!text';
+import accountTemplate from './account.html!text';
 
 export default angular.module('ethiveAccountRoute', [
 		'ui.router',
 		'ui.utils',
 		'focusOn',
-		user.name // For password directive
+		user.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('account', {
 			url: '/account',
 			template: accountTemplate,
-			controller: ['$scope', '$state', function ($scope, $state) {
+			controller: ['$scope', '$state', 'focus', function ($scope, $state, focus) {
 				$scope.setTitle('Your account');
 				$scope.user.$refresh();
 				$scope.passwords = {};
@@ -29,7 +30,6 @@ export default angular.module('ethiveAccountRoute', [
 							form.currentPassword.$setValidity('incorrect', false);
 							focus('currentPassword');
 						}
-
 						if (error.data) {
 							if (error.data.message === 'password') {
 								$scope.status = 'password';

@@ -4,13 +4,11 @@ import 'angular-bootstrap';
 
 import 'chieffancypants/angular-hotkeys';
 
-import newProviderTemplate from './new/new.html!text';
-import editProviderTemplate from './editProvider/editProvider.html!text';
+import editNewTemplate from './editNew.html!text';
 
-import EditProviderRoute from './editProvider/editProvider';
 import Provider from 'models/provider';
 
-import providerTemplate from 'routes/provider/provider.html!text';
+import viewTemplate from './view.html!text';
 import confirmDeleteTemplate from 'components/confirmDeleteModal/confirmDelete.html!text';
 
 var ID_REGEXP = /^[a-z0-9-]{1,}$/;
@@ -19,8 +17,7 @@ export default angular.module('ethiveProviderRoute', [
 		'ui.router',
 		'ui.bootstrap',
 		'cfp.hotkeys',
-		Provider.name,
-		EditProviderRoute.name
+		Provider.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
@@ -31,8 +28,46 @@ export default angular.module('ethiveProviderRoute', [
 		})
 		.state('provider.new', {
 			url: '/new',
-			template: newProviderTemplate,
-			controller: 'NewProviderCtrl'
+			template: editNewTemplate,
+			controller: ['$scope', 'Provider', '$state', 'hotkeys', function($scope, Provider, $state, hotkeys) {
+				hotkeys.bindTo($scope).add({
+					combo: 'esc',
+					description: 'Cancel create new provider',
+					callback: function (event) {
+						event.preventDefault();
+						$state.go('account');
+					},
+					allowIn: ['INPUT']
+				});
+				$scope.new = true;
+				// Initialize provider
+				$scope.provider = Provider.$cached({
+					admins: [$scope.user.username]
+				});
+
+				$scope.submit = function (form) {
+					form.validate = function () {
+						 angular.forEach(form, function (field, key) {
+							if (!key.match(/^\$/) && field.$validate) field.$validate();
+						});
+					};
+					$scope.provider.$save().$then(function (response) {
+						// provider creation success!
+						// navigate to our new provider's page
+						$state.go('^.existing.view', {
+							providerID: response.id
+						});
+						Provider.$clearCached();
+					}, function (response) {
+						// Should only ever get here if theres a server-side validation error, which should always be checked on the client side. No need for an error message if this is the case. Get the client side right!
+						form.validate();
+					});
+				};
+
+				$scope.cancel = function () {
+					$state.go('account');
+				};
+			}]
 		})
 		.state('provider.existing', {
 			url: '/:providerID',
@@ -46,45 +81,80 @@ export default angular.module('ethiveProviderRoute', [
 		})
 		.state('provider.existing.view', {
 			url: '',
-			template: providerTemplate,
-			controller: 'ViewProviderCtrl'
+			template: viewTemplate,
+			controller: ['$scope', '$stateParams', 'provider', '$modal', '$state', 'hotkeys', function ($scope, $stateParams, provider, $modal, $state, hotkeys) {
+				hotkeys.bindTo($scope).add({
+					combo: 'o',
+					description: 'Create a new offer',
+					callback: function (event) {
+						event.preventDefault();
+						$state.go('offer.new', {provider: provider});
+					}
+				}).add({
+					combo: 'del',
+					description: 'Delete this provider',
+					callback: function (event) {
+						event.preventDefault();
+						$scope.deleteProvider();
+					}
+				}).add({
+					combo: 'e',
+					description: 'Edit this provider',
+					callback: function (event) {
+						event.preventDefault();
+						$state.go('^.edit');
+					}
+				});
+				$scope.provider = provider;
+				$scope.setTitle(provider.name);
+				$scope.deleteProvider = function (size) {
+					$modal.open({
+						template: confirmDeleteTemplate,
+						controller: ['provider', '$scope', function (provider, $scope) {
+							$scope.name = provider.name;
+						}],
+						//size: size,
+						resolve: {
+							provider: function () {
+								return $scope.provider;
+							}
+						}
+					}).result.then(function() {
+						// Delete
+						return provider.$destroy().$asPromise();
+					}).then(function () {
+						$state.go('account');
+					});
+				};
+			}]
 		})
 		.state('provider.existing.edit', {
 			url: '/edit',
-			template: editProviderTemplate,
-			controller: 'EditProviderCtrl'
+			template: editNewTemplate,
+			controller: ['$scope', '$state', 'provider', 'hotkeys', function ($scope, $state, provider, hotkeys) {
+				hotkeys.bindTo($scope).add({
+					combo: 'esc',
+					description: 'Cancel edit provider',
+					callback: function (event) {
+						event.preventDefault();
+						$state.go('^.view');
+					},
+					allowIn: ['INPUT']
+				});
+				$scope.edit = true;
+				$scope.provider = provider;
+				$scope.setTitle('Editing ' + provider.name);
+				$scope.cancel = function () {
+					provider.$restore();
+					$state.go('^.view');
+				};
+				$scope.save = function () {
+					provider.$save().$then(function () {
+						$state.go('^.view', {providerID: provider.id});
+					});
+				};
+			}]
 		});
-	}])
-	.controller('ViewProviderCtrl', ['$scope', '$stateParams', 'provider', '$modal', '$state', 'hotkeys', function ($scope, $stateParams, provider, $modal, $state, hotkeys) {
-		hotkeys.bindTo($scope).add({
-			combo: 'o',
-			description: 'Create a new offer',
-			callback: function (event) {
-				event.preventDefault();
-				$state.go('offer.new', {provider: provider});
-			}
-		});
-		$scope.provider = provider;
-		$scope.setTitle(provider.name);
-		$scope.deleteProvider = function (size) {
-			$modal.open({
-				template: confirmDeleteTemplate,
-				controller: ['provider', '$scope', function (provider, $scope) {
-					$scope.name = provider.name;
-				}],
-				//size: size,
-				resolve: {
-					provider: function () {
-						return $scope.provider;
-					}
-				}
-			}).result.then(function() {
-				// Delete
-				return provider.$destroy().$asPromise();
-			}).then(function () {
-				$state.go('account');
-			});
-		};
 	}])
 	.directive('providerId', ['Provider', '$q', function (Provider, $q) {
 		return {
@@ -96,6 +166,9 @@ export default angular.module('ethiveProviderRoute', [
 			}
 		};
 	}])
+	/**
+	 * Ensures that the ID bound to this element's ng-model does not yet exist. Allows for an exception to be made for this provider's existing ID.
+	 */
 	.directive('uniqueProviderId', ['Provider', '$q', function (Provider, $q) {
 		return {
 			require: 'ngModel',
