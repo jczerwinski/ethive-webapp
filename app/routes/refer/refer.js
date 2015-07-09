@@ -13,12 +13,14 @@ export default angular.module('ethiveReferRoute', [
 	}).state('refer.offer', {
 		url: '/offer/:id'
 	})
-}]).run(['$rootScope', 'Offer', '$analytics', function ($rootScope, Offer, $analytics) {
-	$rootScope.$on('$stateChangeStart', function (event, state, params) {
-		if (state.name === 'refer.offer') {
+}]).run(['$rootScope', 'Offer', '$analytics', '$window', function ($rootScope, Offer, $analytics, $window) {
+	$rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+		if (toState.name === 'refer.offer') {
 			event.preventDefault();
-			Offer.$find(params.id).$then(function (offer) {
-				window.location.replace(offer.landing);
+			Offer.$find(toParams.id).$then(function (offer) {
+				// TODO Doesn't work properly if the landing page is bad. Going "back" after a bad redirect skips the referring page. :(
+				// See https://github.com/jczerwinski/ethive-webapp/issues/120
+				$window.location.replace(offer.landing);
 				$analytics.eventTrack('Billable Click', {
 					category: offer.provider.id,
 					label: 'https://www.ethive.com/offers/' + offer.id,
