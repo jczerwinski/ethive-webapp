@@ -3,8 +3,6 @@ import 'angular-ui-router';
 
 import homeRoute from 'routes/home/home';
 import serviceRoute from 'routes/service/service';
-import newServiceRoute from 'routes/service/new/new';
-import editServiceRoute from 'routes/service/edit/edit';
 import providerRoute from 'routes/provider/provider';
 import offerRoute from 'routes/offer/offer';
 import loginRoute from 'routes/login/login';
@@ -22,8 +20,6 @@ export default angular.module('ethiveRoutes', [
 		'ui.router',
 		homeRoute.name,
 		serviceRoute.name,
-		newServiceRoute.name,
-		editServiceRoute.name,
 		providerRoute.name,
 		offerRoute.name,
 		loginRoute.name,

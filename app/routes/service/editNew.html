@@ -1,24 +1,27 @@
-<h2>Edit Service</h2>
-<h4 ng-if="!service.isAdministeredBy(user)" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> You are not authorized to edit this service.</h4>
-<form ng-if="service.isAdministeredBy(user)" name="forms.editServiceForm" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
-<div class="form-group has-feedback" ng-class="{'has-error': forms.editServiceForm.name.$invalid && forms.editServiceForm.name.$dirty, 'has-success': forms.editServiceForm.name.$valid}">
+<h1 ng-if="edit">Edit Service</h1>
+<h1 ng-if="new">Create a new Service</h1>
+<h4 ng-if="new && parent && !(parent.type === 'category')" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> Only category services may have sub services.</h4>
+<h4 ng-if="edit && !service.isAdministeredBy(user)" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> You are not authorized to edit this service.</h4>
+<h4 ng-if="new && !parent.isAdministeredBy(user)" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> You are not authorized to create a subservice for this service</h4>
+<form ng-if="edit && service.isAdministeredBy(user) || new && !parent || new && parent.type === 'category' && parent.isAdministeredBy(user)" name="forms.form" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
+<div class="form-group has-feedback" ng-class="{'has-error': forms.form.name.$invalid && forms.form.name.$dirty, 'has-success': forms.form.name.$valid}">
 	<label for="name" class="col-sm-2 control-label">Name</label>
 	<div class="col-sm-10">
 		<input ng-model="service.name" name="name" type="text" class="form-control" id="name" placeholder="Service Name. eg. Ankle Surgery" required autofocus />
-		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.editServiceForm.name.$invalid && forms.editServiceForm.name.$dirty, 'glyphicon-ok': forms.editServiceForm.name.$valid}"></span>
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.form.name.$invalid && forms.form.name.$dirty, 'glyphicon-ok': forms.form.name.$valid}"></span>
 		<div class="help-block no-validation">Should be able to stand alone without any context from ancestor services. Should also be capitalized as a proper noun. For example, use "Orthopedic Ankle Surgery", not "Ankle".</div>
-		<div class="help-block" ng-show="forms.editServiceForm.name.$error.required && forms.editServiceForm.name.$dirty">A name is required.</div>
+		<div class="help-block" ng-show="forms.form.name.$error.required && forms.form.name.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Please choose a name.</div>
 	</div>
 </div>
-<div class="form-group has-feedback" ng-class="{'has-error': forms.editServiceForm	.id.$invalid && forms.editServiceForm	.id.$dirty, 'has-success': forms.editServiceForm	.id.$valid}">
+<div class="form-group has-feedback" ng-class="{'has-error': forms.form.id.$invalid && forms.form.id.$dirty, 'has-success': forms.form.id.$valid}">
 	<label for="id" class="col-sm-2 control-label">ID</label>
 	<div class="col-sm-10">
 		<input ng-model="service.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Service ID. Lowercase letters and dashes only. eg. ankle-surgery" unique-service-id unique-service-id-allow="service.$cmStatus.id" service-id required/>
-		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.editServiceForm	.id.$invalid && forms.editServiceForm	.id.$dirty, 'glyphicon-ok': forms.editServiceForm	.id.$valid}"></span>
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.form.id.$invalid && forms.form.id.$dirty, 'glyphicon-ok': forms.form.id.$valid}"></span>
 		<div class="help-block no-validation">Should be able to stand alone without any context from ancestor services. For example, use "orthopedic-ankle-surgery", not "ankle".</div>
-		<div class="help-block" ng-show="forms.editServiceForm	.id.$error.required && forms.editServiceForm	.id.$dirty">An ID is required.</div>
-		<div class="help-block" ng-show="forms.editServiceForm	.id.$error.id && forms.editServiceForm	.id.$dirty">An ID must consist only of lowercase letters, numbers, and dashes.</div>
-		<div class="help-block" ng-show="forms.editServiceForm	.id.$error.uniqueServiceId && forms.editServiceForm	.id.$dirty">That ID is already in use.</div>
+		<div class="help-block" ng-show="forms.form.id.$error.required && forms.form.id.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Please choose an ID.</div>
+		<div class="help-block" ng-show="forms.form.id.$error.id && forms.form.id.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> An ID must consist only of lowercase letters, numbers, and dashes.</div>
+		<div class="help-block" ng-show="forms.form.id.$error.uniqueServiceId && forms.form.id.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> That ID is already in use.</div>
 	</div>
 </div>
 	<div class="form-group">
@@ -45,11 +48,11 @@
 		<div class="help-block">Draft services are only visible to admins. Published services are visible to everyone.</div>
 	</div>
 </div>
-<div class="form-group has-feedback" ng-class="{'has-error': forms.editServiceForm.parent.$invalid, 'has-success': forms.editServiceForm.parent.$valid}">
+<div class="form-group has-feedback" ng-class="{'has-error': forms.form.parent.$invalid, 'has-success': forms.form.parent.$valid}">
 	<label for="name" class="col-sm-2 control-label">Parent</label>
 	<div class="col-sm-10">
 		<input ng-model="service.parent" ethive-service-selector-search class="form-control" name="parent" filter="serviceSelectorFilter" placeholder="Search by name..." typeahead-loading="loadingServices" >
-		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.editServiceForm.parent.$invalid, 'glyphicon-ok': forms.editServiceForm.parent.$valid}"></span>
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.form.parent.$invalid, 'glyphicon-ok': forms.form.parent.$valid}"></span>
 		<div ng-if="loadingServices" class="help-block no-validation"><span class="fa fa-spin fa-spinner"></span> Loading results...</div>
 		<div class="help-block no-validation">Must be a category, and cannot have itself or a descendent as a parent.</div>
 	</div>
@@ -68,7 +71,7 @@
 </div>
 <div class="form-group">
 	<div class="col-sm-offset-2 col-sm-10">
-		<button type="submit" id="submit" class="btn btn-success" ng-disabled="forms.editServiceForm.$invalid">Save Service</button>
+		<button type="submit" id="submit" class="btn btn-success" ng-disabled="forms.form.$invalid">Save Service</button>
 		<button type="button" id="cancel" ng-click="cancel()" class="btn btn-cancel">Cancel Changes</button>
 	</div>
 </div>

@@ -3,25 +3,26 @@ import 'angular-restmod';
 import 'angular-ui-router';
 import _ from 'lodash';
 
-import currency from 'components/currency/currency';
-
-import EditServiceRoute from './edit/edit';
-import editServiceTemplate from './edit/edit.html!text';
-
-import template from 'routes/service/service.html!text';
-
-import newServiceTemplate from './new/new.html!text';
-import NewServiceRoute from './new/new';
+import 'chieffancypants/angular-hotkeys';
 
 import service from 'models/service';
+import currency from 'components/currency/currency';
+import serviceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
+// Directive used in template
+import errors from 'components/errors/errors';
+
+import viewTemplate from './view.html!text';
+import editNewTemplate from './editNew.html!text';
 
 var SERVICEID_REGEXP = /^[a-z0-9-]{1,}$/;
 export default angular.module('ethiveServiceRoute', [
 		'restmod',
 		'ui.router',
+		'cfp.hotkeys',
 		currency.name, // for ethiveFx filter in template
-		EditServiceRoute.name,
-		service.name
+		service.name,
+		serviceSelectorSearch.name,
+		errors.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('service', {
@@ -29,33 +30,105 @@ export default angular.module('ethiveServiceRoute', [
 			abstract: true,
 			template: '<ui-view />'
 		})
-		.state('service.index', {
-			url: '',
-			template: '<h1>Service index... coming soon!</h1>'
-		})
 		.state('service.new', {
-			url: '/new',
-			template: newServiceTemplate,
-			controller: 'NewServiceCtrl',
+			url: '/new?parentID',
+			params: {
+				parent: null
+			},
+			template: editNewTemplate,
+			controller: ['$scope', '$state', 'Service', 'parent', 'hotkeys', function ($scope, $state, Service, parent, hotkeys) {
+				$scope.new = true;
+				hotkeys.bindTo($scope).add({
+					combo: 'esc',
+					description: 'Cancel create new service',
+					callback: function (event) {
+						event.preventDefault();
+						$scope.cancel();
+					},
+					allowIn: ['INPUT']
+				});
+				$scope.service = Service.$cached();
+				$scope.parent = parent;
+				$scope.service.parent = parent;
+				$scope.setTitle('Create New Service');
+				$scope.serviceSelectorFilter = function (service) {
+					return service.isAdministeredBy($scope.user) &&
+						service.type === 'category'
+				};
+				$scope.submit = function () {
+					$scope.service.$save().$then(function () {
+						$state.go('^.existing.view', {
+							service: $scope.service,
+							serviceID: $scope.service.id
+						});
+						Service.$clearCached();
+					});
+				};
+				$scope.cancel = function () {
+					if (parent) {
+						$state.go('^.existing.view', {
+							service: parent,
+							serviceID: parent.id
+						}, {reload: true});
+					} else {
+						$state.go('home');
+					}
+				};
+			}],
 			resolve: {
-				// To support using same ctrl as existing.new
-				service: [function () {return false}]
+				parent: ['Service', '$stateParams', function (Service, $stateParams) {
+					if ($stateParams.parent) {
+						$stateParams.parentID = $stateParams.parent.id;
+						return $stateParams.parent;
+					}
+					if ($stateParams.parentID) {
+						return Service.$find($stateParams.parentID).$asPromise();
+					}
+				}]
 			}
 		})
 		.state('service.existing', {
 			url: '/:serviceID',
+			params: {
+				service: null
+			},
 			abstract: true,
 			template: '<ui-view />',
 			resolve: {
 				service: ['Service', '$stateParams', function (Service, $stateParams) {
-					return Service.$find($stateParams.serviceID).$asPromise();
+					if ($stateParams.service) {
+						return $stateParams.service;
+					}
+					if ($stateParams.serviceID) {
+						return Service.$find($stateParams.serviceID).$asPromise();
+					}
 				}]
 			}
 		})
 		.state('service.existing.view', {
 			url: '',
-			template: template,
-			controller: ['$scope', 'service', 'currency', '$filter', function ($scope, service, currency, $filter) {
+			template: viewTemplate,
+			controller: ['$scope', '$state', 'service', 'currency', '$filter', 'hotkeys', function ($scope, $state, service, currency, $filter, hotkeys) {
+				if (service.isAdministeredBy($scope.user)) {
+					hotkeys.bindTo($scope).add({
+						combo: 'e',
+						description: 'Edit service',
+						callback: function (event) {
+							event.preventDefault();
+							$state.go('^.edit');
+						}
+					});
+					if (service.type === 'category') {
+						hotkeys.bindTo($scope).add({
+							combo: 's',
+							description: 'Create new subservice',
+							callback: function (event) {
+								event.preventDefault();
+								$state.go('^.^.new', {parent: service});
+							}
+						});
+					}
+				}
 				$scope.setTitle(service.name);
 				$scope.service = service;
 				$scope.currencies = currency.currencyList;
@@ -68,13 +141,43 @@ export default angular.module('ethiveServiceRoute', [
 		})
 		.state('service.existing.edit', {
 			url: '/edit',
-			template: editServiceTemplate,
-			controller: 'EditServiceCtrl',
-		})
-		.state('service.existing.new', {
-			url: '/new',
-			template: newServiceTemplate,
-			controller: 'NewServiceCtrl'
+			template: editNewTemplate,
+			controller: ['$scope', '$state', 'service', 'hotkeys', function ($scope, $state, service, hotkeys) {
+				hotkeys.bindTo($scope).add({
+					combo: 'esc',
+					description: 'Cancel edit service',
+					callback: function (event) {
+						event.preventDefault();
+						$scope.cancel();
+					},
+					allowIn: ['INPUT']
+				});
+				$scope.edit = true;
+				$scope.service = service;
+				$scope.setTitle('Editing ' + service.name);
+				$scope.forms = {};
+
+				$scope.serviceSelectorFilter = function (service) {
+					return service.isAdministeredBy($scope.user) &&
+						service.type === 'category' &&
+						!service.equals($scope.service) &&
+						!service.hasAncestor($scope.service);
+				};
+
+				$scope.submit = function () {
+					$scope.service.$save().$then(function () {
+						service.$pk = service.id;
+						return $state.go('^.view', {service: $scope.service, serviceID: $scope.service.id}, {
+							reload: true
+						});
+					});
+				};
+
+				$scope.cancel = function () {
+					$scope.service.$restore();
+					$state.go('^.view');
+				};
+			}]
 		})
 	}])
 	.directive('uniqueServiceId', ['Service', function (Service) {
