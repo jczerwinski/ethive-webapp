@@ -55,7 +55,8 @@ export default angular.module('ethiveProviderRoute', [
 						// provider creation success!
 						// navigate to our new provider's page
 						$state.go('^.existing.view', {
-							provider: provider
+							provider: provider,
+							providerID: provider.id
 						});
 						Provider.$clearCached();
 					}, function (response) {
@@ -145,7 +146,7 @@ export default angular.module('ethiveProviderRoute', [
 					description: 'Cancel edit provider',
 					callback: function (event) {
 						event.preventDefault();
-						$state.go('^.view');
+						$scope.cancel();
 					},
 					allowIn: ['INPUT']
 				});
