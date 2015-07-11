@@ -17,7 +17,7 @@
 		</div>
 		<!-- Offers -->
 		<div ng-switch-when="service">
-			<h3>{{service.name}} Prices <span class="badge">{{service.offers.length}}</span></h3>
+			<h3>{{service.name}} Prices <span class="badge">{{service.offers.length}}</span> <a ng-if="user.isLoggedIn() && user.providers.length" ui-sref="offer.new({service: service})"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Offer this Service</button></a></h3>
 			<table class="table offer-table table-striped" ng-if="service.offers.length">
 				<tr>
 					<th>Provider</th>

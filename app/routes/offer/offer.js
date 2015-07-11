@@ -102,7 +102,23 @@ export default angular.module('ethiveOfferRoute', [
 				};
 
 				$scope.cancel = function () {
-					$state.go('^.view');
+					// If a Service is pre-populated, go back to the Service's page on cancel
+					if (service) {
+						return $state.go('service.existing.view', {
+							service: service,
+							serviceID: service.id
+						})
+					}
+					// If a Provider is pre-populated
+					if (provider) {
+						// Otherwise, go back to the Provider's page
+						return $state.go('provider.existing.view', {
+							provider: provider,
+							providerID: provider.id
+						});
+					}
+					// Otherwise, go home
+					return $state.go('home');
 				};
 			}]
 		})

@@ -2,15 +2,17 @@
 <h1 ng-if="new">Create a new Offer</h1>
 <form name="form" class="form-horizontal" role="form" ng-submit="submit(form)" novalidate>
 
-<div class="form-group has-feedback">
+<div class="form-group has-feedback" ng-class="{'has-error': form.provider.$invalid && form.provider.$dirty, 'has-success': form.provider.$valid || (edit || provider)}">
 	<label for="provider" class="col-sm-2 control-label">Provider</label>
 	<div ng-if="new && !provider" class="col-sm-10">
-		<input ng-model="offer.provider" name="provider" type="text" class="form-control" id="provider" placeholder="Search by provider name..." required autofocus />
-		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': form.provider.$invalid && form.provider.$dirty, 'glyphicon-ok': form.provider.$valid}"></span>
-		<div class="help-block no-validate">The provider offering this service.</div>
+		<select class="form-control" name="provider" ng-options="provider as provider.name for provider in user.providers" ng-model="offer.provider" required autofocus>
+			<option value="">Choose a provider...</option>
+		</select>
+		<span class="glyphicon form-control-feedback form-control-feedback-secondary" ng-class="{'glyphicon-remove': form.provider.$invalid && form.provider.$dirty, 'glyphicon-ok': form.provider.$valid}"></span>
+		<div class="help-block no-validation">The provider offering this service.</div>
 		<div class="help-block" ng-show="form.provider.$invalid && form.provider.$dirty"><span class="glyphicon glyphicon-remove"></span> Please choose a Provider.</div>
 	</div>
-	<!-- Can't Edit Provider -->
+	<!-- Can't Edit Provider on existing Offer -->
 	<!-- Can't change pre-populated Provider -->
 	<div ng-if="edit || provider" class="col-sm-10">
 		<p class="form-control-static">
@@ -20,16 +22,19 @@
 	</div>
 </div>
 
-<div class="form-group has-feedback" ng-class="{'has-error': form.service.$invalid && form.service.$dirty, 'has-success': form.service.$valid}">
+<div class="form-group has-feedback" ng-class="{'has-error': form.service.$invalid && form.service.$dirty, 'has-success': form.service.$valid || edit || service}">
 	<label for="service" class="col-sm-2 control-label">Service</label>
 	<div ng-if="new && !service" class="col-sm-10">
-		<input ng-model="offer.service" ethive-service-selector-search class="form-control" name="service" filter="serviceSelectorFilter" placeholder="Search by service name..." typeahead-loading="loadingServices" required autofocus >
+		<!-- autofocus if provider is pre-populated -->
+		<input ng-if="provider " ng-model="offer.service" ethive-service-selector-search class="form-control" name="service" filter="serviceSelectorFilter" placeholder="Search by service name..." typeahead-loading="loadingServices" required autofocus >
+		<!-- no focus if provider is not pre-populated -->
+		<input ng-if="!provider " ng-model="offer.service" ethive-service-selector-search class="form-control" name="service" filter="serviceSelectorFilter" placeholder="Search by service name..." typeahead-loading="loadingServices" required >
 		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': form.service.$invalid && form.service.$dirty, 'glyphicon-ok': form.service.$valid}"></span>
 		<span ng-if="loadingServices" class="form-control-loading-spinner fa fa-spin fa-spinner form-control-feedback form-control-feedback-secondary"></span>
 		<div class="help-block no-validation">The service you are offering.</div>
 		<div class="help-block" ng-show="form.service.$invalid && form.service.$dirty"><span class="glyphicon glyphicon-remove"></span> Please choose a Service.</div>
 	</div>
-	<!-- Can't Edit Service. -->
+	<!-- Can't Edit Service on existing Offer. -->
 	<!-- Can't change pre-populated Service -->
 	<div ng-if="edit || service" class="col-sm-10">
 		<p class="form-control-static">
@@ -42,7 +47,9 @@
 <div class="form-group has-feedback" ng-class="{'has-error': form.location.$invalid && form.location.$dirty, 'has-success': form.location.$valid}">
 	<label for="name" class="col-sm-2 control-label">Location</label>
 	<div class="col-sm-10">
-		<input ng-model="offer.location" typeahead="location.description for location in getLocations($viewValue)" typeahead-editable="false" typeahead-loading="loadingLocations" name="location" type="text" class="form-control" id="location" placeholder="Search by city name" required>
+		<!-- autofocus if edit: can't edit provider/service -->
+		<input ng-if="edit" ng-model="offer.location" typeahead="location.description for location in getLocations($viewValue)" typeahead-editable="false" typeahead-loading="loadingLocations" name="location" type="text" class="form-control" id="location" placeholder="Search by city name" required autofocus>
+		<input ng-if="!edit" ng-model="offer.location" typeahead="location.description for location in getLocations($viewValue)" typeahead-editable="false" typeahead-loading="loadingLocations" name="location" type="text" class="form-control" id="location" placeholder="Search by city name" required>
 		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': form.location.$invalid && form.location.$dirty, 'glyphicon-ok': form.location.$valid}"></span>
 		<span ng-if="loadingLocations" class="form-control-loading-spinner fa fa-spin fa-spinner form-control-feedback form-control-feedback-secondary"></span>
 		<div class="help-block no-validation">The city where this service will be offered. <img class="pull-right" src="//maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white2.png" /></div>
@@ -74,7 +81,7 @@
 
 <div class="form-group has-feedback" ng-class="{'has-error': form.status.$invalid && form.status.$dirty, 'has-success': form.status.$valid}">
 	<label for="price" class="col-sm-2 control-label">Status</label>
-	<div class="col-sm-10">
+	<div class="col-sm-10" ng-init="offer.status = 'draft'">
 		<label class="radio-inline">
 			<input ng-model="offer.status" value="draft" type="radio" name="status" id="draft"> Draft
 		</label>
