@@ -11,7 +11,7 @@ System.config({
 System.config({
   "map": {
     "OpenBookPrices/country-data": "github:OpenBookPrices/country-data@0.0.19",
-    "angular": "github:angular/bower-angular@1.4.0",
+    "angular": "github:angular/bower-angular@1.4.2",
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.12.1",
     "angular-cookies": "github:angular/bower-angular-cookies@1.4.0",
     "angular-deferred-bootstrap": "github:philippd/bower-angular-deferred-bootstrap@0.1.7",
@@ -41,28 +41,28 @@ System.config({
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
     "urish/angular-spinner": "github:urish/angular-spinner@0.6.1",
     "github:angular-ui/bootstrap-bower@0.12.1": {
-      "angular": "github:angular/bower-angular@1.4.0"
+      "angular": "github:angular/bower-angular@1.4.2"
     },
     "github:angular-ui/ui-router@0.2.15": {
-      "angular": "github:angular/bower-angular@1.4.0"
+      "angular": "github:angular/bower-angular@1.4.2"
     },
     "github:angular-ui/ui-utils@0.2.3": {
-      "angular": "github:angular/bower-angular@1.4.0"
+      "angular": "github:angular/bower-angular@1.4.2"
     },
     "github:angular/bower-angular-cookies@1.4.0": {
-      "angular": "github:angular/bower-angular@1.4.0"
+      "angular": "github:angular/bower-angular@1.4.2"
     },
     "github:chieffancypants/angular-hotkeys@1.4.5": {
-      "angular": "github:angular/bower-angular@1.4.0"
+      "angular": "github:angular/bower-angular@1.4.2"
     },
     "github:jspm/nodelibs-process@0.1.1": {
       "process": "npm:process@0.10.1"
     },
     "github:philippd/bower-angular-deferred-bootstrap@0.1.7": {
-      "angular": "github:angular/bower-angular@1.4.0"
+      "angular": "github:angular/bower-angular@1.4.2"
     },
     "github:platanus/angular-restmod@1.1.9": {
-      "angular": "github:angular/bower-angular@1.4.0"
+      "angular": "github:angular/bower-angular@1.4.2"
     },
     "npm:lodash@3.9.3": {
       "process": "github:jspm/nodelibs-process@0.1.1"
