@@ -61,6 +61,12 @@ export default angular.module('ethiveServiceModel', [
 					}
 					// We're at the root.
 					return this;
+				},
+				/**
+				 * Outputs a statically valid -- but not necessarily unique -- ID based on the currently assigned name.
+				 */
+				generateId: function () {
+					this.id = (this.name || '').trim().toLowerCase().replace(/[^a-z0-9-\s]/g, '').replace(/\s+/g, '-');
 				}
 			}
 		}

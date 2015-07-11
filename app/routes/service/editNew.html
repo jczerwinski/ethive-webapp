@@ -7,7 +7,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': forms.form.name.$invalid && forms.form.name.$dirty, 'has-success': forms.form.name.$valid}">
 	<label for="name" class="col-sm-2 control-label">Name</label>
 	<div class="col-sm-10">
-		<input ng-model="service.name" name="name" type="text" class="form-control" id="name" placeholder="Service Name. eg. Ankle Surgery" required autofocus />
+		<input ng-model="service.name" name="name" type="text" class="form-control" id="name" placeholder="Service Name. eg. Ankle Surgery" required autofocus ng-change="new && forms.form.id.$pristine && service.generateId()" />
 		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.form.name.$invalid && forms.form.name.$dirty, 'glyphicon-ok': forms.form.name.$valid}"></span>
 		<div class="help-block no-validation">Should be able to stand alone without any context from ancestor services. Should also be capitalized as a proper noun. For example, use "Orthopedic Ankle Surgery", not "Ankle".</div>
 		<div class="help-block" ng-show="forms.form.name.$error.required && forms.form.name.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Please choose a name.</div>
@@ -16,8 +16,13 @@
 <div class="form-group has-feedback" ng-class="{'has-error': forms.form.id.$invalid && forms.form.id.$dirty, 'has-success': forms.form.id.$valid}">
 	<label for="id" class="col-sm-2 control-label">ID</label>
 	<div class="col-sm-10">
-		<input ng-model="service.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Service ID. Lowercase letters and dashes only. eg. ankle-surgery" unique-service-id unique-service-id-allow="service.$cmStatus.id" service-id required/>
-		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.form.id.$invalid && forms.form.id.$dirty, 'glyphicon-ok': forms.form.id.$valid}"></span>
+		<div class="input-group">
+			<input ng-model="service.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Service ID. Lowercase letters and dashes only. eg. ankle-surgery" unique-service-id unique-service-id-allow="service.$cmStatus.id" service-id required/>
+			<span class="input-group-btn">
+				<button ng-disabled="!service.name" type="button" class="btn btn-info" ng-click="service.generateId()"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Generate</button>
+			</span>
+		</div>
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.form.id.$invalid && forms.form.id.$dirty, 'glyphicon-ok': forms.form.id.$valid}" style="right: 117px"></span>
 		<div class="help-block no-validation">Should be able to stand alone without any context from ancestor services. For example, use "orthopedic-ankle-surgery", not "ankle".</div>
 		<div class="help-block" ng-show="forms.form.id.$error.required && forms.form.id.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Please choose an ID.</div>
 		<div class="help-block" ng-show="forms.form.id.$error.id && forms.form.id.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> An ID must consist only of lowercase letters, numbers, and dashes.</div>

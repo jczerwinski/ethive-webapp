@@ -4,7 +4,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': form.name.$invalid && form.name.$dirty, 'has-success': form.name.$valid}">
 	<label for="name" class="col-sm-2 control-label">Name</label>
 	<div class="col-sm-10">
-		<input ng-model="provider.name" name="name" type="text" class="form-control" id="name" placeholder="Provider Name" required autofocus />
+		<input ng-model="provider.name" name="name" type="text" class="form-control" id="name" placeholder="Provider Name" ng-change="new && form.id.$pristine && provider.generateId()" required autofocus >
 		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': form.name.$invalid && form.name.$dirty, 'glyphicon-ok': form.name.$valid}"></span>
 		<div class="help-block no-validation">The name of the person or organization that will be providing services. eg. Dr. Douglas Adams, Wayne Enterprises Ltd.</div>
 		<div class="help-block" ng-show="form.name.$invalid && form.name.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Please choose a name.</div>
@@ -13,8 +13,13 @@
 <div class="form-group has-feedback" ng-class="{'has-error': form.id.$invalid && form.id.$dirty, 'has-success': form.id.$valid}">
 	<label for="name" class="col-sm-2 control-label">ID</label>
 	<div class="col-sm-10">
-		<input ng-model="provider.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Provider ID. Lowercase letters and dashes only. eg. dr-johnston" provider-id edit-provider-id="{{provider.$cmStatus.id}}" unique-provider-id required autofocus />
-		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': form.id.$invalid && form.id.$dirty, 'glyphicon-ok': form.id.$valid}"></span>
+		<div class="input-group">
+			<input ng-model="provider.id" name="id" type="text" class="form-control" id="id" placeholder="Unique Provider ID. Lowercase letters and dashes only. eg. dr-johnston" provider-id edit-provider-id="{{provider.$cmStatus.id}}" unique-provider-id required autofocus >
+			<span class="input-group-btn">
+				<button ng-disabled="!provider.name" type="button" class="btn btn-info" ng-click="provider.generateId()"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Generate</button>
+			</span>
+		</div>
+		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': form.id.$invalid && form.id.$dirty, 'glyphicon-ok': form.id.$valid}" style="right: 117px"></span>
 		<div class="help-block no-validation">Should be a simplified version of the provider name. eg. dr-douglas-adams, wayne-enterprises.</div>
 		<div class="help-block no-validation">Used in the URL for your provider. eg. www.ethive.com/providers/dr-douglas-adams</div>
 		<div class="help-block" ng-show="form.id.$error.required && form.id.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Please choose an ID.</div>
