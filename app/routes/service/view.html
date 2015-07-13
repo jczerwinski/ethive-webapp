@@ -1,7 +1,9 @@
 <h1>{{service.name}}
 <a ng-if="service.isAdministeredBy(user)" ui-sref="^.edit"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button></a>
 <span ng-if="service.type === 'category'" class="btn btn-xs btn-info">Category <span class="glyphicon glyphicon-info-sign"></span></span>
-<span ng-if="service.type === 'service'" class="btn btn-xs btn-info">Service <span class="glyphicon glyphicon-info-sign"></span></span></h1>
+<span ng-if="service.type === 'service'" class="btn btn-xs btn-info">Service <span class="glyphicon glyphicon-info-sign"></span></span>
+<span style="display: inline-block; padding: 0 5px; position: relative; left: -5px" tooltip="Delete this service. Only services without any sub-services or offers can be deleted."><button type="button" ng-if="service.isAdministeredBy(user)" ng-disabled="!service.canDelete()" ng-click="delete()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button></span>
+</h1>
 <!-- Description. Markdown? -->
 <div ui-view>
 	<p>{{service.description}}</p>

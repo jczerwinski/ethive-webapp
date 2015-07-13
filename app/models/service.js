@@ -67,6 +67,9 @@ export default angular.module('ethiveServiceModel', [
 				 */
 				generateId: function () {
 					this.id = (this.name || '').trim().toLowerCase().replace(/[^a-z0-9-\s]/g, '').replace(/\s+/g, '-');
+				},
+				canDelete: function () {
+					return this.type === 'service' && this.offers.length === 0 || this.type === 'category' && this.children.length === 0;
 				}
 			}
 		}

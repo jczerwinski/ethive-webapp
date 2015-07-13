@@ -14,11 +14,16 @@ import errors from 'components/errors/errors';
 import viewTemplate from './view.html!text';
 import editNewTemplate from './editNew.html!text';
 
+// For delete service modal
+import 'angular-bootstrap';
+import confirmDeleteTemplate from 'components/confirmDeleteModal/confirmDelete.html!text';
+
 var SERVICEID_REGEXP = /^[a-z0-9-]{1,}$/;
 export default angular.module('ethiveServiceRoute', [
 		'restmod',
 		'ui.router',
 		'cfp.hotkeys',
+		'ui.bootstrap',
 		currency.name, // for ethiveFx filter in template
 		service.name,
 		serviceSelectorSearch.name,
@@ -108,7 +113,7 @@ export default angular.module('ethiveServiceRoute', [
 		.state('service.existing.view', {
 			url: '',
 			template: viewTemplate,
-			controller: ['$scope', '$state', 'service', 'currency', '$filter', 'hotkeys', function ($scope, $state, service, currency, $filter, hotkeys) {
+			controller: ['$scope', '$state', 'service', 'currency', '$filter', 'hotkeys', '$modal', function ($scope, $state, service, currency, $filter, hotkeys, $modal) {
 				if (service.isAdministeredBy($scope.user)) {
 					hotkeys.bindTo($scope).add({
 						combo: 'e',
@@ -128,6 +133,16 @@ export default angular.module('ethiveServiceRoute', [
 							}
 						});
 					}
+					if (service.canDelete()) {
+						hotkeys.bindTo($scope).add({
+							combo: 'del',
+							description: 'Delete service',
+							callback: function (event) {
+								event.preventDefault();
+								$scope.delete();
+							}
+						});
+					}
 				}
 				$scope.setTitle(service.name);
 				$scope.service = service;
@@ -136,6 +151,24 @@ export default angular.module('ethiveServiceRoute', [
 					if ($scope.user.isLoggedIn()) {
 						$scope.user.$save(['preferences.currency']);
 					}
+				};
+				$scope.delete = function () {
+					$modal.open({
+						template: confirmDeleteTemplate,
+						controller: ['service', '$scope', function (service, $scope) {
+							$scope.name = service.name;
+						}],
+						resolve: {
+							service: function () {
+								return $scope.service;
+							}
+						}
+					}).result.then(function() {
+						// Delete
+						return service.$destroy().$asPromise();
+					}).then(function () {
+						$state.go('home');
+					});
 				};
 			}]
 		})
