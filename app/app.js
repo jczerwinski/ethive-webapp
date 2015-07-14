@@ -36,14 +36,14 @@ export default angular.module('ethiveApp', [
 		// Bind global hotkeys
 		hotkeys.bindTo($rootScope).add({
 			combo: 'a',
-			description: 'Cancel create new provider',
+			description: 'Account',
 			callback: function (event) {
 				event.preventDefault();
 				$state.go('account');
 			}
 		}).add({
 			combo: 'h',
-			description: 'Go to home page',
+			description: 'Home',
 			callback: function (event) {
 				event.preventDefault();
 				$state.go('home');
