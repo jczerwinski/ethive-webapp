@@ -247,6 +247,15 @@ module.exports = function (grunt) {
 						'assets/**/*',
 						'divshot.json'
 					]
+				},
+				{
+					expand: true,
+					dot: true,
+					cwd: '.tmp',
+					dest: '<%= yeoman.dist %>',
+					src: [
+						'assets/fonts/**/*'
+					]
 				}]
 			}
 		},
