@@ -2,6 +2,8 @@ import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-bootstrap';
 
+import 'chieffancypants/angular-hotkeys';
+
 import currency from 'components/currency/currency';
 import googlePlacesAutocomplete from 'components/google-places-autocomplete/google-places-autocomplete';
 import OfferModel from 'models/offer';
@@ -16,6 +18,7 @@ import confirmDeleteTemplate from 'components/confirmDeleteModal/confirmDelete.h
 export default angular.module('ethiveOfferRoute', [
 		'ui.router',
 		'ui.bootstrap',
+		'cfp.hotkeys',
 		OfferModel.name,
 		ProviderModel.name,
 		currency.name,
@@ -136,10 +139,19 @@ export default angular.module('ethiveOfferRoute', [
 		.state('offer.existing.view', {
 			url: '',
 			template: viewTemplate,
-			controller: ['$scope', 'offer', '$modal', '$state', function ($scope, offer, $modal, $state) {
+			controller: ['$scope', 'offer', '$modal', '$state', 'hotkeys', function ($scope, offer, $modal, $state, hotkeys) {
 				let title = `${offer.service.name} - ${offer.location} - ${offer.provider.name}`;
 				$scope.setTitle(title);
 				$scope.offer = offer;
+
+				hotkeys.bindTo($scope).add({
+					combo: 'p',
+					description: 'Navigate to this offer\'s provider',
+					callback: function (event) {
+						event.preventDefault();
+						$state.go('provider.existing.view', {providerID: offer.provider.id});
+					}
+				});
 
 				$scope.deleteOffer = function (size) {
 					$modal.open({
