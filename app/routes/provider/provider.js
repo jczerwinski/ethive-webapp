@@ -92,28 +92,30 @@ export default angular.module('ethiveProviderRoute', [
 			url: '',
 			template: viewTemplate,
 			controller: ['$scope', 'provider', '$modal', '$state', 'hotkeys', function ($scope, provider, $modal, $state, hotkeys) {
-				hotkeys.bindTo($scope).add({
-					combo: 'o',
-					description: 'Create a new offer',
-					callback: function (event) {
-						event.preventDefault();
-						$state.go('offer.new', {provider: provider});
-					}
-				}).add({
-					combo: 'del',
-					description: 'Delete this provider',
-					callback: function (event) {
-						event.preventDefault();
-						$scope.deleteProvider();
-					}
-				}).add({
-					combo: 'e',
-					description: 'Edit this provider',
-					callback: function (event) {
-						event.preventDefault();
-						$state.go('^.edit');
-					}
-				});
+				if (provider.isAdministeredBy($scope.user)) {
+					hotkeys.bindTo($scope).add({
+						combo: 'o',
+						description: 'Create a new offer',
+						callback: function (event) {
+							event.preventDefault();
+							$state.go('offer.new', {provider: provider});
+						}
+					}).add({
+						combo: 'del',
+						description: 'Delete this provider',
+						callback: function (event) {
+							event.preventDefault();
+							$scope.deleteProvider();
+						}
+					}).add({
+						combo: 'e',
+						description: 'Edit this provider',
+						callback: function (event) {
+							event.preventDefault();
+							$state.go('^.edit');
+						}
+					});
+				}
 				$scope.provider = provider;
 				$scope.setTitle(provider.name);
 				$scope.deleteProvider = function (size) {
