@@ -12,7 +12,7 @@ System.config({
   "map": {
     "OpenBookPrices/country-data": "github:OpenBookPrices/country-data@0.0.19",
     "angular": "github:angular/bower-angular@1.4.2",
-    "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.12.1",
+    "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.13.0",
     "angular-cookies": "github:angular/bower-angular-cookies@1.4.0",
     "angular-deferred-bootstrap": "github:philippd/bower-angular-deferred-bootstrap@0.1.7",
     "angular-inflector": "github:iobaixas/angular-inflector@0.2.0",
@@ -40,7 +40,7 @@ System.config({
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
     "urish/angular-spinner": "github:urish/angular-spinner@0.6.1",
-    "github:angular-ui/bootstrap-bower@0.12.1": {
+    "github:angular-ui/bootstrap-bower@0.13.0": {
       "angular": "github:angular/bower-angular@1.4.2"
     },
     "github:angular-ui/ui-router@0.2.15": {
