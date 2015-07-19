@@ -110,6 +110,9 @@ export default angular.module('ethiveUserModel', [
 	}])
 	.factory('User', ['restmod', '$locale', 'localeCurrencyFilter', '$http', 'config', function (restmod, $locale, localeCurrencyFilter, $http, config) {
 		return restmod.model('/users').mix({
+			providers: {
+				hasMany: 'Provider'
+			},
 			$extend: {
 				Model: {
 					verifyEmail: function (verificationKey) {
