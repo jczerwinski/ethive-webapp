@@ -151,6 +151,13 @@ export default angular.module('ethiveOfferRoute', [
 						event.preventDefault();
 						$state.go('provider.existing.view', {providerID: offer.provider.id});
 					}
+				}).add({
+					combo: 'e',
+					description: 'Edit this offer',
+					callback: function (event) {
+						event.preventDefault();
+						$state.go('^.edit');
+					}
 				});
 
 				$scope.deleteOffer = function (size) {
@@ -171,8 +178,17 @@ export default angular.module('ethiveOfferRoute', [
 		.state('offer.existing.edit', {
 			url: '/edit',
 			template: editNewTemplate,
-			controller: ['$scope', 'offer', '$state', 'currency', 'googlePlacesAutocomplete', function ($scope, offer, $state, currency, places) {
+			controller: ['$scope', 'offer', '$state', 'currency', 'googlePlacesAutocomplete', 'hotkeys', function ($scope, offer, $state, currency, places, hotkeys) {
 				$scope.edit = true;
+				hotkeys.bindTo($scope).add({
+					combo: 'esc',
+					description: 'Cancel editing this offer',
+					callback: function (event) {
+						event.preventDefault();
+						$state.go('^.view');
+					},
+					allowIn: ['INPUT']
+				});
 				$scope.setTitle(offer.service.name + ' - ' + offer.location + ' - ' + offer.provider.name);
 				$scope.offer = offer;
 				$scope.getLocations = function (query) {
