@@ -7,7 +7,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': forms.form.name.$invalid && forms.form.name.$dirty, 'has-success': forms.form.name.$valid}">
 	<label for="name" class="col-sm-2 control-label">Name</label>
 	<div class="col-sm-10">
-		<input ng-model="service.name" name="name" type="text" class="form-control" id="name" placeholder="Service Name. eg. Ankle Surgery" required autofocus ng-change="new && forms.form.id.$pristine && service.generateId()" />
+		<input ng-model="service.name" name="name" type="text" class="form-control" id="name" placeholder="Service Name. eg. Ankle Surgery" required autofocus ng-change="new && forms.form.id.$untouched && service.generateId() || forms.form.id.$setDirty()" />
 		<span class="glyphicon form-control-feedback" ng-class="{'glyphicon-remove': forms.form.name.$invalid && forms.form.name.$dirty, 'glyphicon-ok': forms.form.name.$valid}"></span>
 		<div class="help-block no-validation">Should be able to stand alone without any context from ancestor services. Should also be capitalized as a proper noun. For example, use "Orthopedic Ankle Surgery", not "Ankle".</div>
 		<div class="help-block" ng-show="forms.form.name.$error.required && forms.form.name.$dirty"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Please choose a name.</div>

@@ -243,6 +243,7 @@ export default angular.module('ethiveServiceRoute', [
 					return id;
 				}
 				ctrl.$parsers.push(uniqueIDValidator);
+				ctrl.$formatters.push(uniqueIDValidator);
 			}
 		};
 	}])
@@ -262,6 +263,7 @@ export default angular.module('ethiveServiceRoute', [
 					}
 				}
 				ctrl.$parsers.push(serviceIDValidator);
+				ctrl.$formatters.push(serviceIDValidator);
 			}
 		};
 	}])
