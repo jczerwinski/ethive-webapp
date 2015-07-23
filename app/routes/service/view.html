@@ -12,9 +12,11 @@
 	<div ng-switch="service.type">
 		<div ng-switch-when="category">
 			<h2>Sub-services <span class="badge">{{service.children.length}}</span> <a ng-if="service.isAdministeredBy(user)" ui-sref="^.^.new({parent: service})"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add new sub-service</button></a></h2>
-			<ul ng-if="service.children.length" class="list-inline">
-				<li class="service" ng-repeat="child in service.children"><a ui-sref=".({serviceID: child.id})"><button type="button" class="btn btn-default">{{child.name}}</button></a></li>
-			</ul>
+			<ol ng-if="service.children.length">
+				<li ng-repeat="child in service.children | orderBy: 'name'" class="sub-service">
+					<a ui-sref=".({serviceID: child.id})">{{child.name}}</a>
+				</li>
+			</ol>
 			<p ng-if="!service.children.length">Sorry, there aren't any sub-services here yet. Check back later!</p>
 		</div>
 		<!-- Offers -->
