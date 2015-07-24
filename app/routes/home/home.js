@@ -18,7 +18,9 @@ export default angular.module('ethiveHome', [
 			}],
 			resolve: {
 				services: ['Service', function (Service) {
-					return Service.$forest().$asPromise();
+					return Service.$forest({
+						level: 2
+					}).$asPromise();
 				}]
 			}
 		});

@@ -18,8 +18,8 @@ export default angular.module('ethiveServiceModel', [
 		},
 		$extend: {
 			Scope: {
-				$forest: function () {
-					return this.$search().$on('after-request', function (raw) {
+				$forest: function (options) {
+					return this.$search(options).$on('after-request', function (raw) {
 						var index = _.reduce(raw.data, function (index, service) {
 							index[service._id] = service;
 							return index;
