@@ -9,7 +9,7 @@
 				</ul> -->
 				<ul class="list-group">
 					<li ng-if="!user.providers.length" class="list-group-item"><em>You currently administer no providers</em></li>
-					<li class="list-group-item" ng-repeat="provider in user.providers"><a ui-sref="provider.existing.view({providerID: provider.id})">{{provider.name}}</a></li>
+					<li class="list-group-item" ng-repeat="provider in user.providers | orderBy: 'name'"><a ui-sref="provider.existing.view({providerID: provider.id})">{{provider.name}}</a></li>
 				</ul>
 			</div>
 		</div>
