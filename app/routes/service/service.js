@@ -266,13 +266,4 @@ export default angular.module('ethiveServiceRoute', [
 				ctrl.$formatters.push(serviceIDValidator);
 			}
 		};
-	}])
-	.filter('fxOffers', ['fxFilter', function (fxFilter) {
-		return function (offers, to) {
-			return _.map(offers, function (offer) {
-				offer.price.amount = fxFilter(offer.price.amount, offer.price.currency, to);
-				offer.price.currency = to;
-				return offer;
-			});
-		}
 	}]);

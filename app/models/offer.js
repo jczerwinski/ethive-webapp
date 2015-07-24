@@ -1,9 +1,12 @@
 import angular from 'angular';
 import 'angular-restmod';
 
+import currency from 'components/currency/currency';
+
 export default angular.module('ethiveOfferModel', [
-	'restmod'
-]).factory('Offer', ['restmod', function (restmod) {
+	'restmod',
+	currency.name
+]).factory('Offer', ['restmod', 'fxFilter', function (restmod, fxFilter) {
 	return restmod.model('/offers').mix({
 		provider: {
 			hasOne: 'Provider'
@@ -20,6 +23,9 @@ export default angular.module('ethiveOfferModel', [
 		},
 		isAdministeredBy: function (user) {
 			return this.provider.isAdministeredBy(user);
+		},
+		priceIn: function (currency) {
+			return fxFilter(this.price.amount, this.price.currency, currency);
 		}
 	});
 }]);

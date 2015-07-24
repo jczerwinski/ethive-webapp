@@ -16,6 +16,9 @@ export default angular.module('ethiveServiceModel', [
 		children: {
 			hasMany: 'Service'
 		},
+		offers: {
+			hasMany: 'Offer'
+		},
 		$extend: {
 			Scope: {
 				$forest: function (options) {

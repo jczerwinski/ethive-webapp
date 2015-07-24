@@ -26,16 +26,18 @@
 				<tr>
 					<th>Provider</th>
 					<th>Location(s)</th>
-					<th class="form-inline"><label class="pull-right">Price
-					<select class="form-control input-sm currency-selector" ng-model="user.preferences.currency" ng-options="currency.code as currency.code + '   ' + currency.name for currency in currencies" ng-change="changeCurrency()">
-					</select></label>
+					<th class="form-inline">
+						<label class="pull-right">Price
+							<select class="form-control input-sm currency-selector" ng-model="user.preferences.currency" ng-options="currency.code as currency.code + '   ' + currency.name for currency in currencies" ng-change="changeCurrency()">
+							</select>
+						</label>
 					</th>
 				</tr>
 
-				<tr ng-repeat="offer in service.offers | fxOffers : user.preferences.currency | orderBy : 'price.amount'">
+				<tr ng-repeat="offer in service.offers | orderBy : priceIn(user.preferences.currency) : true">
 					<td><a ui-sref="refer.offer({id: offer.id})">{{offer.provider.name}}</a></td>
 					<td>{{offer.location}}</td>
-					<td class="price">{{offer.price.amount | currency : offer.price.currency}}</td>
+					<td class="price">{{offer.priceIn(user.preferences.currency) | currency : user.preferences.currency}}</td>
 				</tr>
 			</table>
 			<p ng-if="!service.offers.length">Sorry, there aren't any prices here yet. Check back later!</p>
