@@ -32,7 +32,7 @@ export default angular.module('ethiveHome', [
 			scope: {
 				collection: '='
 			},
-			template: '<ul><member ng-repeat="member in collection" member="member"></member></ul>'
+			template: '<ul><member ng-repeat="member in collection | orderBy: \'name\'" member="member"></member></ul>'
 		};
 	}])
 	.directive('member', ['$compile', function ($compile) {
