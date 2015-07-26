@@ -25,7 +25,7 @@
 			<table class="table offer-table table-striped" ng-if="service.offers.length">
 				<tr>
 					<th>Provider</th>
-					<th>Location(s)</th>
+					<th>Location</th>
 					<th class="form-inline">
 						<label class="pull-right">Price
 							<select class="form-control input-sm currency-selector" ng-model="user.preferences.currency" ng-options="currency.code as currency.code + '   ' + currency.name for currency in currencies" ng-change="changeCurrency()">

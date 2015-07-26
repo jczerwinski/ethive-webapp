@@ -9,21 +9,17 @@
 	</h1>
 	<div ui-view>
 		<h2>Offers <a ng-if="provider.isAdministeredBy(user)" ui-sref="offer.new({provider: provider})"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Offer</button></a></h2>
-		<table ng-if="provider.offers.length" class="table table-striped table-condensed">
-			<thead>
-				<tr>
-					<td>Service</td>
-					<td>Location</td>
-					<td>Price</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="offer in provider.offers">
-					<td><a ui-sref="offer.existing.view({id: offer._id})">{{offer.service.name}}</a></td>
-					<td>{{offer.location}}</td>
-					<td>{{offer.price.amount}} {{offer.price.currency}}</td>
-				</tr>
-			</tbody>
+		<table ng-if="provider.offers.length" class="table table-striped">
+			<tr>
+				<th>Service</th>
+				<th>Location</th>
+				<th class="price">Price</th>
+			</tr>
+			<tr ng-repeat="offer in provider.offers">
+				<td><a ui-sref="offer.existing.view({id: offer._id})">{{offer.service.name}}</a></td>
+				<td>{{offer.location}}</td>
+				<td class="price">{{offer.price.amount | currency: offer.price.currency}}</td>
+			</tr>
 		</table>
 		<p ng-if="!provider.offers.length">You have no offers yet. Try adding one!</p>
 	</div>
