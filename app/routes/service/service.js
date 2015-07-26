@@ -152,6 +152,10 @@ export default angular.module('ethiveServiceRoute', [
 						$scope.user.$save(['preferences.currency']);
 					}
 				};
+				// Offer sort function
+				$scope.userPrice = function (offer) {
+					return offer.priceIn($scope.user.preferences.currency);
+				};
 				$scope.delete = function () {
 					$modal.open({
 						template: confirmDeleteTemplate,

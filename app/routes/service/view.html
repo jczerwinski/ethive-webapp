@@ -34,7 +34,7 @@
 					</th>
 				</tr>
 
-				<tr ng-repeat="offer in service.offers | orderBy : priceIn(user.preferences.currency) : true">
+				<tr ng-repeat="offer in service.offers | orderBy : userPrice">
 					<td><a ui-sref="refer.offer({id: offer.id})">{{offer.provider.name}} <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a></td>
 					<td>{{offer.location}}</td>
 					<td class="price">{{offer.priceIn(user.preferences.currency) | currency : user.preferences.currency}}</td>
