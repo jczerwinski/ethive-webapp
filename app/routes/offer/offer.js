@@ -9,11 +9,13 @@ import googlePlacesAutocomplete from 'components/google-places-autocomplete/goog
 import OfferModel from 'models/offer';
 import ProviderModel from 'models/provider';
 
-import ServiceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
-
 import editNewTemplate from './editNew.html!text';
 import viewTemplate from './view.html!text';
 import confirmDeleteTemplate from 'components/confirmDeleteModal/confirmDelete.html!text';
+
+// Used in template
+import serviceBreadcrumbs from 'components/serviceBreadcrumbs/serviceBreadcrumbs';
+import ServiceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
 
 export default angular.module('ethiveOfferRoute', [
 		'ui.router',
@@ -23,7 +25,8 @@ export default angular.module('ethiveOfferRoute', [
 		ProviderModel.name,
 		currency.name,
 		googlePlacesAutocomplete.name,
-		ServiceSelectorSearch.name
+		ServiceSelectorSearch.name,
+		serviceBreadcrumbs.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
@@ -127,14 +130,21 @@ export default angular.module('ethiveOfferRoute', [
 		})
 		.state('offer.existing', {
 			abstract: true,
-			url: '/:id',
-			template: '<ui-view />',
+			url: '/:offerID',
+			params: {
+				offer: null
+			},
 			resolve: {
-				offer: ['Offer', '$stateParams', function (Offer, params) {
-					let offer = Offer.$find(params.id);
-					return offer.$asPromise();
+				offer: ['Offer', '$stateParams', function (Offer, $stateParams) {
+					if ($stateParams.offer) {
+						return $stateParams.offer;
+					}
+					if ($stateParams.offerID) {
+						return Offer.$find($stateParams.offerID).$asPromise();
+					}
 				}]
 			},
+			template: '<ui-view />'
 		})
 		.state('offer.existing.view', {
 			url: '',

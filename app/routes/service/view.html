@@ -1,3 +1,4 @@
+<ethive-service-breadcrumbs service="service"></ethive-service-breadcrumbs>
 <h1>{{service.name}}
 <a ng-if="service.isAdministeredBy(user)" ui-sref="^.edit"><button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button></a>
 <span ng-if="service.type === 'category'" class="btn btn-xs btn-info">Category <span class="glyphicon glyphicon-info-sign"></span></span>
@@ -35,7 +36,7 @@
 				</tr>
 
 				<tr ng-repeat="offer in service.offers | orderBy : userPrice">
-					<td><a ui-sref="refer.offer({id: offer.id})">{{offer.provider.name}} <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a></td>
+					<td><a ui-sref="offer.existing.view({offerID: offer._id})">{{offer.provider.name}}</a></td>
 					<td>{{offer.location}}</td>
 					<td class="price">{{offer.priceIn(user.preferences.currency) | currency : user.preferences.currency}}</td>
 				</tr>

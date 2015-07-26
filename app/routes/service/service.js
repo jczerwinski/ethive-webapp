@@ -8,8 +8,9 @@ import 'chieffancypants/angular-hotkeys';
 import service from 'models/service';
 import currency from 'components/currency/currency';
 import serviceSelectorSearch from 'components/serviceSelectorSearch/serviceSelectorSearch';
-// Directive used in template
+// Directives used in template
 import errors from 'components/errors/errors';
+import serviceBreadcrumbs from 'components/serviceBreadcrumbs/serviceBreadcrumbs';
 
 import viewTemplate from './view.html!text';
 import editNewTemplate from './editNew.html!text';
@@ -24,10 +25,11 @@ export default angular.module('ethiveServiceRoute', [
 		'ui.router',
 		'cfp.hotkeys',
 		'ui.bootstrap',
-		currency.name, // for ethiveFx filter in template
+		currency.name,
 		service.name,
 		serviceSelectorSearch.name,
-		errors.name
+		errors.name,
+		serviceBreadcrumbs.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('service', {
@@ -39,6 +41,17 @@ export default angular.module('ethiveServiceRoute', [
 			url: '/new?parentID',
 			params: {
 				parent: null
+			},
+			resolve: {
+				parent: ['Service', '$stateParams', function (Service, $stateParams) {
+					if ($stateParams.parent) {
+						$stateParams.parentID = $stateParams.parent.id;
+						return $stateParams.parent;
+					}
+					if ($stateParams.parentID) {
+						return Service.$find($stateParams.parentID).$asPromise();
+					}
+				}]
 			},
 			template: editNewTemplate,
 			controller: ['$scope', '$state', 'Service', 'parent', 'hotkeys', function ($scope, $state, Service, parent, hotkeys) {
@@ -79,26 +92,13 @@ export default angular.module('ethiveServiceRoute', [
 						$state.go('home');
 					}
 				};
-			}],
-			resolve: {
-				parent: ['Service', '$stateParams', function (Service, $stateParams) {
-					if ($stateParams.parent) {
-						$stateParams.parentID = $stateParams.parent.id;
-						return $stateParams.parent;
-					}
-					if ($stateParams.parentID) {
-						return Service.$find($stateParams.parentID).$asPromise();
-					}
-				}]
-			}
+			}]
 		})
 		.state('service.existing', {
 			url: '/:serviceID',
 			params: {
 				service: null
 			},
-			abstract: true,
-			template: '<ui-view />',
 			resolve: {
 				service: ['Service', '$stateParams', function (Service, $stateParams) {
 					if ($stateParams.service) {
@@ -108,7 +108,9 @@ export default angular.module('ethiveServiceRoute', [
 						return Service.$find($stateParams.serviceID).$asPromise();
 					}
 				}]
-			}
+			},
+			abstract: true,
+			template: '<ui-view />'
 		})
 		.state('service.existing.view', {
 			url: '',
