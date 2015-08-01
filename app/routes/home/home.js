@@ -1,12 +1,15 @@
 import angular from 'angular';
 import 'angular-ui-router';
 
+import searchBar from 'components/search-bar/search-bar';
+
 import Service from 'models/service';
 import template from 'routes/home/home.html!text';
 
 export default angular.module('ethiveHome', [
 		'ui.router',
-		Service.name
+		Service.name,
+		searchBar.name
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 		$stateProvider.state('home', {

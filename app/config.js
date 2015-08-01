@@ -10,8 +10,9 @@ System.config({
 
 System.config({
   "map": {
+    "Elijen/angular-popover-toggle": "github:Elijen/angular-popover-toggle@0.0.10",
     "OpenBookPrices/country-data": "github:OpenBookPrices/country-data@0.0.19",
-    "angular": "github:angular/bower-angular@1.4.2",
+    "angular": "github:angular/bower-angular@1.4.3",
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.13.0",
     "angular-cookies": "github:angular/bower-angular-cookies@1.4.0",
     "angular-deferred-bootstrap": "github:philippd/bower-angular-deferred-bootstrap@0.1.7",
@@ -23,6 +24,7 @@ System.config({
     "bootstrap": "github:jczerwinski/bootstrap@master",
     "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@1.4.5",
     "components/font-awesome": "github:components/font-awesome@4.3.0",
+    "css": "github:systemjs/plugin-css@0.1.13",
     "goodeggs/ng-focus-on": "github:goodeggs/ng-focus-on@0.2.2",
     "grevory/angular-local-storage": "github:grevory/angular-local-storage@0.1.5",
     "iobaixas/angular-inflector": "github:iobaixas/angular-inflector@0.2.0",
@@ -41,28 +43,28 @@ System.config({
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
     "urish/angular-spinner": "github:urish/angular-spinner@0.6.1",
     "github:angular-ui/bootstrap-bower@0.13.0": {
-      "angular": "github:angular/bower-angular@1.4.2"
+      "angular": "github:angular/bower-angular@1.4.3"
     },
     "github:angular-ui/ui-router@0.2.15": {
-      "angular": "github:angular/bower-angular@1.4.2"
+      "angular": "github:angular/bower-angular@1.4.3"
     },
     "github:angular-ui/ui-utils@0.2.3": {
-      "angular": "github:angular/bower-angular@1.4.2"
+      "angular": "github:angular/bower-angular@1.4.3"
     },
     "github:angular/bower-angular-cookies@1.4.0": {
-      "angular": "github:angular/bower-angular@1.4.2"
+      "angular": "github:angular/bower-angular@1.4.3"
     },
     "github:chieffancypants/angular-hotkeys@1.4.5": {
-      "angular": "github:angular/bower-angular@1.4.2"
+      "angular": "github:angular/bower-angular@1.4.3"
     },
     "github:jspm/nodelibs-process@0.1.1": {
       "process": "npm:process@0.10.1"
     },
     "github:philippd/bower-angular-deferred-bootstrap@0.1.7": {
-      "angular": "github:angular/bower-angular@1.4.2"
+      "angular": "github:angular/bower-angular@1.4.3"
     },
     "github:platanus/angular-restmod@1.1.9": {
-      "angular": "github:angular/bower-angular@1.4.2"
+      "angular": "github:angular/bower-angular@1.4.3"
     },
     "npm:lodash@3.9.3": {
       "process": "github:jspm/nodelibs-process@0.1.1"

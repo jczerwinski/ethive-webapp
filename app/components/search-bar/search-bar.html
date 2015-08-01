@@ -1,0 +1,11 @@
+<form name="forms.form" class="search-bar well well-lg" ng-submit="search()" novalidate>
+	<div class="form-group form-group-lg has-feedback">
+		<div class="input-group">
+			<input class="form-control" typeahead-loading="loading" ng-model="service" ethive-service-selector-search type="text" placeholder="Search by service..." autofocus required focus-on="search-bar" select-on-focus popover-template="'search-bar-popover-template'" popover-placement="bottom" popover-toggle="popover" ng-keydown="popover = false" ng-blur="popover = false">
+			<span class="input-group-btn">
+				<button class="btn btn-lg btn-success" type="submit" focus-on="search-button">Go!</button>
+			</span>
+		</div>
+		<span ng-if="loading" class="text-primary fa fa-spin fa-spinner form-control-feedback search-bar-feedback"></span>
+	</div>
+</form>

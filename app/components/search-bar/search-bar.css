@@ -1,0 +1,14 @@
+.search-bar .popover {
+	max-width: inherit !important;
+	left: unset !important;
+}
+
+.search-bar .search-bar-feedback {
+	right: 69px;
+	top: 12px;
+	font-size: 22px;
+}
+
+.search-bar .form-group {
+	margin-bottom: 0px;
+}
