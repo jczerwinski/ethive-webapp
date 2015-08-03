@@ -26,7 +26,7 @@
 			<table class="table offer-table table-striped" ng-if="service.offers.length">
 				<tr>
 					<th>Provider</th>
-					<th>Location</th>
+					<th>Location <input ng-model="locationFilter" class="form-control form-control-inline input-xs" placeholder="Filter by location..."><!-- <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter</button>--></th>
 					<th class="form-inline">
 						<label class="pull-right">Price
 							<select class="form-control input-sm currency-selector" ng-model="user.preferences.currency" ng-options="currency.code as currency.code + '   ' + currency.name for currency in currencies" ng-change="changeCurrency()">
@@ -35,7 +35,7 @@
 					</th>
 				</tr>
 
-				<tr ng-repeat="offer in service.offers | orderBy : userPrice">
+				<tr ng-repeat="offer in service.offers | filter : locationFilter | orderBy : userPrice">
 					<td><a ui-sref="offer.existing.view({offerID: offer._id})">{{offer.provider.name}}</a></td>
 					<td>{{offer.location}}</td>
 					<td class="price">{{offer.priceIn(user.preferences.currency) | currency : user.preferences.currency}}</td>
