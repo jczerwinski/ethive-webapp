@@ -58,6 +58,7 @@ export default angular.module('ethiveProviderRoute', [
 							provider: provider,
 							providerID: provider.id
 						});
+						$scope.user.$fetch();
 						Provider.$clearCached();
 					}, function (response) {
 						// Should only ever get here if theres a server-side validation error, which should always be checked on the client side. No need for an error message if this is the case. Get the client side right!
@@ -162,6 +163,7 @@ export default angular.module('ethiveProviderRoute', [
 				$scope.save = function () {
 					provider.$save().$then(function () {
 						provider.$pk = provider.id;
+						$scope.user.$fetch();
 						$state.go('^.view', {provider: provider, providerID: provider.id}, {reload: true});
 					});
 				};
