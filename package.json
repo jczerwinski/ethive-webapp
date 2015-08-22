@@ -23,7 +23,7 @@
     "grunt-usemin": "~3.0.0",
     "grunt-wiredep": "^2.0.0",
     "jshint-stylish": "~1.0.1",
-    "jspm": "latest",
+    "jspm": "0.15.7",
     "karma": "~0.12.8",
     "karma-chrome-launcher": "^0.1.4",
     "karma-mocha": "^0.1.6",
