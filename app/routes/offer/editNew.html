@@ -81,7 +81,7 @@
 
 <div class="form-group has-feedback" ng-class="{'has-error': form.status.$invalid && form.status.$dirty, 'has-success': form.status.$valid}">
 	<label for="price" class="col-sm-2 control-label">Status</label>
-	<div class="col-sm-10" ng-init="offer.status = 'draft'">
+	<div class="col-sm-10" ng-init="offer.status = offer.status || 'draft'">
 		<label class="radio-inline">
 			<input ng-model="offer.status" value="draft" type="radio" name="status" id="draft"> Draft
 		</label>
