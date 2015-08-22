@@ -94,12 +94,13 @@ export default angular.module('ethiveOfferRoute', [
 						});
 					};
 					$scope.offer.$save().$then(function (resp) {
+						console.log(resp)
 						// offer creation success!
 						// Remove from cache
 						Offer.$clearCached();
 						// follow through by navigating to the offer
 						$state.go('^.existing.view', { // Go to the offer
-							id: resp.id
+							offerID: resp.id
 						});
 					}, function (response) {
 						// Should only ever get here if theres a server-side validation error, which should always be checked on the client side. No need for an error message if this is the case. Get the client side right!
