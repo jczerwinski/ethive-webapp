@@ -94,7 +94,6 @@ export default angular.module('ethiveOfferRoute', [
 						});
 					};
 					$scope.offer.$save().$then(function (resp) {
-						console.log(resp)
 						// offer creation success!
 						// Remove from cache
 						Offer.$clearCached();
