@@ -2,7 +2,7 @@
 <h1 ng-if="new">Create a new Service</h1>
 <h4 ng-if="new && parent && !(parent.type === 'category')" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> Only category services may have sub services.</h4>
 <h4 ng-if="edit && !service.isAdministeredBy(user)" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> You are not authorized to edit this service.</h4>
-<h4 ng-if="new && !parent.isAdministeredBy(user)" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> You are not authorized to create a subservice for this service</h4>
+<h4 ng-if="new && parent && !parent.isAdministeredBy(user)" class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> You are not authorized to create a subservice for this service</h4>
 <form ng-if="edit && service.isAdministeredBy(user) || new && !parent || new && parent.type === 'category' && parent.isAdministeredBy(user)" name="forms.form" class="form-horizontal" role="form" ng-submit="submit()" novalidate>
 <div class="form-group has-feedback" ng-class="{'has-error': forms.form.name.$invalid && forms.form.name.$dirty, 'has-success': forms.form.name.$valid}">
 	<label for="name" class="col-sm-2 control-label">Name</label>
