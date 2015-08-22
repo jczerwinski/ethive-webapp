@@ -24,7 +24,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Price</label>
 		<div class="col-sm-10">
-			<p class="form-control-static">{{offer.price.amount + offer.price.currency}}</p>
+			<p class="form-control-static">{{offer.price.amount | fx : offer.price.currency : user.preferences.currency | currency : user.preferences.currency}} <em><span ng-if="offer.price.currency !== user.preferences.currency">(Listed as {{offer.price.amount | currency : offer.price.currency}})</span></em></p>
 		</div>
 	</div>
 </div>
